@@ -1,0 +1,64 @@
+/* COR DO MENU DE NAVEGAÇÃO */
+.custom-bg-color {
+    background-color: #00296B;
+  }
+
+/* LOGO DO MENU DE NAVEGAÇÃO */
+.logo-container {
+    text-align: center; 
+    margin-bottom: 20px; /* uma margem p/ separar a imagem dos itens do menu */
+  }
+  
+  .logo {
+    width: 230px; 
+    max-width: 100%;
+    height: auto; /*auto -> proporção da imagem */
+  }
+
+/* ICONE DO PAINEL PRINCIPAL */
+.icone-painel-principal {
+    width: 40px; 
+    height: 32px; 
+    opacity: 0.9; 
+    margin-right: 10px; 
+    justify-content: center;
+    display: inline-flex;
+    align-items: center;
+  }
+
+/* ICONE DOS POLICIAIS */
+.icone-policia {
+    width: 32px; /* Tamanho do ícone */
+    height: 32px; /* Tamanho do ícone */
+    opacity: 0.9; /* Opacidade do ícone */
+    margin-right: 5px; /* Espaço entre o ícone e o texto "Logout" */
+    display: inline-flex;
+    align-items: center;
+  }
+
+/*SELEÇÃO COM UMA CORZINHA MAIS ESCURA*/
+a:hover{
+    background-color: #00307d;
+    border-radius: 5px;
+}
+
+
+/* ICONE DO LOGOUT */
+.icone-logout {
+    width: 40px; /* Tamanho do ícone */
+    height: 40px; /* Tamanho do ícone */
+    opacity: 0.9; /* Opacidade do ícone */
+    margin-right: 5px; /* Espaço entre o ícone e o texto "Logout" */
+    display: inline-flex;
+    align-items: center;
+  }
+
+
+  
+/* No seu arquivo CSS */
+.nav-item {
+    margin-bottom: 7px; /* Ajuste o valor conforme necessário para o espaçamento desejado */
+    vertical-align: middle; /* Centraliza verticalmente a imagem em relação ao texto */
+  }
+  
+  
