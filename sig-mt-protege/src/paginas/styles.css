@@ -50,4 +50,29 @@ a:hover{
     vertical-align: middle; /* Centraliza verticalmente a imagem em relação ao texto */
   }
   
-  
+/* No seu arquivo CSS */
+/* Ocultar textos em telas menores (exibir apenas ícones) */
+.nav-item a {
+  white-space: nowrap; /* Evitar que os textos se quebrem em várias linhas */
+  padding-left: 0;
+}
+
+@media (max-width: 820px) { /* Telas menores (exemplo: smartphones) */
+  .nav-item a {
+    display: inline-block !important;
+    width: auto !important;
+    overflow: hidden !important;
+    clip: auto !important;
+    height: auto !important;
+    position: static !important;
+    line-height: inherit !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+  }
+  .nav-item img {
+    margin-right: 10px; /* Espaço entre os ícones */
+  }
+  .nav-item .sr-only {
+    display: none !important;
+  }
+}

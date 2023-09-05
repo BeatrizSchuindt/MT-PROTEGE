@@ -13,19 +13,19 @@ function Ajuda() {
     <div className="container-fluid">
       <div className="row">
         {/*MENU DE NAVEGAÇÃO */}
-        <nav className="custom-bg-color" style={{  width: '18%', height: '100vh', position: 'relative' }}>
+        <nav className="custom-bg-color" style={{ width: '18%', height: '100vh', position: 'relative' }}>
           <div className="logo-container">
             <img src={Logo} alt="Minha Logo" className="logo" />
           </div>
-          <ul className="nav flex-column">
-            <li className="nav-item">
+          <ul className="nav flex-column" style={{width: '0%'}}>
+            <li className="nav-item" style={{}}>
               <a className="nav-link text-light" href="/painel-principal">
                 <img src={IconePainelPrincipal} alt="Icone Painel Principal" className="icones-menu-nav" />PAINEL PRINCIPAL
               </a>
             </li>
             <li className="nav-item">
               <a className="nav-link text-light" href="/policiais">
-              <img src={IconePolicia} alt="Icone Policial" className="icones-menu-nav" />POLICIAIS
+                <img src={IconePolicia} alt="Icone Policial" className="icones-menu-nav" />POLICIAIS
               </a>
             </li>
             <li className="nav-item">
@@ -40,8 +40,8 @@ function Ajuda() {
             </li>
           </ul>
 
-         {/* SAIR DO SISTEMA com ícone */}
-         <div style={{ position: 'absolute', bottom: '0', width: '90%' }}>
+          {/* SAIR DO SISTEMA com ícone */}
+          <div style={{ position: 'absolute', bottom: '0', width: '90%' }}>
             <ul className="nav flex-column">
               <li className="nav-item">
                 <a className="nav-link text-light" href="/">
@@ -54,7 +54,7 @@ function Ajuda() {
 
         {/* CONTEÚDO DA PÁGINA */}
         <main className="col">
-          <h1>Conteúdo da Página</h1>
+          <h1>AJUDA</h1>
         </main>
       </div>
     </div>
