@@ -9,7 +9,7 @@ const routes = Router();
 
 /*
 const customerController = new CustomerController();
-const userController = new UserController(); 
+const userController = new UserController();
 
 routes.post('/customer', authMiddleware, customerController.create);
 routes.get('/customers', authMiddleware, customerController.getAll);
