@@ -21,11 +21,12 @@ class OcorrenciaController {
                 contato_vitima,
                 nome_completo_suspeito,
                 cpf_suspeito,
-                caracteristicas_suspeito
+                caracteristicas_suspeito,
+                descricao_evidencias
             } = request.body;
 
             // Verificar se todos os campos necessários estão presentes nos dados da requisição
-            if (!id_ocorrencia || !matricula_policial || !data_ocorrencia || !hora_ocorrencia || !cep_ocorrencia || !tipo_ocorrencia || !prioridade_ocorrencia || !status_ocorrencia || !descricao_ocorrencia) {
+            if (!id_ocorrencia || !matricula_policial || !data_ocorrencia || !hora_ocorrencia || !cep_ocorrencia || !tipo_ocorrencia || !prioridade_ocorrencia || !status_ocorrencia || !descricao_ocorrencia || !descricao_evidencias) {
                 return httpHelper.badRequest('Parâmetros inválidos!');
             }
 
@@ -45,7 +46,8 @@ class OcorrenciaController {
                 contato_vitima,
                 nome_completo_suspeito,
                 cpf_suspeito,
-                caracteristicas_suspeito
+                caracteristicas_suspeito,
+                descricao_evidencias
             });
 
             return httpHelper.created(ocorrencia);
@@ -115,7 +117,8 @@ class OcorrenciaController {
                 contato_vitima,
                 nome_completo_suspeito,
                 cpf_suspeito,
-                caracteristicas_suspeito
+                caracteristicas_suspeito,
+                descricao_evidencias
             } = request.body;
             
             // Verificar se o parâmetro de ID foi fornecido
@@ -139,7 +142,8 @@ class OcorrenciaController {
                 contato_vitima,
                 nome_completo_suspeito,
                 cpf_suspeito,
-                caracteristicas_suspeito
+                caracteristicas_suspeito,
+                descricao_evidencias
             }, {
                 where: {
                     id_ocorrencia: id
