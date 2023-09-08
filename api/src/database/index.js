@@ -1,22 +1,12 @@
-const { Router, request } = require('express');
+const { Sequelize } = require('sequelize');
+const configDatabase = require('./config');
 
-/*
-const { CustomerController } = require('./controllers/customer');
-const { UserController } = require('./controllers/user');
-const { authMiddleware } = require('./middleware/auth-middleware');*/
+const { OcorrenciaModel } = require('../models/ocorrencia');
+const { PolicialModel } = require('../models/policial');
 
-const routes = Router();
+const database = new Sequelize(configDatabase);
 
-/*
-const customerController = new CustomerController();
-const userController = new UserController();
+OcorrenciaModel.init(database);
+PolicialModel.init(database);
 
-routes.post('/customer', authMiddleware, customerController.create);
-routes.get('/customers', authMiddleware, customerController.getAll);
-routes.delete('/customer/:id', authMiddleware, customerController.delete);
-routes.put('/customer/:id', authMiddleware, customerController.update);
-
-routes.post('/register', userController.register);
-routes.post('/login', userController.login);*/
-
-module.exports = { routes };
+module.exports = database;

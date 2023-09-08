@@ -4,13 +4,17 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('policial', {
-      matricula_policial: {
-        type: Sequelize.TEXT,
+      id: {
+        type: Sequelize.STRING,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+      },
+      matricula_policial: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       senha: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         allowNull: false
       },
       nome_completo: {
@@ -22,19 +26,19 @@ module.exports = {
         allowNull: false,
       },
       genero: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         allowNull: true
       },
       cpf_policial: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         allowNull: false
       },
       rg_policial: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         allowNull: false
       },
       naturalidade: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         allowNull: true
       },
       email: {
@@ -42,15 +46,15 @@ module.exports = {
         allowNull: true
       },
       celular: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         allowNull: false
       },
       cep_policial: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         allowNull: true
       },
       numero_endereco: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         allowNull: true
       },
       cargo_graduacao: {
@@ -66,7 +70,7 @@ module.exports = {
         allowNull: false
       },
       jurisdicao: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         allowNull: false
       }
     });
