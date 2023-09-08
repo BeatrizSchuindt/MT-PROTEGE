@@ -3,6 +3,7 @@ const { Model, DataTypes } = require("sequelize");
 class PolicialModel extends Model {
     static init(database) {
         super.init({
+            //id: DataTypes.STRING,
             matricula_policial: DataTypes.STRING,
             senha: DataTypes.STRING,
             nome_completo: DataTypes.TEXT, 

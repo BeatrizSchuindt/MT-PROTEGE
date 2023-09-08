@@ -4,10 +4,14 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('policial', {
+      id: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        primaryKey: true,
+      },
       matricula_policial: {
         type: Sequelize.STRING,
         allowNull: false,
-        primaryKey: true
       },
       senha: {
         type: Sequelize.STRING,

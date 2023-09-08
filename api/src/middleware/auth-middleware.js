@@ -15,6 +15,7 @@ function authMiddleware(request, response, next) {
                 process.env.TOKEN_SECRET,
                 (error, user) => {
                     if (error) {
+                        console.log(error)
                         return httpHelper.unauthorized();
                     }
                     request.userId = user.id;

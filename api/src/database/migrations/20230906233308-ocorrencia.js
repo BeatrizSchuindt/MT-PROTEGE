@@ -3,17 +3,17 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('policial', {
-      id_ocorrencia: {
-        type: Sequelize.INTEGER,// É INTEGER MESMO?
+    await queryInterface.createTable('ocorrencias', {
+      id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
       },
-      matricula_policial: { //tá certo referenciar assim?
+      matricula_policial: {
         type: Sequelize.STRING,
         references: {
-          model: 'PolicialModel',
+          model: 'policial',
           key: 'id'
         }
       },
@@ -78,11 +78,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+    await queryInterface.dropTable('ocorrencias');
   }
 };

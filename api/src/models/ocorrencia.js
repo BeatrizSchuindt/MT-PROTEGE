@@ -3,7 +3,6 @@ const { Model, DataTypes } = require("sequelize");
 class OcorrenciaModel extends Model {
     static init(database) {
         super.init({
-            id_ocorrencia: DataTypes.INTEGER,
             matricula_policial: DataTypes.STRING,
             data_ocorrencia: DataTypes.DATEONLY,
             hora_ocorrencia: DataTypes.TIME,
@@ -20,7 +19,7 @@ class OcorrenciaModel extends Model {
             caracteristicas_suspeito: DataTypes.TEXT,
             descricao_evidencias: DataTypes.TEXT
         }, {
-            tableName: 'ocorrencia',
+            tableName: 'ocorrencias',
             modelName: 'OcorrenciaModel',
             timestamps: false,
             sequelize: database
