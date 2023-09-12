@@ -123,7 +123,7 @@ class PolicialController {
         const httpHelper = new HttpHelper(response);
         try {
             const policiais = await PolicialModel.findAll({
-                order: [["matricula_policial", "ASC"]], attributes: { exclude: ["senha"]}
+                order: [["matricula_policial", "ASC"]], attributes: { exclude: ["id", "senha"]}
             });
 
             return httpHelper.ok(policiais);
@@ -152,7 +152,7 @@ class PolicialController {
                     unidade_policia: {
                         [Op.like]: `%${request.body.unidade_policia}%`
                     }
-                }, attributes: { exclude: ["senha"]}
+                }, attributes: { exclude: ["id", "senha"]}
             });
 
             return httpHelper.ok(policiais);
