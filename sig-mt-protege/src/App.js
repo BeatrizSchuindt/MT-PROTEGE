@@ -1,12 +1,12 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import Login from './paginas/login';
-import Cadastro from './paginas/cadastro';
-import PainelPrincipal from './paginas/painel-principal';
-import Policiais from './paginas/crud-policiais';
-import Ocorrencias from './paginas/crud-ocorrencias';
-import Ajuda from './paginas/ajuda';
+import Login from './pages/login';
+import Cadastro from './pages/cadastro';
+import PainelPrincipal from './pages/painel-principal';
+import Policiais from './pages/crud-policiais';
+import Ocorrencias from './pages/crud-ocorrencias';
+import Ajuda from './pages/ajuda';
 
 function App() {
   return(

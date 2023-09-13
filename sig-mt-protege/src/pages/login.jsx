@@ -1,8 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Logo from '../imagens/logo-definitiva-mt-protege.png';
-import ImgPoliciaEsquerda from '../imagens/policia-esquerda.jpg';
-import ImgPoliciaDireita from '../imagens/policia-direita.jpg';
+import Logo from '../images/logo-definitiva-mt-protege.png';
+import ImgPoliciaEsquerda from '../images/policia-esquerda.jpg';
+import ImgPoliciaDireita from '../images/policia-direita.jpg';
 import './styles.css';
 
 /*

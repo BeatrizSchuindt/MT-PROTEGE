@@ -1,11 +1,11 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Logo from '../imagens/logo-definitiva-mt-protege.png';
-import IconeLogout from '../imagens/icone-logout.png';
-import IconePainelPrincipal from '../imagens/icone-painel-principal.png';
-import IconePolicia from '../imagens/icone-policia.png';
-import IconeOcorrencia from '../imagens/icone-ocorrencia.png';
-import IconeAjuda from '../imagens/icone-ajuda.png';
+import Logo from '../images/logo-definitiva-mt-protege.png';
+import IconeLogout from '../images/icone-logout.png';
+import IconePainelPrincipal from '../images/icone-painel-principal.png';
+import IconePolicia from '../images/icone-policia.png';
+import IconeOcorrencia from '../images/icone-ocorrencia.png';
+import IconeAjuda from '../images/icone-ajuda.png';
 import './styles.css';
 
 function Ocorrencias() {
