@@ -42,7 +42,10 @@ a:hover{
     align-items: center;
   }
 
-
+.hook-form-error {
+  padding-left: 0.5rem;
+  color: #E63946;
+}
   
 /* No seu arquivo CSS */
 .nav-item {
