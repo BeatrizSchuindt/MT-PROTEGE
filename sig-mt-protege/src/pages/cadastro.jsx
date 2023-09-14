@@ -23,9 +23,9 @@ function Cadastro() {
     };
     return (
         <div style={{ backgroundColor: '#00296B', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Container style={{ width: '40%', borderRadius: '10px', backgroundColor: 'white', maxHeight: '500px', overflow: 'auto' }}>
+            <Container style={{ width: '50%', borderRadius: '10px', backgroundColor: 'white', maxHeight: '600px', overflow: 'auto' }}>
 
-                <h2 style={{ textAlign: 'center', marginTop: '20px', color: "#00296B" }}>CADASTRO - POLICIAL</h2>
+                <h2 style={{ textAlign: 'center', marginTop: '30px', color: "#00296B", marginBottom: '30px' }}>CADASTRO - POLICIAL</h2>
                 <form className="mb-3" noValidate validated={!errors} onSubmit={handleSubmit(onSubmit)}>
 
                     <Row>
@@ -383,7 +383,7 @@ function Cadastro() {
                     </Row>
 
                     <div className="d-flex justify-content-center">
-                        <button type="submit" className="btn btn-primary" disabled={!isValid} style={{ backgroundColor: '#19A800' }}>ENTRAR</button>
+                        <button type="submit" className="btn btn-primary mt-4" disabled={!isValid} style={{ backgroundColor: '#19A800' }}>ENTRAR</button>
                     </div>
                 </form>
 
