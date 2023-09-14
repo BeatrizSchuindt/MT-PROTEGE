@@ -79,3 +79,16 @@ a:hover{
     display: none !important;
   }
 }
+
+.vertical-center {
+  min-height: 100vh; /* Defina a altura mínima para a tela inteira */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centraliza verticalmente */
+}
+
+.center-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

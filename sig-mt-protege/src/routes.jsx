@@ -8,6 +8,7 @@ import Policiais from './pages/crud-policiais';
 import Ocorrencias from './pages/crud-ocorrencias';
 import Ajuda from './pages/ajuda';
 import NaoAutorizado from "./pages/nao-autorizado";
+import NaoEncontrado from "./pages/nao-encontrada";
 
 /**
  * Cria rotas autenticadas
@@ -28,6 +29,7 @@ export function Navigations() {
                 <Route index path="/" element={<Login />} />
                 <Route path="/cadastro" element={<Cadastro />} />
                 <Route path="/nao-autorizado" element={<NaoAutorizado />} />
+                <Route path="*" element={<NaoEncontrado />} />
                 <Route
                     path="/painel-principal"
                     element={(
