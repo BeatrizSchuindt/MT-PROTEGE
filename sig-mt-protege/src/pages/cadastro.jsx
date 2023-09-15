@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles.css";
+import "./styles-cadastro.css";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Logo from "../images/logo-definitiva-mt-protege.png";
 
@@ -33,26 +34,29 @@ function Cadastro() {
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        flexDirection: "column", // Mudança aqui para organizar elementos verticalmente
       }}
     >
-      <div className="col-12 col-md-6 p-0 d-flex flex-column align-items-center justify-content-start">
-        {/* Logo com altura e largura ajustadas */}
-        <img src={Logo} alt="Logo" className="mt-4" style={{ width: "30%" }} />
-      </div>
+      {/* Logo com altura e largura ajustadas */}
+      <img
+        src={Logo}
+        alt="Logo" style={{ width: '25%', marginTop: '1rem' }}
+      />
+
       <Container
         style={{
-          width: "50%",
+          width: "60%",
           borderRadius: "10px",
           backgroundColor: "white",
-          maxHeight: "500px",
+          maxHeight: "550px",
           overflow: "auto",
+          marginTop: "20px", // Espaçamento entre o logo e o Container
         }}
       >
         <h2
           style={{
             textAlign: "center",
-            marginTop: "30px",
+            marginTop: "20px",
             color: "#00296B",
             marginBottom: "30px",
           }}
@@ -70,10 +74,10 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="matricula"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
-                  Matrícula
+                  MATRÍCULA
                 </label>
                 <input
                   className="form-control"
@@ -109,10 +113,10 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="senha"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
-                  Senha
+                  SENHA
                 </label>
                 <input
                   type="password"
@@ -141,10 +145,10 @@ function Cadastro() {
             <div className="mb-3">
               <label
                 htmlFor="nomecompleto"
-                className="form-label"
+                className="form-label form-large-font"
                 style={{ fontWeight: "Bold" }}
               >
-                Nome completo
+                NOME COMPLETO
               </label>
               <input
                 className="form-control"
@@ -172,10 +176,10 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="data_nascimento"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
-                  Data de nascimento
+                  DATA DE NASCIMENTO
                 </label>
                 <input
                   className="form-control"
@@ -201,10 +205,10 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="genero"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
-                  Gênero
+                  GÊNERO
                 </label>
                 <select
                   className={`form-select ${errors.genero ? "is-invalid" : ""}`}
@@ -235,7 +239,7 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="cpf_policial"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
                   CPF
@@ -268,7 +272,7 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="rg_policial"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
                   RG
@@ -304,10 +308,10 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="naturalidade"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
-                  Naturalidade
+                  NATURALIDADE
                 </label>
                 <input
                   className="form-control"
@@ -338,10 +342,10 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="celular"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
-                  Celular
+                  CELULAR
                 </label>
                 <input
                   className="form-control"
@@ -373,10 +377,10 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="email"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
-                  Email
+                  E-MAIL
                 </label>
                 <input
                   className="form-control"
@@ -408,7 +412,7 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="cep_policial"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
                   CEP
@@ -443,10 +447,10 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="numero_endereco"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
-                  Número de Endereço
+                  NÚMERO DE ENDEREÇO
                 </label>
                 <input
                   className="form-control"
@@ -479,10 +483,10 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="jurisdicao"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
-                  Jurisdição
+                  JURISDIÇÃO
                 </label>
                 <select
                   className={`form-select ${
@@ -510,10 +514,10 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="data_ingresso_policia"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
-                  Data de igresso na polícia
+                  DATA DE INGRESSO NA POLÍCIA
                 </label>
                 <input
                   className="form-control"
@@ -542,10 +546,10 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="cargo_graduacao"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
-                  Cargo/Graduação
+                  CARGO/GRADUAÇÃO
                 </label>
                 <input
                   className="form-control"
@@ -576,10 +580,10 @@ function Cadastro() {
               <div className="mb-3">
                 <label
                   htmlFor="unidade_policia"
-                  className="form-label"
+                  className="form-label form-large-font"
                   style={{ fontWeight: "Bold" }}
                 >
-                  Unidade Policial
+                  UNIDADE POLICIAL
                 </label>
                 <input
                   className="form-control"
@@ -606,19 +610,18 @@ function Cadastro() {
               </div>
             </Col>
           </Row>
-
-          <div className="d-flex justify-content-center">
-            <button
-              type="submit"
-              className="btn btn-primary mt-4"
-              disabled={!isValid}
-              style={{ backgroundColor: "#19A800" }}
-            >
-              ENTRAR
-            </button>
-          </div>
         </form>
       </Container>
+      <div className="d-flex justify-content-center">
+        <button
+          type="submit"
+          className="btn btn-primary mt-4"
+          disabled={!isValid}
+          style={{ backgroundColor: "#19A800", fontSize: "30px" }}
+        >
+          ENTRAR
+        </button>
+      </div>
     </div>
   );
 }

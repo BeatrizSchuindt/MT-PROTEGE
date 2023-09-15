@@ -1,0 +1,44 @@
+/* Em seu arquivo CSS */
+input, label, textarea, select {
+    font-size: 20px;
+  }
+
+/* Tamanho padrão da fonte para telas grandes */
+.form-large-font {
+    font-size: 20px;
+  }
+  
+  /* Tamanho de fonte menor para telas menores */
+  @media (max-width: 768px) {
+    .form-large-font {
+      font-size: 16px;
+    }
+  }
+  
+  /* Tamanho ainda menor para telas muito pequenas */
+  @media (max-width: 576px) {
+    .form-large-font {
+      font-size: 14px;
+    }
+  }
+
+  
+/* Tamanho de fonte padrão para telas grandes */
+html {
+    font-size: 20px;
+  }
+  
+  /* Tamanho de fonte menor para telas menores */
+  @media (max-width: 768px) {
+    html {
+      font-size: 16px;
+    }
+  }
+  
+  /* Tamanho ainda menor para telas muito pequenas */
+  @media (max-width: 576px) {
+    html {
+      font-size: 14px;
+    }
+  }
+  
