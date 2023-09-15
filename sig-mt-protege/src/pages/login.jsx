@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./styles.css";
+import './styles/styles.css';
 
 import Logo from "../images/logo-definitiva-mt-protege.png";
 import ImgPoliciaEsquerda from "../images/policia-esquerda.jpg";

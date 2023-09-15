@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles.css';
+import './styles/styles.css';
 import { Container, Row, Col, Alert, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Logo from '../images/logo-black-mt-protege.png';

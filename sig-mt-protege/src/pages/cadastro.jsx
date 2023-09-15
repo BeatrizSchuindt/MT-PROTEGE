@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./styles.css";
-import "./styles-cadastro.css";
+import './styles/styles.css';
+import "./styles/styles-cadastro.css";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Logo from "../images/logo-definitiva-mt-protege.png";
 

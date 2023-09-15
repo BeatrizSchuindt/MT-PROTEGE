@@ -6,7 +6,7 @@ import IconePainelPrincipal from '../images/icone-painel-principal.png';
 import IconePolicia from '../images/icone-policia.png';
 import IconeOcorrencia from '../images/icone-ocorrencia.png';
 import IconeAjuda from '../images/icone-ajuda.png';
-import './styles.css';
+import './styles/styles.css';
 
 function Ajuda() {
   return (
