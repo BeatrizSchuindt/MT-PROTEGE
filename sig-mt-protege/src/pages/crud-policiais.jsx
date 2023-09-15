@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/styles.css';
+
 import Logo from '../images/logo-definitiva-mt-protege.png';
 import IconeLogout from '../images/icone-logout.png';
 import IconePainelPrincipal from '../images/icone-painel-principal.png';
 import IconePolicia from '../images/icone-policia.png';
 import IconeOcorrencia from '../images/icone-ocorrencia.png';
 import IconeAjuda from '../images/icone-ajuda.png';
-import './styles/styles.css';
+
+import { getPoliciais } from '../services/policial-services';
 
 function Policiais() {
   return (
