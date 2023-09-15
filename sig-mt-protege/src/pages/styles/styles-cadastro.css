@@ -23,22 +23,5 @@ input, label, textarea, select {
   }
 
   
-/* Tamanho de fonte padrão para telas grandes */
-html {
-    font-size: 20px;
-  }
-  
-  /* Tamanho de fonte menor para telas menores */
-  @media (max-width: 768px) {
-    html {
-      font-size: 16px;
-    }
-  }
-  
-  /* Tamanho ainda menor para telas muito pequenas */
-  @media (max-width: 576px) {
-    html {
-      font-size: 14px;
-    }
-  }
+
   

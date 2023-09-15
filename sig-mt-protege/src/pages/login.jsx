@@ -68,7 +68,7 @@ function Login() {
             {/* Quadrado branco para o menu de login abaixo da logo e da frase */}
             <div
               className="login-box p-4 mt-3 bg-white d-flex flex-column"
-              style={{ width: "60%", height: "45%" }}
+              style={{ width: "60%", height: "53%" }}
             >
               {" "}
               {/* Adicionamos a classe bg-white para o fundo branco */}
@@ -155,7 +155,7 @@ function Login() {
                   </button>
                 </div>
               </form>
-              <div className="d-flex justify-content-center mt-1">
+              <div className="d-flex justify-content-center">
                 <div className="d-flex align-items-center">
                   <p className="mb-0" style={{"fontSize": "20px", "marginRight": "5px"}}>Caso você não tenha login, </p>
                   <a href="/cadastro" style={{"fontSize": "20px"}}>

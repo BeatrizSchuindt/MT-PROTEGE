@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import './styles/styles.css';
 import "./styles/styles-cadastro.css";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Logo from "../images/logo-definitiva-mt-protege.png";
+import IconeVoltar from "../images/icone-voltar.png";
 
 import { cadastroPolicial } from "../services/policial-services";
 
@@ -37,20 +38,29 @@ function Cadastro() {
         flexDirection: "column", // Mudança aqui para organizar elementos verticalmente
       }}
     >
-      {/* Logo com altura e largura ajustadas */}
-      <img
-        src={Logo}
-        alt="Logo" style={{ width: '25%', marginTop: '1rem' }}
-      />
+
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", width: "60%" }}>
+        <Button
+          style={{ backgroundColor: "#FDC500", display: "flex", alignItems: "center", width: "7%" }}
+          onClick={() => navigate("/")}
+        >
+          <img src={IconeVoltar} alt="Ícone Voltar" width="90%"/>
+        </Button>
+        <img
+          src={Logo}
+          alt="Logo"
+          style={{ width: '40%', margin: "0 auto" }}
+        />
+      </div>
 
       <Container
         style={{
           width: "60%",
           borderRadius: "10px",
           backgroundColor: "white",
-          maxHeight: "550px",
+          maxHeight: "450px",
           overflow: "auto",
-          marginTop: "20px", // Espaçamento entre o logo e o Container
+          marginTop: "10px", // Espaçamento entre o logo e o Container
         }}
       >
         <h2
@@ -489,9 +499,8 @@ function Cadastro() {
                   JURISDIÇÃO
                 </label>
                 <select
-                  className={`form-select ${
-                    errors.jurisdicao ? "is-invalid" : ""
-                  }`}
+                  className={`form-select ${errors.jurisdicao ? "is-invalid" : ""
+                    }`}
                   name="jurisdicao"
                   id="jurisdicao"
                   placeholder="Selecione a jurisdição"
@@ -617,7 +626,7 @@ function Cadastro() {
           type="submit"
           className="btn btn-primary mt-4"
           disabled={!isValid}
-          style={{ backgroundColor: "#19A800", fontSize: "30px" }}
+          style={{ backgroundColor: "#19A800", fontSize: "25px" }}
         >
           ENTRAR
         </button>
