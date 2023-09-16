@@ -80,7 +80,7 @@ function Login() {
                 onSubmit={handleSubmit(onSubmit)}
               >
                 <div className="mb-3">
-                  {error && <p>{error.message}</p>}
+                  {error && <p className="text-center" style={{color: "red", fontSize: "20px"}}>{error.message}</p>}
                   <label
                     htmlFor="matricula"
                     className="form-label"
