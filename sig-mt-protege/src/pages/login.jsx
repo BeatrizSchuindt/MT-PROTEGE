@@ -106,7 +106,7 @@ function Login() {
                       minLength: {
                         value: 8,
                         message:
-                          "A matrícula precisa ter no mínimo 8 caracteres.",
+                          "A matrícula precisa ter 8 caracteres.",
                       },
                     })}
                   />
