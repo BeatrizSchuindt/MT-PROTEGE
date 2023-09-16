@@ -46,6 +46,16 @@ function Ocorrencias() {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await deleteOcorrencia(id);
+      // Remova a ocorrência excluída do estado
+      setOcorrencias(ocorrencias.filter(ocorrencia => ocorrencia.id !== id));
+    } catch (error) {
+      console.error("Erro ao deletar a ocorrência:", error);
+    }
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -418,11 +428,9 @@ function Ocorrencias() {
                           />
                         </td>
                         <td className="text-center">
-                          <img
-                            className="ocorrencia-row-icon"
-                            src={IconeExcluir}
-                            alt="Ícone Deletar ocorrencia"
-                          />
+                          <button style={{backgroundColor: "red", border: "none", borderRadius: "100px"}} onClick={() => handleDelete(ocorrencia.id)}>
+                            <img className="ocorrencia-row-icon" src={IconeExcluir} alt="Ícone Deletar ocorrencia"/>
+                          </button>
                         </td>
                       </tr>
                     ))}
