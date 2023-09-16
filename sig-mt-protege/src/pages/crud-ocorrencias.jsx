@@ -22,25 +22,11 @@ import { updateOcorrencia } from "../services/ocorrencia-services";
 import { deleteOcorrencia } from "../services/ocorrencia-services";
 
 function Ocorrencias() {
-  //Estados dos Modal de Create e Update de Ocorrência
-  const [modalShow, setModalShow] = useState({
-    novaOcorrencia: false,
-    atualizarOcorrencia: false,
-  });
-
   //Declarando funções do hook-form - para o FILTRO DE OCORRÊNCIAS
   const {
-    handleSubmit: handleSubmit1,
-    register: register1,
-    formState: { errors: errors1 },
-    isValid: isValid1,
-  } = useForm({ mode: "onChange" });
-
-  //Declarando funções do hook-form - para o CREATE DE OCORRÊNCIAS
-  const {
-    handleSubmit: handleSubmit2,
-    register: register2,
-    formState: { errors: errors2 },
+    handleSubmit,
+    register,
+    formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
 
   const navigate = useNavigate();
@@ -48,32 +34,15 @@ function Ocorrencias() {
   //declarando estados dos componentes
   const [ocorrencias, setOcorrencias] = useState([]);
   const [error, setError] = useState(null);
-  const handleClose = (modalName) => {
-    setModalShow({ ...modalShow, [modalName]: false });
-  };
-
-  const handleShow = (modalName) => {
-    setModalShow({ ...modalShow, [modalName]: true });
-  };
 
   //submit de read de ocorrências - COM OU SEM FILTRO
-  const onSubmitRead = async (data) => {
+  const onSubmit = async (data) => {
     try {
       const result = await filtroOcorrencias(data); // Passar os dados do formulário
       setOcorrencias(result.data);
     } catch (error) {
       console.log(error);
       setError(error.toString());
-    }
-  };
-
-  //submit de create de ocorrências
-  const onSubmitCreate = async (data) => {
-    try {
-      const ocorrencia = await createOcorrencia(data);
-      handleClose("novaOcorrencia");
-    } catch (error) {
-      setError({ message: error.response.data.error });
     }
   };
 
@@ -187,7 +156,6 @@ function Ocorrencias() {
                     justifyContent: "center", // Centraliza itens flexíveis horizontalmente
                     padding: "5px", // Adiciona padding interno
                   }}
-                  onClick={() => handleShow("novaOcorrencia")}
                 >
                   REGISTRAR NOVA OCORRÊNCIA
                   <img
@@ -207,12 +175,12 @@ function Ocorrencias() {
           <form
             className="mb-3"
             noValidate
-            validated={!errors1}
-            onSubmit={handleSubmit1(onSubmitRead)}
+            validated={!errors}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <div style={{ width: "90%", marginLeft: "40px" }}>
               <label
-                htmlFor="data_nascimento"
+                htmlFor="filtros_disponiveis"
                 className="form-label form-large-font"
                 style={{ fontWeight: "Bold" }}
               >
@@ -227,18 +195,18 @@ function Ocorrencias() {
                       type="text"
                       name="id"
                       placeholder="Buscar pelo ID da ocorrência"
-                      isValid={!errors1.id}
-                      isInvalid={errors1.id}
+                      isValid={!errors.id}
+                      isInvalid={errors.id}
                       required
-                      {...register1("id", {
+                      {...register("id", {
                         pattern: {
                           value: /^[A-Za-zÀ-ÖØ-öø-ÿ\s]*$/,
                           message: "Use apenas letras e espaços.",
                         },
                       })}
                     />
-                    {errors1.id && (
-                      <p className="hook-form-error">{errors1.id.message}</p>
+                    {errors.id && (
+                      <p className="hook-form-error">{errors.id.message}</p>
                     )}
                   </div>
                 </Col>
@@ -251,10 +219,10 @@ function Ocorrencias() {
                       type="text"
                       name="matricula_policial"
                       placeholder="Buscar pelo número de matrícula do policial"
-                      isValid={!errors1.matricula_policial}
-                      isInvalid={errors1.matricula_policial}
+                      isValid={!errors.matricula_policial}
+                      isInvalid={errors.matricula_policial}
                       required
-                      {...register1("matricula_policial", {
+                      {...register("matricula_policial", {
                         pattern: {
                           value: /^[0-9]{8}$/,
                           message: "Matrícula inválida!",
@@ -265,9 +233,9 @@ function Ocorrencias() {
                         },
                       })}
                     />
-                    {errors1.matricula_policial && (
+                    {errors.matricula_policial && (
                       <p className="hook-form-error">
-                        {errors1.matricula_policial.message}
+                        {errors.matricula_policial.message}
                       </p>
                     )}
                   </div>
@@ -278,13 +246,13 @@ function Ocorrencias() {
                 <Col>
                   <select
                     className={`form-select ${
-                      errors1.status_ocorrencia ? "is-invalid" : ""
+                      errors.status_ocorrencia ? "is-invalid" : ""
                     }`}
                     name="status_ocorrencia"
                     id="status_ocorrencia"
                     placeholder="Busque pelo status da ocorrência"
                     required
-                    {...register1("status_ocorrencia")}
+                    {...register("status_ocorrencia")}
                   >
                     <option value="">Selecione uma opção de status</option>
                     <option value="Reportada">Reportada</option>
@@ -298,9 +266,9 @@ function Ocorrencias() {
                     <option value="Prescrito">Prescrito</option>
                     <option value="Resolvido">Resolvido</option>
                   </select>
-                  {errors1.status_ocorrencia && (
+                  {errors.status_ocorrencia && (
                     <p className="hook-form-error">
-                      {errors1.status_ocorrencia.message}
+                      {errors.status_ocorrencia.message}
                     </p>
                   )}
                 </Col>
@@ -308,13 +276,13 @@ function Ocorrencias() {
                 <Col>
                   <select
                     className={`form-select ${
-                      errors1.tipo_ocorrencia ? "is-invalid" : ""
+                      errors.tipo_ocorrencia ? "is-invalid" : ""
                     }`}
                     name="tipo_ocorrencia"
                     id="tipo_ocorrencia"
                     placeholder="Selecione o tipo de ocorrência"
                     required
-                    {...register1("tipo_ocorrencia")}
+                    {...register("tipo_ocorrencia")}
                   >
                     <option value="">Selecione o tipo de ocorrência</option>
                     <option value="Homicídio">Homicídio</option>
@@ -332,9 +300,9 @@ function Ocorrencias() {
                     <option value="Corrupção">Corrupção</option>
                     <option value="Outros">Outros...</option>
                   </select>
-                  {errors1.tipo_ocorrencia && (
+                  {errors.tipo_ocorrencia && (
                     <p className="hook-form-error">
-                      {errors1.tipo_ocorrencia.message}
+                      {errors.tipo_ocorrencia.message}
                     </p>
                   )}
                 </Col>
@@ -346,14 +314,14 @@ function Ocorrencias() {
                     type="date"
                     name="data_ocorrencia"
                     placeholder="Busque pela data da ocorrência"
-                    isValid={!errors1.data_ocorrencia}
-                    isInvalid={errors1.data_ocorrencia}
+                    isValid={!errors.data_ocorrencia}
+                    isInvalid={errors.data_ocorrencia}
                     required
-                    {...register1("data_ocorrencia")}
+                    {...register("data_ocorrencia")}
                   />
-                  {errors1.data_ocorrencia && (
+                  {errors.data_ocorrencia && (
                     <p className="hook-form-error">
-                      {errors1.data_ocorrencia.message}
+                      {errors.data_ocorrencia.message}
                     </p>
                   )}
                 </Col>
@@ -368,7 +336,7 @@ function Ocorrencias() {
               <button
                 type="submit"
                 className="btn btn-primary"
-                disabled={!isValid1}
+                disabled={!isValid}
                 style={{ backgroundColor: "#00296B" }}
               >
                 BUSCAR
