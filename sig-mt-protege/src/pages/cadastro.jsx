@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import './styles/styles.css';
+import "./styles/styles.css";
 import "./styles/styles-cadastro.css";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Logo from "../images/logo-definitiva-mt-protege.png";
@@ -35,22 +35,30 @@ function Cadastro() {
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
-        flexDirection: "column", // Mudança aqui para organizar elementos verticalmente
+        flexDirection: "column", 
+        justifyContent: "center",// Mudança aqui para organizar elementos verticalmente
       }}
     >
-
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", width: "60%" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          width: "60%",
+        }}
+      >
         <Button
-          style={{ backgroundColor: "#FDC500", display: "flex", alignItems: "center", width: "7%" }}
+          style={{
+            backgroundColor: "#FDC500",
+            display: "flex",
+            alignItems: "center",
+            width: "7%",
+          }}
           onClick={() => navigate("/")}
         >
-          <img src={IconeVoltar} alt="Ícone Voltar" width="90%"/>
+          <img src={IconeVoltar} alt="Ícone Voltar" width="90%" />
         </Button>
-        <img
-          src={Logo}
-          alt="Logo"
-          style={{ width: '40%', margin: "0 auto" }}
-        />
+        <img src={Logo} alt="Logo" style={{ width: "40%", margin: "0 auto" }} />
       </div>
 
       <Container
@@ -499,8 +507,9 @@ function Cadastro() {
                   JURISDIÇÃO
                 </label>
                 <select
-                  className={`form-select ${errors.jurisdicao ? "is-invalid" : ""
-                    }`}
+                  className={`form-select ${
+                    errors.jurisdicao ? "is-invalid" : ""
+                  }`}
                   name="jurisdicao"
                   id="jurisdicao"
                   placeholder="Selecione a jurisdição"
@@ -619,18 +628,18 @@ function Cadastro() {
               </div>
             </Col>
           </Row>
+          <div className="d-flex justify-content-center">
+            <button
+              type="submit"
+              className="btn btn-primary mt-4"
+              disabled={!isValid}
+              style={{ backgroundColor: "#19A800", fontSize: "25px" }}
+            >
+              ENTRAR
+            </button>
+          </div>
         </form>
       </Container>
-      <div className="d-flex justify-content-center">
-        <button
-          type="submit"
-          className="btn btn-primary mt-4"
-          disabled={!isValid}
-          style={{ backgroundColor: "#19A800", fontSize: "25px" }}
-        >
-          ENTRAR
-        </button>
-      </div>
     </div>
   );
 }

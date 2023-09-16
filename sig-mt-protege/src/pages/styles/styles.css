@@ -92,3 +92,20 @@ a:hover{
   margin-left: auto;
   margin-right: auto;
 }
+
+/*PÁGINA DE CRUD POLICIAIS*/
+.policial-page-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85%;
+  height: auto;
+}
+
+.policial-area {
+  width: 80%;
+}
+
+table th{
+  font-size: 14px;
+}

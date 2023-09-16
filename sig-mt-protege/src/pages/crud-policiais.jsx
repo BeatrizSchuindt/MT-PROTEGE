@@ -11,11 +11,29 @@ import IconePolicia from "../images/icone-policia.png";
 import IconeOcorrencia from "../images/icone-ocorrencia.png";
 import IconeAjuda from "../images/icone-ajuda.png";
 
-import { getPoliciais } from "../services/policial-services";
+import { getPoliciais as fetchPoliciais } from "../services/policial-services"; // Renomeado para evitar conflito
 
 function Policiais() {
   const navigate = useNavigate();
   
+  const [policiais, setPoliciais] = useState([]);
+  const [error, setError] = useState(null);
+
+  const fetchLocalPoliciais = async () => {
+    try {
+      const result = await fetchPoliciais(); // Usando o nome renomeado
+      console.log("Dados retornados:", result.data);  
+      setPoliciais(result.data);
+    } catch (error) {
+      console.log(error);
+      setError(error.toString()); // Armazenando o erro no estado
+    }
+  }
+
+  useEffect(() => {
+    fetchLocalPoliciais();
+  }, []);
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -96,6 +114,33 @@ function Policiais() {
         {/* CONTEÚDO DA PÁGINA */}
         <main className="col">
           <h1>POLICIAIS</h1>
+          <div className='policiais-page-area'>
+                    <div className='policial-area'>
+                        {policiais && policiais.length > 0 ?
+                            <table className="table table-striped">
+                                <thead className="thead-light">
+                                    <tr>
+                                        <th className='text-center' scope="col">MATRÍCULA</th>
+                                        <th className='text-center' scope="col">NOME</th>
+                                        <th className='text-center' scope="col">CARGO</th>
+                                        <th className='text-center' scope="col">JURISDIÇÃO</th>
+                                        <th className='text-center' scope="col">UNIDADE POLICIAL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {policiais.map((policial, index) => (
+                                        <tr key={policial.id} scope='row'>
+                                            <td className="text-center"> {policial.matricula_policial} </td>
+                                            <td className="text-center"> {policial.nome_completo}</td>
+                                            <td className="text-center"> {policial.cargo_graduacao}</td>
+                                            <td className="text-center"> {policial.jurisdicao}</td>
+                                            <td className="text-center"> {policial.unidade_policia}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table> : <p className='text-center'>Não existe nenhum policial cadastrado</p>}
+                    </div>
+                </div>
         </main>
       </div>
     </div>
