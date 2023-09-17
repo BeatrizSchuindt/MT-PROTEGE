@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Row, Col, Modal, Button, Form } from "react-bootstrap";
@@ -17,6 +17,7 @@ import IconeExcluir from "../../images/icone-excluir.png";
 import IconeRegistrar from "../../images/icone-registrar-ocorrencia.png";
 
 import { filtroOcorrencias } from "../../services/ocorrencia-services";
+import { getOcorrencias } from "../../services/ocorrencia-services";
 import { deleteOcorrencia } from "../../services/ocorrencia-services";
 
 function Ocorrencias() {
@@ -31,6 +32,8 @@ function Ocorrencias() {
 
   //declarando estados dos componentes
   const [ocorrencias, setOcorrencias] = useState([]);
+  const [show, setShow] = useState(false);
+  const [selectedOcorrencia, setSelectedOcorrencia] = useState(null);
   const [error, setError] = useState(null);
 
   //submit de read de ocorrências - COM OU SEM FILTRO
@@ -48,10 +51,24 @@ function Ocorrencias() {
     try {
       await deleteOcorrencia(id);
       // Remova a ocorrência excluída do estado
-      setOcorrencias(ocorrencias.filter(ocorrencia => ocorrencia.id !== id));
+      setOcorrencias(ocorrencias.filter((ocorrencia) => ocorrencia.id !== id));
     } catch (error) {
       console.error("Erro ao deletar a ocorrência:", error);
     }
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      const result = await getOcorrencias();
+      setOcorrencias(result.data); // Ajuste conforme a estrutura da sua resposta
+    }
+    fetchData();
+  }, []);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (ocorrencia) => {
+    setSelectedOcorrencia(ocorrencia);
+    setShow(true);
   };
 
   return (
@@ -352,6 +369,53 @@ function Ocorrencias() {
             </div>
           </form>
 
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Detalhes da Ocorrência</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {/* Exiba os detalhes da ocorrência selecionada aqui */}
+              {selectedOcorrencia && (
+                <div>
+                  <p>ID: {selectedOcorrencia.id}</p>
+                  <p>
+                    Matrícula Policial: {selectedOcorrencia.matricula_policial}
+                  </p>
+                  <p>Data: {selectedOcorrencia.data_ocorrencia}</p>
+                  <p>Hora: {selectedOcorrencia.hora_ocorrencia}</p>
+                  <p>CEP: {selectedOcorrencia.cep_ocorrencia}</p>
+                  <p>Tipo: {selectedOcorrencia.tipo_ocorrencia}</p>
+                  <p>Prioridade: {selectedOcorrencia.prioridade_ocorrencia}</p>
+                  <p>Status: {selectedOcorrencia.status_ocorrencia}</p>
+                  <p>Descrição: {selectedOcorrencia.descricao_ocorrencia}</p>
+                  <p>
+                    Nome da Vítima: {selectedOcorrencia.nome_completo_vitima}
+                  </p>
+                  <p>CPF da Vítima: {selectedOcorrencia.cpf_vitima}</p>
+                  <p>Contato da Vítima: {selectedOcorrencia.contato_vitima}</p>
+                  <p>
+                    Nome do Suspeito:{" "}
+                    {selectedOcorrencia.nome_completo_suspeito}
+                  </p>
+                  <p>CPF do suspeito: {selectedOcorrencia.cpf_suspeito}</p>
+                  <p>
+                    Características do suspeito:{" "}
+                    {selectedOcorrencia.caracteristicas_suspeito}
+                  </p>
+                  <p>
+                    Descrição das evidências:{" "}
+                    {selectedOcorrencia.descricao_evidencias}
+                  </p>
+                </div>
+              )}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Fechar
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
           {/*TABELA DE OCORRÊNCIAS*/}
           <div className="ocorrencias-page-area">
             <div className="ocorrencia-area">
@@ -407,6 +471,7 @@ function Ocorrencias() {
                         </td>
                         <td className="text-center">
                           <button
+                            onClick={() => handleShow(ocorrencia)}
                             style={{
                               backgroundColor: "#FFD500",
                               fontWeight: "Bold",
@@ -418,17 +483,34 @@ function Ocorrencias() {
                           </button>
                         </td>
                         <td className="text-center">
-                          <button style={{backgroundColor: "blue", border: "none", borderRadius: "100px"}}>
-                          <img
-                            className="ocorrencia-row-icon"
-                            src={IconeEditar}
-                            alt="Ícone Editar ocorrencia"
-                          />
+                          <button
+                            style={{
+                              backgroundColor: "blue",
+                              border: "none",
+                              borderRadius: "100px",
+                            }}
+                          >
+                            <img
+                              className="ocorrencia-row-icon"
+                              src={IconeEditar}
+                              alt="Ícone Editar ocorrencia"
+                            />
                           </button>
                         </td>
                         <td className="text-center">
-                          <button style={{backgroundColor: "red", border: "none", borderRadius: "100px"}} onClick={() => handleDelete(ocorrencia.id)}>
-                            <img className="ocorrencia-row-icon" src={IconeExcluir} alt="Ícone Deletar ocorrencia"/>
+                          <button
+                            style={{
+                              backgroundColor: "red",
+                              border: "none",
+                              borderRadius: "100px",
+                            }}
+                            onClick={() => handleDelete(ocorrencia.id)}
+                          >
+                            <img
+                              className="ocorrencia-row-icon"
+                              src={IconeExcluir}
+                              alt="Ícone Deletar ocorrencia"
+                            />
                           </button>
                         </td>
                       </tr>
