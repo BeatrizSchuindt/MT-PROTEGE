@@ -42,7 +42,10 @@ a:hover{
     align-items: center;
   }
 
-
+.hook-form-error {
+  padding-left: 0.5rem;
+  color: #E63946;
+}
   
 /* No seu arquivo CSS */
 .nav-item {
@@ -75,4 +78,52 @@ a:hover{
   .nav-item .sr-only {
     display: none !important;
   }
+}
+
+.vertical-center {
+  min-height: 100vh; /* Defina a altura mínima para a tela inteira */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centraliza verticalmente */
+}
+
+.center-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/*PÁGINA DE CRUD POLICIAIS*/
+.policial-page-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85%;
+  height: auto;
+}
+
+.policial-area {
+  width: 80%;
+}
+
+table th{
+  font-size: 14px;
+}
+
+/*PÁGINA DE CRUD OCORRÊNCIAS*/
+.ocorrencia-page-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85%;
+  height: auto;
+}
+
+.ocorrencia-area {
+  width: 90%;
+}
+
+.ocorrencia-area img {
+  width: 1.6rem;
+  height: 1.6rem;
 }
