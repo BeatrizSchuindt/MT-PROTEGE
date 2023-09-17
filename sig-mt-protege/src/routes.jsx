@@ -5,7 +5,8 @@ import Login from './pages/login';
 import Cadastro from './pages/cadastro';
 import PainelPrincipal from './pages/painel-principal';
 import Policiais from './pages/crud-policiais';
-import Ocorrencias from './pages/crud-ocorrencias';
+import Ocorrencias from "./pages/ocorrencias/crud-ocorrencias";
+import RegistrarOcorrencia from "./pages/ocorrencias/create-ocorrencia";
 import Ajuda from './pages/ajuda';
 import NaoAutorizado from "./pages/nao-autorizado";
 import NaoEncontrado from "./pages/nao-encontrada";
@@ -15,8 +16,6 @@ import NaoEncontrado from "./pages/nao-encontrada";
  */
 export function PrivateRoute({ children }) {
     if (!isAuthenticated()) {
-        // Pode trocar para renderizar uma página customizada de não autorizada,
-        // nesse caso ele vai voltar para a tela de login
         return <Navigate to="/nao-autorizado" replace />
     }
     return children;
@@ -51,6 +50,14 @@ export function Navigations() {
                     element={(
                         <PrivateRoute>
                             <Ocorrencias />
+                        </PrivateRoute>
+                    )}
+                />
+                <Route
+                    path="/registrar-ocorrencia"
+                    element={(
+                        <PrivateRoute>
+                            <RegistrarOcorrencia />
                         </PrivateRoute>
                     )}
                 />

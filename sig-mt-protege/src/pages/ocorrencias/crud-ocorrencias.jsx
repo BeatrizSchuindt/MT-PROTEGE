@@ -4,22 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { Row, Col, Modal, Button, Form } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./styles/styles.css";
+import "../styles/styles.css";
 
-import Logo from "../images/logo-definitiva-mt-protege.png";
-import IconeLogout from "../images/icone-logout.png";
-import IconePainelPrincipal from "../images/icone-painel-principal.png";
-import IconePolicia from "../images/icone-policia.png";
-import IconeOcorrencia from "../images/icone-ocorrencia.png";
-import IconeAjuda from "../images/icone-ajuda.png";
-import IconeEditar from "../images/icone-editar.png";
-import IconeExcluir from "../images/icone-excluir.png";
-import IconeRegistrar from "../images/icone-registrar-ocorrencia.png";
+import Logo from "../../images/logo-definitiva-mt-protege.png";
+import IconeLogout from "../../images/icone-logout.png";
+import IconePainelPrincipal from "../../images/icone-painel-principal.png";
+import IconePolicia from "../../images/icone-policia.png";
+import IconeOcorrencia from "../../images/icone-ocorrencia.png";
+import IconeAjuda from "../../images/icone-ajuda.png";
+import IconeEditar from "../../images/icone-editar.png";
+import IconeExcluir from "../../images/icone-excluir.png";
+import IconeRegistrar from "../../images/icone-registrar-ocorrencia.png";
 
-import { createOcorrencia } from "../services/ocorrencia-services";
-import { filtroOcorrencias } from "../services/ocorrencia-services";
-import { updateOcorrencia } from "../services/ocorrencia-services";
-import { deleteOcorrencia } from "../services/ocorrencia-services";
+import { filtroOcorrencias } from "../../services/ocorrencia-services";
+import { deleteOcorrencia } from "../../services/ocorrencia-services";
 
 function Ocorrencias() {
   //Declarando funções do hook-form - para o FILTRO DE OCORRÊNCIAS
@@ -377,14 +375,13 @@ function Ocorrencias() {
                         DATA AQUISIÇÃO
                       </th>
                       <th className="text-center" scope="col">
-                        {" "}
-                        {""}
+                        DETALHES
                       </th>
                       <th className="text-center" scope="col">
-                        {" "}
+                        EDITAR
                       </th>
                       <th className="text-center" scope="col">
-                        {" "}
+                        DELETAR
                       </th>
                     </tr>
                   </thead>
@@ -421,11 +418,13 @@ function Ocorrencias() {
                           </button>
                         </td>
                         <td className="text-center">
+                          <button style={{backgroundColor: "blue", border: "none", borderRadius: "100px"}}>
                           <img
                             className="ocorrencia-row-icon"
                             src={IconeEditar}
                             alt="Ícone Editar ocorrencia"
                           />
+                          </button>
                         </td>
                         <td className="text-center">
                           <button style={{backgroundColor: "red", border: "none", borderRadius: "100px"}} onClick={() => handleDelete(ocorrencia.id)}>
