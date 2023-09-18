@@ -31,9 +31,11 @@ function EditarPerfil() {
 
   const editProfile = async (data) => {
     try {
-      await updatePolicial(data);
+      console.log("Dados enviados para atualização:", data);
+      const response = await updatePolicial(data);
+      console.log("Resposta da atualização:", response);
     } catch (error) {
-      console.log(error);
+      console.log("Erro na atualização:", error);
     }
   };
 
@@ -42,34 +44,34 @@ function EditarPerfil() {
       const token = sessionStorage.getItem("token");
       const jwt_token = jwt_decode(token);
       try {
-        const data = await getPolicialID(jwt_token.id);
-        setPolicial(data);
-        if (policial) {
-          setValue("senha", policial?.senha);
-          setValue("nome_completo", policial?.nome_completo);
-          setValue("data_nascimento", policial?.data_nascimento);
-          setValue("genero", policial?.genero);
-          setValue("cpf_policial", policial?.cpf_policial);
-          setValue("rg_policial", policial?.rg_policial);
-          setValue("naturalidade", policial?.naturalidade);
-          setValue("email", policial?.email);
-          setValue("celular", policial?.celular);
-          setValue("cep_policial", policial?.cep_policial);
-          setValue("numero_endereco", policial?.numero_endereco);
-          setValue("cargo_graduacao", policial?.cargo_graduacao);
-          setValue("data_ingresso_policia", policial?.data_ingresso_policia);
-          setValue("unidade_policia", policial?.unidade_policia);
-          setValue("jurisdicao", policial?.jurisdicao);
-          setValue("id", policial?.id);
-          setLoading(false);
-        }
+        const result = await getPolicialID(jwt_token.id);
+        setPolicial(result.data);
+        console.log(result);
+        setValue("senha", result.data.senha);
+        setValue("nome_completo", result.data.nome_completo);
+        setValue("data_nascimento", result.data.data_nascimento);
+        setValue("genero", result.data.genero);
+        setValue("cpf_policial", result.data.cpf_policial);
+        setValue("rg_policial", result.data.rg_policial);
+        setValue("naturalidade", result.data.naturalidade);
+        setValue("email", result.data.email);
+        setValue("celular", result.data.celular);
+        setValue("cep_policial", result.data.cep_policial);
+        setValue("numero_endereco", result.data.numero_endereco);
+        setValue("cargo_graduacao", result.data.cargo_graduacao);
+        setValue("data_ingresso_policia", result.data.data_ingresso_policia);
+        setValue("unidade_policia", result.data.unidade_policia);
+        setValue("jurisdicao", result.data.jurisdicao);
+        setValue("id", result.data.id);
+
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
 
     getPolicial();
-  }, [policial]);
+  }, []);
 
   return (
     <div className="container-fluid">
@@ -679,7 +681,11 @@ function EditarPerfil() {
                 type="submit"
                 className="btn btn-primary mt-4"
                 disabled={!isValid}
-                style={{ backgroundColor: "#19A800", fontSize: "25px" }}
+                style={{
+                  backgroundColor: "#19A800",
+                  fontSize: "25px",
+                  cursor: "pointer",
+                }}
               >
                 ENTRAR
               </button>

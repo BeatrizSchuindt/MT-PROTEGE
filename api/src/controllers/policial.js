@@ -175,6 +175,7 @@ class PolicialController {
 
     async update(request, response) {
         const httpHelper = new HttpHelper(response);
+        console.log(request.body)
         try {
             const { id } = request.params;
             const {
@@ -199,15 +200,17 @@ class PolicialController {
             if (!id) {
                 return httpHelper.badRequest("Parâmetros inválidos!");
             }
-
-            const hashedSenha = await bcrypt.hash(
-                senha,
-                Number(process.env.SALT)
-            );
+            let newPassword = {}
+            if(senha) {
+                newPassword.senha = await bcrypt.hash(
+                    senha,
+                    Number(process.env.SALT))
+                
+            }
             // Atualizar o policial no banco de dados
             const [updatedRowCount] = await PolicialModel.update(
                 {
-                    senha: hashedSenha,
+                    ...newPassword,
                     nome_completo,
                     data_nascimento,
                     genero,
