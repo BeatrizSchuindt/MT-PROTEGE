@@ -181,6 +181,7 @@ function Ocorrencias() {
                     justifyContent: "center", // Centraliza itens flexíveis horizontalmente
                     padding: "5px", // Adiciona padding interno
                   }}
+                  onClick={() => navigate('/registrar-ocorrencia')}
                 >
                   REGISTRAR NOVA OCORRÊNCIA
                   <img
