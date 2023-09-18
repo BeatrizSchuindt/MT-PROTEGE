@@ -5,6 +5,7 @@ import Login from './pages/login';
 import Cadastro from './pages/cadastro';
 import PainelPrincipal from './pages/painel-principal';
 import Policiais from './pages/crud-policiais';
+import EditarPerfil from "./pages/editar-perfil-policial";
 import Ocorrencias from "./pages/ocorrencias/crud-ocorrencias";
 import RegistrarOcorrencia from "./pages/ocorrencias/create-ocorrencia";
 import Ajuda from './pages/ajuda';
@@ -42,6 +43,14 @@ export function Navigations() {
                     element={(
                         <PrivateRoute>
                             <Policiais />
+                        </PrivateRoute>
+                    )}
+                />
+                <Route
+                    path="/editar-perfilpolicial"
+                    element={(
+                        <PrivateRoute>
+                            <EditarPerfil />
                         </PrivateRoute>
                     )}
                 />

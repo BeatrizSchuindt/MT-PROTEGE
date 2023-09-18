@@ -123,7 +123,7 @@ class PolicialController {
         const httpHelper = new HttpHelper(response);
         try {
             const policiais = await PolicialModel.findAll({
-                order: [["matricula_policial", "ASC"]], attributes: { exclude: ["id", "senha"]}
+                order: [["matricula_policial", "ASC"]], attributes: { exclude: ["id", "senha"] }
             });
 
             return httpHelper.ok(policiais);
@@ -140,7 +140,7 @@ class PolicialController {
                     nome_completo: {
                         [Op.like]: `%${request.body.nome_completo}%`
                     },
-                    cargo_graduacao: { 
+                    cargo_graduacao: {
                         [Op.like]: `%${request.body.cargo_graduacao}%`
                     },
                     jurisdicao: {
@@ -152,10 +152,92 @@ class PolicialController {
                     unidade_policia: {
                         [Op.like]: `%${request.body.unidade_policia}%`
                     }
-                }, attributes: { exclude: ["id", "senha"]}
+                }, attributes: { exclude: ["id", "senha"] }
             });
 
             return httpHelper.ok(policiais);
+        } catch (error) {
+            return httpHelper.internalError(error);
+        }
+    }
+
+    async getPolicialID(request, response) {
+        const httpHelper = new HttpHelper(response);
+        try {
+            const { id } = request.params;
+            const policial = await PolicialModel.findByPk(id, {attributes: {exclude: ['senha']}});
+            if (!policial) return httpHelper.notFound("Não foi encontrado nenhum policial.");
+            return httpHelper.ok(policial);
+        } catch (error) {
+            return httpHelper.internalError(error);
+        }
+    }
+
+    async update(request, response) {
+        const httpHelper = new HttpHelper(response);
+        try {
+            const { id } = request.params;
+            const {
+                senha,
+                nome_completo,
+                data_nascimento,
+                genero,
+                cpf_policial,
+                rg_policial,
+                naturalidade,
+                email,
+                celular,
+                cep_policial,
+                numero_endereco,
+                cargo_graduacao,
+                data_ingresso_policia,
+                unidade_policia,
+                jurisdicao,
+            } = request.body;
+
+            // Verificar se o parâmetro de ID foi fornecido
+            if (!id) {
+                return httpHelper.badRequest("Parâmetros inválidos!");
+            }
+
+            const hashedSenha = await bcrypt.hash(
+                senha,
+                Number(process.env.SALT)
+            );
+            // Atualizar o policial no banco de dados
+            const [updatedRowCount] = await PolicialModel.update(
+                {
+                    senha: hashedSenha,
+                    nome_completo,
+                    data_nascimento,
+                    genero,
+                    cpf_policial,
+                    rg_policial,
+                    naturalidade,
+                    email,
+                    celular,
+                    cep_policial,
+                    numero_endereco,
+                    cargo_graduacao,
+                    data_ingresso_policia,
+                    unidade_policia,
+                    jurisdicao,
+                },
+                {
+                    where: {
+                        id: id,
+                    },
+                }
+            );
+
+            // Verificar se o policial foi encontrada e atualizada com sucesso
+            if (updatedRowCount === 0) {
+                return httpHelper.notFound("Policial não encontrado!");
+            }
+
+            return httpHelper.ok({
+                message: "Policial atualizado com sucesso!",
+            });
         } catch (error) {
             return httpHelper.internalError(error);
         }
