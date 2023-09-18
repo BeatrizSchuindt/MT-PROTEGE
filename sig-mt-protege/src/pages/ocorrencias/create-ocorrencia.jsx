@@ -10,6 +10,7 @@ import Logo from "../../images/logo-definitiva-mt-protege.png";
 import IconeLogout from "../../images/icone-logout.png";
 import IconePainelPrincipal from "../../images/icone-painel-principal.png";
 import IconePolicia from "../../images/icone-policia.png";
+import IconePerfil from "../../images/icone-perfil.png";
 import IconeOcorrencia from "../../images/icone-ocorrencia.png";
 import IconeAjuda from "../../images/icone-ajuda.png";
 
@@ -64,6 +65,16 @@ function RegistrarOcorrencia() {
                   className="icones-menu-nav"
                 />
                 POLICIAIS
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link text-light" href="/editar-perfilpolicial">
+                <img
+                  src={IconePerfil}
+                  alt="Icone Perfil"
+                  className="icones-menu-nav"
+                />
+                EDITAR PERFIL
               </a>
             </li>
             <li className="nav-item">
