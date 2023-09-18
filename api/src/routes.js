@@ -19,6 +19,8 @@ routes.delete('/ocorrencia/:id', authMiddleware, ocorrenciaController.delete);
 routes.post('/cadastro', policialController.register);
 routes.post('/login', policialController.login);
 routes.get('/policiais', authMiddleware, policialController.getAll);
+routes.get('/policial/:id', authMiddleware, policialController.getPolicialID);
 routes.post('/policiais/filtro', authMiddleware, policialController.getFilter);
+routes.put('/atualizar-policial/:id', authMiddleware, policialController.update);
 
 module.exports = { routes };

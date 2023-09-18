@@ -30,3 +30,14 @@ export async function filtroPoliciais(data) {
 
     return result;
 }
+
+export async function getPolicialID(id) {
+    const result = await api.get(`/policial/${id}`);
+    return result
+}
+
+export async function updatePolicial(data) {
+    const result = await api.put(`/atualizar-policial/${data.id}`, data);
+    
+    return result;
+}
