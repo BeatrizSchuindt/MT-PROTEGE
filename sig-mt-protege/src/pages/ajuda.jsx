@@ -165,22 +165,22 @@ function Ajuda() {
             marginBottom: "50px",
             fontSize: "320%",
           }}>AJUDA / SUPORTE DO SISTEMA</h1>
-          <div>
-            <Row>
-              <Col>
+          <div style={{height: '100%'}}>
+            <Row className="align-items-center mb-5">
+              <Col className="d-flex align-items-center justify-content-center">
                 <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h2>Título da Dúvida 1</h2>
-                  <p>Subtítulo da Dúvida 1</p>
+                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>LOGIN</h3>
+                  <p>Caso queira acessar o sistema, é necessário possuir credenciais cadastradas</p>
                   <Button variant="primary" onClick={openModal1}>
                     Abrir Detalhes
                   </Button>
                 </div>
               </Col>
 
-              <Col>
+              <Col className="d-flex align-items-center justify-content-center">
                 <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h2>Título da Dúvida 2</h2>
-                  <p>Subtítulo da Dúvida 2</p>
+                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>MENU DE NAVEGAÇÃO RÁPIDA</h3>
+                  <p>O menu que está no lado esquerdo da tela, orienta de forma simples a navegação</p>
                   <Button variant="primary" onClick={openModal2}>
                     Abrir Detalhes
                   </Button>
@@ -189,21 +189,21 @@ function Ajuda() {
 
             </Row>
 
-            <Row>
-              <Col>
+            <Row className="align-items-center mb-5">
+              <Col className="d-flex align-items-center justify-content-center">
                 <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h2>Título da Dúvida 3</h2>
-                  <p>Subtítulo da Dúvida 3</p>
+                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>CADASTRO</h3>
+                  <p>Para criar uma conta no sistema, forneça seus dados</p>
                   <Button variant="primary" onClick={openModal3}>
                     Abrir Detalhes
                   </Button>
                 </div>
               </Col>
 
-              <Col>
+              <Col className="d-flex align-items-center justify-content-center">
                 <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h2>Título da Dúvida 4</h2>
-                  <p>Subtítulo da Dúvida 4</p>
+                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>TELA DE POLICIAIS CADASTRADOS</h3>
+                  <p>Analise, com filtros, os policiais cadastrados no sistema</p>
                   <Button variant="primary" onClick={openModal4}>
                     Abrir Detalhes
                   </Button>
@@ -211,21 +211,21 @@ function Ajuda() {
               </Col>
             </Row>
 
-            <Row>
-              <Col>
+            <Row className="align-items-center mb-5">
+              <Col className="d-flex align-items-center justify-content-center">
                 <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h2>Título da Dúvida 5</h2>
-                  <p>Subtítulo da Dúvida 5</p>
+                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>PAINEL PRINCIPAL</h3>
+                  <p>Para analisar os dados do sistema de uma forma mais intuitiva</p>
                   <Button variant="primary" onClick={openModal5}>
                     Abrir Detalhes
                   </Button>
                 </div>
               </Col>
 
-              <Col>
-                <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h2>Título da Dúvida 6</h2>
-                  <p>Subtítulo da Dúvida 6</p>
+              <Col className="d-flex align-items-center justify-content-center">
+                <div className="question-box" style={{ border: "groove", borderColor: 'black', width: "80%", borderRadius: "15px" }}>
+                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>TELA DE OCORRÊNCIAS</h3>
+                  <p>Saiba agora como registrar, analisar, atualizar e excluir ocorrências</p>
                   <Button variant="primary" onClick={openModal6}>
                     Abrir Detalhes
                   </Button>
