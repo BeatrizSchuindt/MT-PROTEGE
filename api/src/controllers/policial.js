@@ -245,6 +245,16 @@ class PolicialController {
             return httpHelper.internalError(error);
         }
     }
+
+    async countPoliciais(request, response) {
+        const httpHelper = new HttpHelper(response);
+        try {
+            const countpoliciais = await PolicialModel.count();
+            return httpHelper.ok(countpoliciais);
+        } catch (error) {
+            return httpHelper.internalError(error);
+        }
+    }
 }
 
 module.exports = { PolicialController };

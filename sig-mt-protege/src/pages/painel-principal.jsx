@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Row, Col } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./styles/styles.css";
+
 import Logo from "../images/logo-definitiva-mt-protege.png";
 import IconeLogout from "../images/icone-logout.png";
 import IconePainelPrincipal from "../images/icone-painel-principal.png";
@@ -9,11 +12,28 @@ import IconePolicia from "../images/icone-policia.png";
 import IconePerfil from "../images/icone-perfil.png";
 import IconeOcorrencia from "../images/icone-ocorrencia.png";
 import IconeAjuda from "../images/icone-ajuda.png";
-import "./styles/styles.css";
+
+import { contarPoliciais } from "../services/policial-services";
 
 function PainelPrincipal() {
   const navigate = useNavigate();
-  
+
+  const [countPoliciais, setCountPoliciais] = useState([]);
+
+  useEffect(() => {
+    const fetchCountPoliciais = async () => {
+      try {
+        const responseData = await contarPoliciais();
+        setCountPoliciais(responseData.data);
+      } catch (error) {
+        console.error("Erro ao buscar contagem de policiais no componente:", error);
+      }
+    };
+
+    fetchCountPoliciais();
+  }, []);
+
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -103,7 +123,33 @@ function PainelPrincipal() {
 
         {/* CONTEÚDO DA PÁGINA */}
         <main className="col">
-          <h1>PAINEL PRINCIPAL</h1>
+          <h1 style={{ marginTop: "50px", marginLeft: "40px", marginBottom: "50px", fontSize: "350%" }}>
+            PAINEL PRINCIPAL
+          </h1>
+
+          <Row style={{ marginLeft: "30px" }}>
+            <Col>
+              <div style={{ backgroundColor: "red", color: "white", width: "20vw", height: "20vh", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <h3 style={{ marginLeft: "10px" }}>POLICIAIS CADASTRADOS</h3>
+                <p style={{ fontSize: "5vh" }}>{countPoliciais}</p>
+              </div>
+            </Col>
+
+            <Col>
+              <div style={{ backgroundColor: "green", color: "white", width: "20vw", height: "20vh", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <h3 style={{ marginLeft: "10px" }}>OCORRÊNCIAS CADASTRADAS</h3>
+                <p style={{ fontSize: "5vh" }}></p>
+              </div>
+            </Col>
+
+            <Col>
+              <div style={{ backgroundColor: "#FFD500", color: "white", width: "20vw", height: "20vh", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <h3 style={{ marginLeft: "10px" }}>OCORRÊNCIAS RESOLVIDAS</h3>
+                <p style={{ fontSize: "5vh" }}></p>
+              </div>
+            </Col>
+          </Row>
+
         </main>
       </div>
     </div>
