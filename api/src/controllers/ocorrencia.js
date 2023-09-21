@@ -219,6 +219,22 @@ class OcorrenciaController {
             return httpHelper.internalError(error);
         }
     }
+
+    async countOcorrenciasResolvidas(request, response) {
+        const httpHelper = new HttpHelper(response);
+        try {
+            const ocorrencias = await OcorrenciaModel.count({
+                where: {
+                    status_ocorrencia: {
+                        [Op.like]: 'Resolvido'
+                    }
+                }
+            });
+            return httpHelper.ok(ocorrencias);
+        } catch (error) {
+            return httpHelper.internalError(error);
+        }
+    }
 }
 
 module.exports = { OcorrenciaController };

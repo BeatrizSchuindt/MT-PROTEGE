@@ -81,3 +81,8 @@ export async function contarOcorrencias() {
     return result;
 }
 
+export async function contarOcorrenciasResolvidas() {
+    const result = await api.get('/contar-ocorrencias-resolvidas');
+
+    return result;
+}

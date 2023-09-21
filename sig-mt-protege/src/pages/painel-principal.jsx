@@ -15,12 +15,14 @@ import IconeAjuda from "../images/icone-ajuda.png";
 
 import { contarPoliciais } from "../services/policial-services";
 import { contarOcorrencias } from "../services/ocorrencia-services";
+import { contarOcorrenciasResolvidas } from "../services/ocorrencia-services";
 
 function PainelPrincipal() {
   const navigate = useNavigate();
 
   const [countPoliciais, setCountPoliciais] = useState([]);
   const [countOcorrencias, setCountOcorrencias] = useState([]);
+  const [countOcorrenciasResolvidas, setCountOcorrenciasResolvidas] = useState([]);
 
   useEffect(() => {
     const fetchCountPoliciais = async () => {
@@ -28,7 +30,10 @@ function PainelPrincipal() {
         const responseData = await contarPoliciais();
         setCountPoliciais(responseData.data);
       } catch (error) {
-        console.error("Erro ao buscar contagem de policiais no componente:", error);
+        console.error(
+          "Erro ao buscar contagem de policiais no componente:",
+          error
+        );
       }
     };
 
@@ -37,14 +42,29 @@ function PainelPrincipal() {
         const responseData = await contarOcorrencias();
         setCountOcorrencias(responseData.data);
       } catch (error) {
-        console.error("Erro ao buscar contagem de ocorrências no componente:", error);
+        console.error(
+          "Erro ao buscar contagem de ocorrências no componente:",
+          error
+        );
+      }
+    };
+
+    const fetchCountOcorrenciasResolvidas = async () => {
+      try {
+        const responseData = await contarOcorrenciasResolvidas();
+        setCountOcorrenciasResolvidas(responseData.data);
+      } catch (error) {
+        console.error(
+          "Erro ao buscar contagem de ocorrências resolvidas no componente:",
+          error
+        );
       }
     };
 
     fetchCountPoliciais();
     fetchCountOcorrencias();
+    fetchCountOcorrenciasResolvidas();
   }, []);
-
 
   return (
     <div className="container-fluid">
@@ -135,33 +155,72 @@ function PainelPrincipal() {
 
         {/* CONTEÚDO DA PÁGINA */}
         <main className="col">
-          <h1 style={{ marginTop: "50px", marginLeft: "40px", marginBottom: "50px", fontSize: "350%" }}>
+          <h1
+            style={{
+              marginTop: "50px",
+              marginLeft: "40px",
+              marginBottom: "50px",
+              fontSize: "350%",
+            }}
+          >
             PAINEL PRINCIPAL
           </h1>
 
           <Row style={{ marginLeft: "30px" }}>
             <Col>
-              <div style={{ backgroundColor: "red", color: "white", width: "20vw", height: "30vh", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <h3 style={{ marginLeft: "10px" }}>POLICIAIS CADASTRADOS</h3>
+              <div
+                style={{
+                  backgroundColor: "red",
+                  color: "white",
+                  width: "20vw",
+                  height: "30vh",
+                  alignItems: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <h3 style={{ marginLeft: "10px" }}>POLICIAIS CADASTRADOS</h3>
                 <p style={{ fontSize: "5vh" }}>{countPoliciais}</p>
               </div>
             </Col>
 
             <Col>
-              <div style={{ backgroundColor: "green", color: "white", width: "20vw", height: "30vh", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <div
+                style={{
+                  backgroundColor: "green",
+                  color: "white",
+                  width: "20vw",
+                  height: "30vh",
+                  alignItems: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
                 <h3 style={{ marginLeft: "10px" }}>OCORRÊNCIAS CADASTRADAS</h3>
                 <p style={{ fontSize: "5vh" }}>{countOcorrencias}</p>
               </div>
             </Col>
 
             <Col>
-              <div style={{ backgroundColor: "#FFD500", color: "white", width: "20vw", height: "30vh", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <div
+                style={{
+                  backgroundColor: "#FFD500",
+                  color: "white",
+                  width: "20vw",
+                  height: "30vh",
+                  alignItems: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
                 <h3 style={{ marginLeft: "10px" }}>OCORRÊNCIAS RESOLVIDAS</h3>
-                <p style={{ fontSize: "5vh" }}></p>
+                <p style={{ fontSize: "5vh" }}>{countOcorrenciasResolvidas}</p>
               </div>
             </Col>
           </Row>
-
         </main>
       </div>
     </div>
