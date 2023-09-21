@@ -25,5 +25,7 @@ routes.get('/policial/:id', authMiddleware, policialController.getPolicialID);
 routes.post('/policiais/filtro', authMiddleware, policialController.getFilter);
 routes.put('/atualizar-policial/:id', authMiddleware, policialController.update);
 routes.get('/contar-policiais', authMiddleware, policialController.countPoliciais);
+routes.get('/contar-militar', authMiddleware, policialController.countMilitar);
+routes.get('/contar-civil', authMiddleware, policialController.countCivil);
 
 module.exports = { routes };
