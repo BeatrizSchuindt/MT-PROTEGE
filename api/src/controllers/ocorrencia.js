@@ -1,6 +1,7 @@
 const { HttpHelper } = require("../utils/http-helper");
 const { OcorrenciaModel } = require("../models/ocorrencia");
 const { Validates } = require("../utils/validates");
+const Sequelize = require('sequelize');
 const { Op } = require("sequelize");
 
 class OcorrenciaController {
@@ -235,6 +236,28 @@ class OcorrenciaController {
             return httpHelper.internalError(error);
         }
     }
+
+    async countOcorrenciasPorTipo(request, response) {
+        const httpHelper = new HttpHelper(response);
+        try {
+            // Conta o número de ocorrências agrupadas por tipo_ocorrencia
+            const ocorrencias = await OcorrenciaModel.findAll({
+                attributes: ['tipo_ocorrencia', [Sequelize.fn('COUNT', Sequelize.col('tipo_ocorrencia')), 'quantidade']],
+                group: ['tipo_ocorrencia'],
+                raw: true,
+            });
+    
+            // Formata o resultado para um objeto onde a chave é o tipo_ocorrencia e o valor é a quantidade
+            const resultado = ocorrencias.reduce((acc, ocorr) => {
+                acc[ocorr.tipo_ocorrencia] = ocorr.quantidade;
+                return acc;
+            }, {});
+    
+            return httpHelper.ok(resultado);
+        } catch (error) {
+            return httpHelper.internalError(error);
+        }
+    }    
 }
 
 module.exports = { OcorrenciaController };

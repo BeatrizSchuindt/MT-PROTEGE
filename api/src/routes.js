@@ -17,6 +17,7 @@ routes.put('/atualizar-ocorrencia/:id', authMiddleware, ocorrenciaController.upd
 routes.delete('/ocorrencia/:id', authMiddleware, ocorrenciaController.delete);
 routes.get('/contar-ocorrencias', authMiddleware, ocorrenciaController.countOcorrencias);
 routes.get('/contar-ocorrencias-resolvidas', authMiddleware, ocorrenciaController.countOcorrenciasResolvidas);
+routes.get('/contar-tipo-ocorrencia', authMiddleware, ocorrenciaController.countOcorrenciasPorTipo);
 
 routes.post('/cadastro', policialController.register);
 routes.post('/login', policialController.login);
