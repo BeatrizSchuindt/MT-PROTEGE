@@ -14,11 +14,13 @@ import IconeOcorrencia from "../images/icone-ocorrencia.png";
 import IconeAjuda from "../images/icone-ajuda.png";
 
 import { contarPoliciais } from "../services/policial-services";
+import { contarOcorrencias } from "../services/ocorrencia-services";
 
 function PainelPrincipal() {
   const navigate = useNavigate();
 
   const [countPoliciais, setCountPoliciais] = useState([]);
+  const [countOcorrencias, setCountOcorrencias] = useState([]);
 
   useEffect(() => {
     const fetchCountPoliciais = async () => {
@@ -30,7 +32,17 @@ function PainelPrincipal() {
       }
     };
 
+    const fetchCountOcorrencias = async () => {
+      try {
+        const responseData = await contarOcorrencias();
+        setCountOcorrencias(responseData.data);
+      } catch (error) {
+        console.error("Erro ao buscar contagem de ocorrências no componente:", error);
+      }
+    };
+
     fetchCountPoliciais();
+    fetchCountOcorrencias();
   }, []);
 
 
@@ -129,21 +141,21 @@ function PainelPrincipal() {
 
           <Row style={{ marginLeft: "30px" }}>
             <Col>
-              <div style={{ backgroundColor: "red", color: "white", width: "20vw", height: "20vh", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                <h3 style={{ marginLeft: "10px" }}>POLICIAIS CADASTRADOS</h3>
+              <div style={{ backgroundColor: "red", color: "white", width: "20vw", height: "30vh", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <h3 style={{ marginLeft: "10px" }}>POLICIAIS CADASTRADOS</h3>
                 <p style={{ fontSize: "5vh" }}>{countPoliciais}</p>
               </div>
             </Col>
 
             <Col>
-              <div style={{ backgroundColor: "green", color: "white", width: "20vw", height: "20vh", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <div style={{ backgroundColor: "green", color: "white", width: "20vw", height: "30vh", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                 <h3 style={{ marginLeft: "10px" }}>OCORRÊNCIAS CADASTRADAS</h3>
-                <p style={{ fontSize: "5vh" }}></p>
+                <p style={{ fontSize: "5vh" }}>{countOcorrencias}</p>
               </div>
             </Col>
 
             <Col>
-              <div style={{ backgroundColor: "#FFD500", color: "white", width: "20vw", height: "20vh", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <div style={{ backgroundColor: "#FFD500", color: "white", width: "20vw", height: "30vh", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                 <h3 style={{ marginLeft: "10px" }}>OCORRÊNCIAS RESOLVIDAS</h3>
                 <p style={{ fontSize: "5vh" }}></p>
               </div>

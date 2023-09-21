@@ -209,6 +209,16 @@ class OcorrenciaController {
             return httpHelper.internalError(error);
         }
     }
+
+    async countOcorrencias(request, response) {
+        const httpHelper = new HttpHelper(response);
+        try {
+            const ocorrencias = await OcorrenciaModel.count();
+            return httpHelper.ok(ocorrencias);
+        } catch (error) {
+            return httpHelper.internalError(error);
+        }
+    }
 }
 
 module.exports = { OcorrenciaController };

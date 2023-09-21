@@ -75,4 +75,9 @@ export async function deleteOcorrencia(id) {
     return result;
 }
 
+export async function contarOcorrencias() {
+    const result = await api.get('/contar-ocorrencias');
+
+    return result;
+}
 
