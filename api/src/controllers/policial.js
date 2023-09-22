@@ -245,6 +245,48 @@ class PolicialController {
             return httpHelper.internalError(error);
         }
     }
+
+    async countPoliciais(request, response) {
+        const httpHelper = new HttpHelper(response);
+        try {
+            const countpoliciais = await PolicialModel.count();
+            return httpHelper.ok(countpoliciais);
+        } catch (error) {
+            return httpHelper.internalError(error);
+        }
+    }
+
+    async countMilitar(request, response) {
+        const httpHelper = new HttpHelper(response);
+        try {
+            const militar = await PolicialModel.count({
+                where: {
+                    jurisdicao: {
+                        [Op.like]: 'Militar'
+                    }
+                }
+            });
+            return httpHelper.ok(militar);
+        } catch (error) {
+            return httpHelper.internalError(error);
+        }
+    }
+
+    async countCivil(request, response) {
+        const httpHelper = new HttpHelper(response);
+        try {
+            const civil = await PolicialModel.count({
+                where: {
+                    jurisdicao: {
+                        [Op.like]: 'Civil'
+                    }
+                }
+            });
+            return httpHelper.ok(civil);
+        } catch (error) {
+            return httpHelper.internalError(error);
+        }
+    }
 }
 
 module.exports = { PolicialController };

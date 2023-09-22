@@ -41,3 +41,21 @@ export async function updatePolicial(data) {
     
     return result;
 }
+
+export async function contarPoliciais() {
+    const result = await api.get('/contar-policiais');
+
+    return result;
+}
+
+export async function contarMilitar() {
+    const result = await api.get('/contar-militar');
+
+    return result;
+}
+
+export async function contarCivil() {
+    const result = await api.get('/contar-civil');
+
+    return result;
+}

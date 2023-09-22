@@ -15,6 +15,9 @@ routes.get('/ocorrencias', authMiddleware, ocorrenciaController.getAll);
 routes.post('/ocorrencias/filtro', authMiddleware, ocorrenciaController.getFilter);
 routes.put('/atualizar-ocorrencia/:id', authMiddleware, ocorrenciaController.update);
 routes.delete('/ocorrencia/:id', authMiddleware, ocorrenciaController.delete);
+routes.get('/contar-ocorrencias', authMiddleware, ocorrenciaController.countOcorrencias);
+routes.get('/contar-ocorrencias-resolvidas', authMiddleware, ocorrenciaController.countOcorrenciasResolvidas);
+routes.get('/contar-tipo-ocorrencia', authMiddleware, ocorrenciaController.countOcorrenciasPorTipo);
 
 routes.post('/cadastro', policialController.register);
 routes.post('/login', policialController.login);
@@ -22,5 +25,8 @@ routes.get('/policiais', authMiddleware, policialController.getAll);
 routes.get('/policial/:id', authMiddleware, policialController.getPolicialID);
 routes.post('/policiais/filtro', authMiddleware, policialController.getFilter);
 routes.put('/atualizar-policial/:id', authMiddleware, policialController.update);
+routes.get('/contar-policiais', authMiddleware, policialController.countPoliciais);
+routes.get('/contar-militar', authMiddleware, policialController.countMilitar);
+routes.get('/contar-civil', authMiddleware, policialController.countCivil);
 
 module.exports = { routes };
