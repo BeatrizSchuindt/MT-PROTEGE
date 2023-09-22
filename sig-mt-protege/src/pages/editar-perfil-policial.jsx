@@ -161,7 +161,7 @@ function EditarPerfil() {
         </nav>
 
         {/* CONTEÚDO DA PÁGINA */}
-        <main className="col">
+        <main className="col" style={{ height: "100vh", overflowY: "auto" }}>
           <h1>EDITAR PERFIL</h1>
           <form
             className="mb-3"

@@ -125,7 +125,7 @@ function Policiais() {
         </nav>
 
         {/* CONTEÚDO DA PÁGINA */}
-        <main className="col">
+        <main className="col" style={{ height: "100vh", overflowY: "auto" }}>
           <h1
             style={{
               marginTop: "30px",
