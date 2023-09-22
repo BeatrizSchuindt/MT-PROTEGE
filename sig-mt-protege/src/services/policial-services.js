@@ -47,3 +47,15 @@ export async function contarPoliciais() {
 
     return result;
 }
+
+export async function contarMilitar() {
+    const result = await api.get('/contar-militar');
+
+    return result;
+}
+
+export async function contarCivil() {
+    const result = await api.get('/contar-civil');
+
+    return result;
+}
