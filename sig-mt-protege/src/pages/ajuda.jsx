@@ -3,18 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Modal, Button, Row, Col } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import Logo from "../images/logo-definitiva-mt-protege.png";
-import IconeLogout from "../images/icone-logout.png";
-import IconePainelPrincipal from "../images/icone-painel-principal.png";
-import IconePolicia from "../images/icone-policia.png";
-import IconePerfil from "../images/icone-perfil.png";
-import IconeOcorrencia from "../images/icone-ocorrencia.png";
-import IconeAjuda from "../images/icone-ajuda.png";
 import "./styles/styles.css";
+import Menu from "../components/menu-nav";
 
 function Ajuda() {
-  const navigate = useNavigate();
-
   const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [showModal3, setShowModal3] = useState(false);
@@ -74,103 +66,38 @@ function Ajuda() {
     <div className="container-fluid">
       <div className="row">
         {/*MENU DE NAVEGAÇÃO */}
-        <nav
-          className="custom-bg-color"
-          style={{ width: "18%", height: "100vh", position: "relative" }}
-        >
-          <div className="logo-container">
-            <img src={Logo} alt="Minha Logo" className="logo" />
-          </div>
-          <ul className="nav flex-column" style={{ width: "0%" }}>
-            <li className="nav-item" style={{}}>
-              <a className="nav-link text-light" href="/painel-principal">
-                <img
-                  src={IconePainelPrincipal}
-                  alt="Icone Painel Principal"
-                  className="icones-menu-nav"
-                />
-                PAINEL PRINCIPAL
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/policiais">
-                <img
-                  src={IconePolicia}
-                  alt="Icone Policial"
-                  className="icones-menu-nav"
-                />
-                POLICIAIS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/editar-perfilpolicial">
-                <img
-                  src={IconePerfil}
-                  alt="Icone Perfil"
-                  className="icones-menu-nav"
-                />
-                EDITAR PERFIL
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/ocorrencias">
-                <img
-                  src={IconeOcorrencia}
-                  alt="Icone Ocorrencia"
-                  className="icones-menu-nav"
-                />
-                OCORRÊNCIAS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/ajuda">
-                <img
-                  src={IconeAjuda}
-                  alt="Icone Ajuda"
-                  className="icones-menu-nav"
-                />
-                AJUDA / SUPORTE
-              </a>
-            </li>
-          </ul>
-
-          {/* SAIR DO SISTEMA com ícone */}
-          <div style={{ position: "absolute", bottom: "0", width: "90%" }}>
-            <ul className="nav flex-column">
-              <li className="nav-item">
-                <a
-                  className="nav-link text-light"
-                  onClick={() => {
-                    sessionStorage.removeItem("token");
-                    navigate("/");
-                  }}
-                >
-                  <img
-                    src={IconeLogout}
-                    alt="Icone Logout"
-                    className="icone-logout"
-                  />
-                  SAIR DO SISTEMA
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <Menu/>
 
         {/* CONTEÚDO DA PÁGINA */}
         <main className="col" style={{ height: "100vh", overflowY: "auto" }}>
-          <h1 style={{
-            marginTop: "30px", // Espaço a partir do topo
-            marginLeft: "30px", // Espaço a partir da esquerda
-            marginBottom: "50px",
-            fontSize: "320%",
-          }}>AJUDA / SUPORTE DO SISTEMA</h1>
-          <div style={{height: '100%'}}>
+          <h1
+            style={{
+              marginTop: "30px", // Espaço a partir do topo
+              marginLeft: "30px", // Espaço a partir da esquerda
+              marginBottom: "50px",
+              fontSize: "320%",
+            }}
+          >
+            AJUDA / SUPORTE DO SISTEMA
+          </h1>
+          <div style={{ height: "100%" }}>
             <Row className="align-items-center mb-5">
               <Col className="d-flex align-items-center justify-content-center">
-                <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>LOGIN</h3>
-                  <p>Caso queira acessar o sistema, é necessário possuir credenciais cadastradas</p>
+                <div
+                  className="question-box"
+                  style={{
+                    backgroundColor: "beige",
+                    width: "80%",
+                    borderRadius: "15px",
+                  }}
+                >
+                  <h3 style={{ marginTop: "10px", marginLeft: "15px" }}>
+                    LOGIN
+                  </h3>
+                  <p>
+                    Caso queira acessar o sistema, é necessário possuir
+                    credenciais cadastradas
+                  </p>
                   <Button variant="primary" onClick={openModal1}>
                     Abrir Detalhes
                   </Button>
@@ -178,21 +105,41 @@ function Ajuda() {
               </Col>
 
               <Col className="d-flex align-items-center justify-content-center">
-                <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>MENU DE NAVEGAÇÃO RÁPIDA</h3>
-                  <p>O menu que está no lado esquerdo da tela, orienta de forma simples a navegação</p>
+                <div
+                  className="question-box"
+                  style={{
+                    backgroundColor: "beige",
+                    width: "80%",
+                    borderRadius: "15px",
+                  }}
+                >
+                  <h3 style={{ marginTop: "10px", marginLeft: "15px" }}>
+                    MENU DE NAVEGAÇÃO RÁPIDA
+                  </h3>
+                  <p>
+                    O menu que está no lado esquerdo da tela, orienta de forma
+                    simples a navegação
+                  </p>
                   <Button variant="primary" onClick={openModal2}>
                     Abrir Detalhes
                   </Button>
                 </div>
               </Col>
-
             </Row>
 
             <Row className="align-items-center mb-5">
               <Col className="d-flex align-items-center justify-content-center">
-                <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>CADASTRO</h3>
+                <div
+                  className="question-box"
+                  style={{
+                    backgroundColor: "beige",
+                    width: "80%",
+                    borderRadius: "15px",
+                  }}
+                >
+                  <h3 style={{ marginTop: "10px", marginLeft: "15px" }}>
+                    CADASTRO
+                  </h3>
                   <p>Para criar uma conta no sistema, forneça seus dados</p>
                   <Button variant="primary" onClick={openModal3}>
                     Abrir Detalhes
@@ -201,9 +148,20 @@ function Ajuda() {
               </Col>
 
               <Col className="d-flex align-items-center justify-content-center">
-                <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>TELA DE POLICIAIS CADASTRADOS</h3>
-                  <p>Analise, com filtros, os policiais cadastrados no sistema</p>
+                <div
+                  className="question-box"
+                  style={{
+                    backgroundColor: "beige",
+                    width: "80%",
+                    borderRadius: "15px",
+                  }}
+                >
+                  <h3 style={{ marginTop: "10px", marginLeft: "15px" }}>
+                    TELA DE POLICIAIS CADASTRADOS
+                  </h3>
+                  <p>
+                    Analise, com filtros, os policiais cadastrados no sistema
+                  </p>
                   <Button variant="primary" onClick={openModal4}>
                     Abrir Detalhes
                   </Button>
@@ -213,9 +171,21 @@ function Ajuda() {
 
             <Row className="align-items-center mb-5">
               <Col className="d-flex align-items-center justify-content-center">
-                <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>PAINEL PRINCIPAL</h3>
-                  <p>Para analisar os dados do sistema de uma forma mais intuitiva</p>
+                <div
+                  className="question-box"
+                  style={{
+                    backgroundColor: "beige",
+                    width: "80%",
+                    borderRadius: "15px",
+                  }}
+                >
+                  <h3 style={{ marginTop: "10px", marginLeft: "15px" }}>
+                    PAINEL PRINCIPAL
+                  </h3>
+                  <p>
+                    Para analisar os dados do sistema de uma forma mais
+                    intuitiva
+                  </p>
                   <Button variant="primary" onClick={openModal5}>
                     Abrir Detalhes
                   </Button>
@@ -223,9 +193,22 @@ function Ajuda() {
               </Col>
 
               <Col className="d-flex align-items-center justify-content-center">
-                <div className="question-box" style={{ border: "groove", borderColor: 'black', width: "80%", borderRadius: "15px" }}>
-                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>TELA DE OCORRÊNCIAS</h3>
-                  <p>Saiba agora como registrar, analisar, atualizar e excluir ocorrências</p>
+                <div
+                  className="question-box"
+                  style={{
+                    border: "groove",
+                    borderColor: "black",
+                    width: "80%",
+                    borderRadius: "15px",
+                  }}
+                >
+                  <h3 style={{ marginTop: "10px", marginLeft: "15px" }}>
+                    TELA DE OCORRÊNCIAS
+                  </h3>
+                  <p>
+                    Saiba agora como registrar, analisar, atualizar e excluir
+                    ocorrências
+                  </p>
                   <Button variant="primary" onClick={openModal6}>
                     Abrir Detalhes
                   </Button>
@@ -233,7 +216,6 @@ function Ajuda() {
               </Col>
             </Row>
           </div>
-
         </main>
         <Row>
           <Col>
