@@ -1,46 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
-
-const dataBase = {
-    tipos: ["Homicídio", "Agressão", "Roubo", "Abuso Sexual", "Furto", "Vandalismo", "Fraude", "Evasão Fiscal", "Contrabando", "Cibercrime", "Corrupção", "Outros"],
-    valores: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-};
-
-let arrIndice = Object.keys(dataBase);
-let arrValues = Object.values(dataBase);
-export let data = [];
-
-for (let i = 0; i< arrValues[0].length; i++) {
-    data[i] = arrValues.map((item) => {
-        return item[i];
-    });
-}
-
-data.unshift(arrIndice);
-
-console.log(data);
-
-export const options = {
-    title: "Quantidade de ocorrências por tipo",
-    curveType: "function",
-    legend: { position: "bottom" },
-    hAxis: { format: "currency" },
-    animation: { duration: 500, easing: "linear", startup: true }
-};
-
+import { contarOcorrenciasPorTipo } from "../../services/ocorrencia-services";
 
 const ChartView = () => {
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        const fetchOcorrenciasPorTipo = async () => {
+            try {
+                const response = await contarOcorrenciasPorTipo();
+                const dataFromAPI = response.data;
+    
+                // Convert the counts to numbers
+                for (const tipo in dataFromAPI) {
+                    dataFromAPI[tipo] = parseInt(dataFromAPI[tipo]); // ou parseFloat se os valores forem decimais
+                }
+    
+                // Format data for the chart
+                const chartData = [["Tipo de Ocorrência", "Quantidade"]];
+                for (const tipo in dataFromAPI) {
+                    chartData.push([tipo, dataFromAPI[tipo]]);
+                }
+    
+                // Set the chart data in state
+                setData(chartData);
+            } catch (error) {
+                console.error("Erro ao buscar contagem de ocorrências por tipo:", error);
+            }
+        };
+    
+        fetchOcorrenciasPorTipo();
+    }, []);
+    
+
+    const options = {
+        title: "Quantidade de Ocorrências por Tipo",
+        legend: { position: "bottom" },
+        animation: { duration: 500, easing: "linear", startup: true },
+        pieHole: 0.5,
+    };
+
     return(
-        <>
+        <div>
+        {data ? (
             <Chart
                 chartType="ColumnChart"
                 width="100%"
-                height="100%"
+                height="400px"
                 data={data}
                 options={options}
                 chartLanguage="pt-BR"
             />
-        </>
+        ) : (
+            <p>Carregando dados...</p>
+        )}
+    </div>
     );
 };
 

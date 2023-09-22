@@ -86,3 +86,9 @@ export async function contarOcorrenciasResolvidas() {
 
     return result;
 }
+
+export async function contarOcorrenciasPorTipo() {
+    const result = await api.get('/contar-tipo-ocorrencia');
+
+    return result;
+}
