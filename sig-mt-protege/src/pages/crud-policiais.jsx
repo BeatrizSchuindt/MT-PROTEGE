@@ -14,6 +14,7 @@ function Policiais() {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
@@ -190,6 +191,14 @@ function Policiais() {
                 style={{ backgroundColor: "#00296B" }}
               >
                 BUSCAR
+              </button>
+
+              <button
+                className="btn btn-primary"
+                onClick={() => reset()}
+                style={{ backgroundColor: "transparent", color: "black", marginLeft: "20px" }}
+              >
+                LIMPAR FILTRO
               </button>
             </div>
           </form>

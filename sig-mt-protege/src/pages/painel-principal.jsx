@@ -82,7 +82,7 @@ function PainelPrincipal() {
             PAINEL PRINCIPAL
           </h1>
 
-          <Row style={{ marginLeft: "30px" }}>
+          <Row className= "mb-5" style={{ marginLeft: "30px" }}>
             <Col>
               <div
                 style={{
