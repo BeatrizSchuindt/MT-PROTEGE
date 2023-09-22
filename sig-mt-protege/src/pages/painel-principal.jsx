@@ -13,6 +13,9 @@ import IconePerfil from "../images/icone-perfil.png";
 import IconeOcorrencia from "../images/icone-ocorrencia.png";
 import IconeAjuda from "../images/icone-ajuda.png";
 
+import ChartView from "./graficos/ColumnChart";
+import ChartPieView from "./graficos/PieChart";
+
 import { contarPoliciais } from "../services/policial-services";
 import { contarOcorrencias } from "../services/ocorrencia-services";
 import { contarOcorrenciasResolvidas } from "../services/ocorrencia-services";
@@ -172,15 +175,15 @@ function PainelPrincipal() {
                 style={{
                   backgroundColor: "red",
                   color: "white",
-                  width: "20vw",
-                  height: "30vh",
+                  width: "23vw",
+                  height: "15vh",
                   alignItems: "center",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                 }}
               >
-                <h3 style={{ marginLeft: "10px" }}>POLICIAIS CADASTRADOS</h3>
+                <h4>POLICIAIS CADASTRADOS</h4>
                 <p style={{ fontSize: "5vh" }}>{countPoliciais}</p>
               </div>
             </Col>
@@ -190,15 +193,15 @@ function PainelPrincipal() {
                 style={{
                   backgroundColor: "green",
                   color: "white",
-                  width: "20vw",
-                  height: "30vh",
+                  width: "23vw",
+                  height: "15vh",
                   alignItems: "center",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                 }}
               >
-                <h3 style={{ marginLeft: "10px" }}>OCORRÊNCIAS CADASTRADAS</h3>
+                <h4>OCORRÊNCIAS CADASTRADAS</h4>
                 <p style={{ fontSize: "5vh" }}>{countOcorrencias}</p>
               </div>
             </Col>
@@ -208,18 +211,23 @@ function PainelPrincipal() {
                 style={{
                   backgroundColor: "#FFD500",
                   color: "white",
-                  width: "20vw",
-                  height: "30vh",
+                  width: "23vw",
+                  height: "15vh",
                   alignItems: "center",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                 }}
               >
-                <h3 style={{ marginLeft: "10px" }}>OCORRÊNCIAS RESOLVIDAS</h3>
+                <h4 style={{ marginLeft: "10px" }}>OCORRÊNCIAS RESOLVIDAS</h4>
                 <p style={{ fontSize: "5vh" }}>{countOcorrenciasResolvidas}</p>
               </div>
             </Col>
+          </Row>
+
+          <Row style={{display: "flex", flexDirection: "row", width: "100%", height: "50%"}}>
+            <Col style={{width: "50%"}}><ChartPieView/></Col>
+            <Col style={{width: "50%"}}><ChartView/></Col>
           </Row>
         </main>
       </div>
