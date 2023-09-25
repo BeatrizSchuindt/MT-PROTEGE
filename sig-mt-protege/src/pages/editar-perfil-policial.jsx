@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Toast } from "react-bootstrap";
 import { updatePolicial, getPolicialID } from "../services/policial-services";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -19,7 +18,7 @@ function EditarPerfil() {
     setValue,
   } = useForm({ mode: "onChange" });
 
-  const navigate = useNavigate();
+  const [toastShow, setToastShow] = useState(false);
 
   const [policial, setPolicial] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -29,6 +28,7 @@ function EditarPerfil() {
       console.log("Dados enviados para atualização:", data);
       const response = await updatePolicial(data);
       console.log("Resposta da atualização:", response);
+      setToastShow(true);
     } catch (error) {
       console.log("Erro na atualização:", error);
     }
@@ -75,8 +75,18 @@ function EditarPerfil() {
         <Menu />
 
         {/* CONTEÚDO DA PÁGINA */}
-        <main className="col d-flex flex-column align-items-center" style={{ height: "100vh", overflowY: "auto" }}>
-          <h1 style={{ marginTop: "30px", marginBottom: "30px", textAlign: "center", fontSize: "350%" }}>
+        <main
+          className="col d-flex flex-column align-items-center"
+          style={{ height: "100vh", overflowY: "auto" }}
+        >
+          <h1
+            style={{
+              marginTop: "30px",
+              marginBottom: "30px",
+              textAlign: "center",
+              fontSize: "350%",
+            }}
+          >
             EDITAR PERFIL
           </h1>
           <div style={{ width: "80%" }}>
@@ -616,6 +626,27 @@ function EditarPerfil() {
               </div>
             </form>
           </div>
+          <Toast
+            onClose={() => setToastShow(false)}
+            show={toastShow}
+            delay={5000}
+            autohide
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "60%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 9999,
+              width: "350px", // Largura ajustada
+              fontSize: "1.25rem", // Tamanho da fonte ajustado
+              padding: "20px", // Padding ajustado
+            }}
+          >
+            <Toast.Header style={{backgroundColor: "#FFD500"}}>
+              <strong className="mr-auto">Atualização de Perfil</strong>
+            </Toast.Header>
+            <Toast.Body>Seu perfil foi atualizado com sucesso!</Toast.Body>
+          </Toast>
         </main>
       </div>
     </div>
