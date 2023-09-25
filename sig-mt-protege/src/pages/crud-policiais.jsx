@@ -204,7 +204,7 @@ function Policiais() {
           </form>
 
           <div className="policiais-page-area" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <div className="policial-area">
+            <div className="policial-area" style={{height: "100vh", overflowY: "auto", overflowX: "auto"}}>
               {policiais && policiais.length > 0 ? (
                 <table className="table table-striped">
                   <thead className="thead-light">

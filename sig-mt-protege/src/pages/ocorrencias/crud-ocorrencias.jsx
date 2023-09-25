@@ -725,8 +725,8 @@ function Ocorrencias() {
           </Modal>
 
           {/*TABELA DE OCORRÊNCIAS*/}
-          <div className="ocorrencias-page-area">
-            <div className="ocorrencia-area">
+          <div className="ocorrencias-page-area" style={{marginLeft: "40px"}}>
+            <div className="ocorrencia-area"  style={{height: "100vh", overflowY: "auto", overflowX: "auto"}}>
               {ocorrencias && ocorrencias.length > 0 ? (
                 <table className="table table-striped">
                   <thead className="thead-light">

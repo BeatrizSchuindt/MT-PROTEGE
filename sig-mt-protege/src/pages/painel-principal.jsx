@@ -94,6 +94,7 @@ function PainelPrincipal() {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
+                  borderRadius: "40px"
                 }}
               >
                 <h4>POLICIAIS CADASTRADOS</h4>
@@ -112,6 +113,7 @@ function PainelPrincipal() {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
+                  borderRadius: "40px"
                 }}
               >
                 <h4>OCORRÊNCIAS CADASTRADAS</h4>
@@ -130,6 +132,7 @@ function PainelPrincipal() {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
+                  borderRadius: "40px"
                 }}
               >
                 <h4 style={{ marginLeft: "10px" }}>OCORRÊNCIAS RESOLVIDAS</h4>
