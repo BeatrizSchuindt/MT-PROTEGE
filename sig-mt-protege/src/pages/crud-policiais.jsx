@@ -203,7 +203,7 @@ function Policiais() {
             </div>
           </form>
 
-          <div className="policiais-page-area">
+          <div className="policiais-page-area" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <div className="policial-area">
               {policiais && policiais.length > 0 ? (
                 <table className="table table-striped">
