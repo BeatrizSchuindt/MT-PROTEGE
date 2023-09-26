@@ -47,13 +47,19 @@ function Ocorrencias() {
   };
 
   const handleDelete = async (id) => {
-    try {
-      await deleteOcorrencia(id);
-      // Remova a ocorrência excluída do estado
-      setOcorrencias(ocorrencias.filter((ocorrencia) => ocorrencia.id !== id));
-    } catch (error) {
-      console.error("Erro ao deletar a ocorrência:", error);
+    const choice = window.confirm("Tem certeza que deseja excluir?")
+    if (choice) {
+      try {
+        await deleteOcorrencia(id);
+        // Remova a ocorrência excluída do estado
+        setOcorrencias(ocorrencias.filter((ocorrencia) => ocorrencia.id !== id));
+      } catch (error) {
+        console.error("Erro ao deletar a ocorrência:", error);
+      }
+    } else {
+      return
     }
+    
   };
 
   const updatingOcorrencia = async (data) => {
