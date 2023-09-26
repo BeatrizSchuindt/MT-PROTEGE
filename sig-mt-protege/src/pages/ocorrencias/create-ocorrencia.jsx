@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Row, Col, Modal, Button, Form } from "react-bootstrap";
-
+import jwt_decode from 'jwt-decode'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/styles.css";
 
@@ -11,6 +11,13 @@ import Menu from "../../components/menu-nav";
 import { createOcorrencia } from "../../services/ocorrencia-services";
 
 function RegistrarOcorrencia() {
+  const [matricula, setMatricula] = useState("")
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const jwt_token = jwt_decode(token);
+    setMatricula(jwt_token.id)
+  }, [])
+
   const {
     handleSubmit,
     register,
@@ -23,9 +30,14 @@ function RegistrarOcorrencia() {
 
   const onSubmit = async (data) => {
     try {
-      const ocorrencia = await createOcorrencia(data);
+      console.log(data)
+      const ocorrencia = await createOcorrencia({
+        ...data, matricula_policial: matricula
+      });
       setShowModalSucesso(true);
+
     } catch (error) {
+      console.log(error)
       setError({ message: error.response.data.error });
     }
   };
@@ -63,9 +75,10 @@ function RegistrarOcorrencia() {
                     <Form.Control
                       type="text"
                       placeholder="Insira a matrícula do policial"
+                      defaultValue={matricula}
                       isInvalid={!!errors.matricula_policial}
+                      disabled
                       {...register("matricula_policial", {
-                        required: "Matrícula é obrigatória",
                         pattern: {
                           value: /^[0-9]{8}$/,
                           message: "Matrícula inválida!",
