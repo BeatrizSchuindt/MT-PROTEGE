@@ -97,8 +97,8 @@ function PainelPrincipal() {
                   borderRadius: "40px"
                 }}
               >
-                <h4>POLICIAIS CADASTRADOS</h4>
-                <p style={{ fontSize: "5vh" }}>{countPoliciais}</p>
+                <h4 style={{margin: '0'}}>POLICIAIS CADASTRADOS</h4>
+                <p style={{ fontSize: "5vh", margin: '0' }}>{countPoliciais}</p>
               </div>
             </Col>
 
@@ -116,8 +116,8 @@ function PainelPrincipal() {
                   borderRadius: "40px"
                 }}
               >
-                <h4>OCORRÊNCIAS CADASTRADAS</h4>
-                <p style={{ fontSize: "5vh" }}>{countOcorrencias}</p>
+                <h4 style={{margin: '0'}}>OCORRÊNCIAS CADASTRADAS</h4>
+                <p style={{ fontSize: "5vh", margin: '0' }}>{countOcorrencias}</p>
               </div>
             </Col>
 
@@ -135,8 +135,8 @@ function PainelPrincipal() {
                   borderRadius: "40px"
                 }}
               >
-                <h4 style={{ marginLeft: "10px" }}>OCORRÊNCIAS RESOLVIDAS</h4>
-                <p style={{ fontSize: "5vh" }}>{countOcorrenciasResolvidas}</p>
+                <h4 style={{ marginLeft: "10px", margin: '0' }}>OCORRÊNCIAS RESOLVIDAS</h4>
+                <p style={{ fontSize: "5vh", margin: '0' }}>{countOcorrenciasResolvidas}</p>
               </div>
             </Col>
           </Row>
