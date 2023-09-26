@@ -72,6 +72,11 @@ module.exports = {
       jurisdicao: {
         type: Sequelize.STRING,
         allowNull: false
+      },
+      situacao: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: "Ativo"
       }
     });
   },

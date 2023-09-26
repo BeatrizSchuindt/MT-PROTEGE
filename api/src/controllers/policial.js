@@ -103,7 +103,7 @@ class PolicialController {
             const policial = await PolicialModel.findOne({
                 where: { matricula_policial },
             });
-            if (!policial)
+            if (!policial || policial.situacao === "Inativo")
                 return httpHelper.notFound("Usuário policial não encontrado!");
             const isSenhaValida = await bcrypt.compare(senha, policial.senha);
             if (!isSenhaValida)
@@ -123,7 +123,9 @@ class PolicialController {
         const httpHelper = new HttpHelper(response);
         try {
             const policiais = await PolicialModel.findAll({
-                order: [["matricula_policial", "ASC"]], attributes: { exclude: ["id", "senha"] }
+                where: { situacao: "Ativo"},
+                order: [["matricula_policial", "ASC"]],
+                attributes: { exclude: ["id", "senha"] }
             });
 
             return httpHelper.ok(policiais);
@@ -151,7 +153,8 @@ class PolicialController {
                     },
                     unidade_policia: {
                         [Op.like]: `%${request.body.unidade_policia}%`
-                    }
+                    },
+                    situacao: { [Op.ne]: "Inativo" }
                 }, attributes: { exclude: ["id", "senha"] }
             });
 
@@ -249,7 +252,7 @@ class PolicialController {
     async countPoliciais(request, response) {
         const httpHelper = new HttpHelper(response);
         try {
-            const countpoliciais = await PolicialModel.count();
+            const countpoliciais = await PolicialModel.count({where: {situacao: "Ativo"}});
             return httpHelper.ok(countpoliciais);
         } catch (error) {
             return httpHelper.internalError(error);
@@ -263,7 +266,8 @@ class PolicialController {
                 where: {
                     jurisdicao: {
                         [Op.like]: 'Militar'
-                    }
+                    },
+                    situacao: "Ativo"
                 }
             });
             return httpHelper.ok(militar);
@@ -279,10 +283,26 @@ class PolicialController {
                 where: {
                     jurisdicao: {
                         [Op.like]: 'Civil'
-                    }
+                    },
+                    situacao: "Ativo"
                 }
             });
             return httpHelper.ok(civil);
+        } catch (error) {
+            return httpHelper.internalError(error);
+        }
+    }
+
+    async deletePolicial(request, response) {
+        const httpHelper = new HttpHelper(response);
+        try {
+            const { id } = request.params;
+            const policial = await PolicialModel.update({
+                situacao: "Inativo",
+            }, {
+                    where: { id: id }
+            })
+            return httpHelper.ok("Policial desativado com sucesso!");
         } catch (error) {
             return httpHelper.internalError(error);
         }

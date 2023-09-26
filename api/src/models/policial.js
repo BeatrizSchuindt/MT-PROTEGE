@@ -20,6 +20,7 @@ class PolicialModel extends Model {
             data_ingresso_policia: DataTypes.DATEONLY,
             unidade_policia: DataTypes.TEXT,
             jurisdicao: DataTypes.STRING,
+            situacao: DataTypes.STRING
         }, {
             tableName: 'policial',
             modelName: 'PolicialModel',

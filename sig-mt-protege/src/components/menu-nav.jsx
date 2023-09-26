@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Logo from "../images/logo-definitiva-mt-protege.png"; // Substitua pelo caminho real da sua logo
 import IconePainelPrincipal from "../images/icone-painel-principal.png"; // Substitua pelo caminho real do seu ícone
@@ -36,9 +36,7 @@ const Menu = () => {
     // Define os itens do menu com ícones e textos
     const menuItems = [
       {
-        text: "PAINEL PRINCIPAL",
-        icon: IconePainelPrincipal,
-        link: "/painel-principal",
+        text: "PAINEL PRINCIPAL", icon: IconePainelPrincipal, link: "/painel-principal",
       },
       { text: "POLICIAIS", icon: IconePolicia, link: "/policiais" },
       {
@@ -52,14 +50,14 @@ const Menu = () => {
 
     return menuItems.map((item, index) => (
       <li className="nav-item" key={index}>
-        <a className="nav-link text-light" href={item.link}>
+        <Link className="nav-link text-light" to={item.link}>
           <img
             src={item.icon}
             alt={`Ícone ${item.text}`}
             className={`icones-menu-nav ${isMobile ? "icon-mobile" : ""}`} // Adicione a classe 'icon-mobile' para ajustar o tamanho do ícone em telas menores
           />
           {!isMobile && item.text} {/* Exibe o texto apenas em telas maiores */}
-        </a>
+        </Link>
       </li>
     ));
   };

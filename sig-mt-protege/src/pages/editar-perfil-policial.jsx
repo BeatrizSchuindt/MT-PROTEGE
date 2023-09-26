@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 
 import { useForm } from "react-hook-form";
-import { Row, Col, Toast } from "react-bootstrap";
-import { updatePolicial, getPolicialID } from "../services/policial-services";
+import { useNavigate } from "react-router-dom";
+import { Row, Col, Toast, Modal, Button } from "react-bootstrap";
+import { updatePolicial, getPolicialID, deletarPolicial } from "../services/policial-services";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/styles.css";
@@ -16,12 +17,16 @@ function EditarPerfil() {
     register,
     formState: { errors, isValid },
     setValue,
+    getValues
   } = useForm({ mode: "onChange" });
 
   const [toastShow, setToastShow] = useState(false);
 
+  const navigate = useNavigate();
+
   const [policial, setPolicial] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const editProfile = async (data) => {
     try {
@@ -33,6 +38,17 @@ function EditarPerfil() {
       console.log("Erro na atualização:", error);
     }
   };
+
+  const removePolicial = async () => {
+    try {
+      const id = getValues("id");
+      console.log(id)
+      await deletarPolicial(id);
+      navigate('/');
+    } catch (error) {
+      console.log("Erro ao desativar o perfil:", error);
+    }
+  }
 
   useEffect(() => {
     const getPolicial = async () => {
@@ -73,6 +89,23 @@ function EditarPerfil() {
       <div className="row">
         {/*MENU DE NAVEGAÇÃO */}
         <Menu />
+
+        <Modal show={showDeleteModal} onHide={() => { setShowDeleteModal(false) }}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmação de Exclusão</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Tem certeza de que deseja excluir a sua conta?
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="danger" onClick={() => removePolicial()}>
+              Excluir
+            </Button>
+            <Button variant="secondary" onClick={() => { setShowDeleteModal(false) }}>
+              Cancelar
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
         {/* CONTEÚDO DA PÁGINA */}
         <main
@@ -202,9 +235,8 @@ function EditarPerfil() {
                       GÊNERO
                     </label>
                     <select
-                      className={`form-select ${
-                        errors.genero ? "is-invalid" : ""
-                      }`}
+                      className={`form-select ${errors.genero ? "is-invalid" : ""
+                        }`}
                       name="genero"
                       id="genero"
                       placeholder="Selecione"
@@ -487,9 +519,8 @@ function EditarPerfil() {
                       JURISDIÇÃO
                     </label>
                     <select
-                      className={`form-select ${
-                        errors.jurisdicao ? "is-invalid" : ""
-                      }`}
+                      className={`form-select ${errors.jurisdicao ? "is-invalid" : ""
+                        }`}
                       name="jurisdicao"
                       id="jurisdicao"
                       placeholder="Selecione a jurisdição"
@@ -623,6 +654,16 @@ function EditarPerfil() {
                 >
                   ATUALIZAR
                 </button>
+                <button
+                  className="btn btn-danger mt-4"
+                  style={{
+                    fontSize: "25px",
+                    cursor: "pointer",
+                    marginLeft: "50px"
+                  }}
+                  onClick={() => { setShowDeleteModal(true) }}>
+                  DESATIVAR CONTA
+                </button>
               </div>
             </form>
           </div>
@@ -637,12 +678,12 @@ function EditarPerfil() {
               left: "60%",
               transform: "translate(-50%, -50%)",
               zIndex: 9999,
-              width: "350px", 
-              fontSize: "1.25rem", 
+              width: "350px",
+              fontSize: "1.25rem",
               padding: "20px",
             }}
           >
-            <Toast.Header style={{backgroundColor: "#FFD500"}}>
+            <Toast.Header style={{ backgroundColor: "#FFD500" }}>
               <strong className="mr-auto">Atualização de Perfil</strong>
             </Toast.Header>
             <Toast.Body>Seu perfil foi atualizado com sucesso!</Toast.Body>
