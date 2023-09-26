@@ -24,6 +24,7 @@ function Cadastro() {
     try {
       const policial = await cadastroPolicial(data);
       navigate("/painel-principal");
+      window.location.reload(true);
     } catch (error) {
       setError({ message: error.response.data.error });
     }

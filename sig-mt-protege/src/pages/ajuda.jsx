@@ -195,8 +195,7 @@ function Ajuda() {
                 <div
                   className="question-box"
                   style={{
-                    border: "groove",
-                    borderColor: "black",
+                    backgroundColor: 'beige',
                     width: "80%",
                     borderRadius: "15px",
                   }}

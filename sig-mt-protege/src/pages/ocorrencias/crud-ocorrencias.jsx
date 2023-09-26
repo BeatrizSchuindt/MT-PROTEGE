@@ -34,6 +34,8 @@ function Ocorrencias() {
   const [selectedOcorrencia, setSelectedOcorrencia] = useState(null);
   const [error, setError] = useState(null);
   const [isUpdating, setIsUpdating] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletingOcorrencia, setDeletingOcorrencia] = useState(null);
 
   //submit de read de ocorrências - COM OU SEM FILTRO
   const onSubmit = async (data) => {
@@ -46,20 +48,28 @@ function Ocorrencias() {
     }
   };
 
-  const handleDelete = async (id) => {
-    const choice = window.confirm("Tem certeza que deseja excluir?")
-    if (choice) {
+  const showDeleteConfirmation = (ocorrencia) => {
+    setDeletingOcorrencia(ocorrencia);
+    setShowDeleteModal(true);
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
+    setDeletingOcorrencia(null);
+  };
+
+  const confirmDelete = async () => {
+    if (deletingOcorrencia) {
       try {
-        await deleteOcorrencia(id);
+        await deleteOcorrencia(deletingOcorrencia.id);
         // Remova a ocorrência excluída do estado
-        setOcorrencias(ocorrencias.filter((ocorrencia) => ocorrencia.id !== id));
+        setOcorrencias(ocorrencias.filter((ocorrencia) => ocorrencia.id !== deletingOcorrencia.id));
+        setShowDeleteModal(false);
+        setDeletingOcorrencia(null);
       } catch (error) {
         console.error("Erro ao deletar a ocorrência:", error);
       }
-    } else {
-      return
     }
-    
   };
 
   const updatingOcorrencia = async (data) => {
@@ -123,7 +133,7 @@ function Ocorrencias() {
     <div className="container-fluid">
       <div className="row">
         {/*MENU DE NAVEGAÇÃO */}
-        <Menu/>
+        <Menu />
 
         {/* CONTEÚDO DA PÁGINA */}
         <main className="col" style={{ height: "100vh", overflowY: "auto" }}>
@@ -731,8 +741,8 @@ function Ocorrencias() {
           </Modal>
 
           {/*TABELA DE OCORRÊNCIAS*/}
-          <div className="ocorrencias-page-area" style={{marginLeft: "40px"}}>
-            <div className="ocorrencia-area"  style={{height: "100vh", overflowY: "auto", overflowX: "auto"}}>
+          <div className="ocorrencias-page-area" style={{ marginLeft: "40px" }}>
+            <div className="ocorrencia-area" style={{ height: "100vh", overflowY: "auto", overflowX: "auto" }}>
               {ocorrencias && ocorrencias.length > 0 ? (
                 <table className="table table-striped">
                   <thead className="thead-light">
@@ -814,17 +824,17 @@ function Ocorrencias() {
                         </td>
                         <td className="text-center">
                           <button
+                            onClick={() => showDeleteConfirmation(ocorrencia)}
                             style={{
                               backgroundColor: "red",
                               border: "none",
                               borderRadius: "100px",
                             }}
-                            onClick={() => handleDelete(ocorrencia.id)}
                           >
                             <img
                               className="ocorrencia-row-icon"
                               src={IconeExcluir}
-                              alt="Ícone Deletar ocorrencia"
+                              alt="Ícone Deletar ocorrência"
                             />
                           </button>
                         </td>
@@ -837,6 +847,22 @@ function Ocorrencias() {
               )}
             </div>
           </div>
+          <Modal show={showDeleteModal} onHide={cancelDelete}>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirmação de Exclusão</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Tem certeza de que deseja excluir a ocorrência selecionada?
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="danger" onClick={confirmDelete}>
+                Excluir
+              </Button>
+              <Button variant="secondary" onClick={cancelDelete}>
+                Cancelar
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </main>
       </div>
     </div>

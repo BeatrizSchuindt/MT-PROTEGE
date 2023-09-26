@@ -24,6 +24,7 @@ function Login() {
     try {
       const policial = await loginPolicial(data);
       navigate("/painel-principal");
+      window.location.reload(true);
     } catch (error) {
       setError({ message: error.response.data.error });
     }
