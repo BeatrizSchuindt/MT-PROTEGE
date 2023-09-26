@@ -14,16 +14,17 @@ function RegistrarOcorrencia() {
   const {
     handleSubmit,
     register,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({ mode: "onChange" });
 
   const [error, setError] = useState();
+  const [showModalSucesso, setShowModalSucesso] = useState(false)
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
       const ocorrencia = await createOcorrencia(data);
-      navigate("/ocorrencias");
+      setShowModalSucesso(true);
     } catch (error) {
       setError({ message: error.response.data.error });
     }
@@ -33,7 +34,7 @@ function RegistrarOcorrencia() {
     <div className="container-fluid">
       <div className="row">
         {/*MENU DE NAVEGAÇÃO */}
-        <Menu/>
+        <Menu />
 
         {/* CONTEÚDO DA PÁGINA */}
         <main className="col">
@@ -411,6 +412,17 @@ function RegistrarOcorrencia() {
               </Row>
             </Form>
           </div>
+          <Modal show={showModalSucesso}>
+            <Modal.Header>
+              <Modal.Title>REGISTRADA!</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Essa ocorrência foi registrada com sucesso!</Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={() => navigate('/ocorrencias')}>
+                Voltar para OCORRÊNCIAS
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </main>
       </div>
     </div>

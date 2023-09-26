@@ -637,9 +637,9 @@ function EditarPerfil() {
               left: "60%",
               transform: "translate(-50%, -50%)",
               zIndex: 9999,
-              width: "350px", // Largura ajustada
-              fontSize: "1.25rem", // Tamanho da fonte ajustado
-              padding: "20px", // Padding ajustado
+              width: "350px", 
+              fontSize: "1.25rem", 
+              padding: "20px",
             }}
           >
             <Toast.Header style={{backgroundColor: "#FFD500"}}>
