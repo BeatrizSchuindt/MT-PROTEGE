@@ -81,6 +81,7 @@ function Ocorrencias() {
     try {
       await updateOcorrencia(data);
       setIsUpdating(null);
+      window.location.reload(true);
     } catch (error) {
       console.log(error);
     }

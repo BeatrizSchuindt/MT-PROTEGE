@@ -30,9 +30,7 @@ function EditarPerfil() {
 
   const editProfile = async (data) => {
     try {
-      console.log("Dados enviados para atualização:", data);
-      const response = await updatePolicial(data);
-      console.log("Resposta da atualização:", response);
+      await updatePolicial(data);
       setToastShow(true);
     } catch (error) {
       console.log("Erro na atualização:", error);
@@ -57,7 +55,6 @@ function EditarPerfil() {
       try {
         const result = await getPolicialID(jwt_token.id);
         setPolicial(result.data);
-        console.log(result);
         setValue("senha", result.data.senha);
         setValue("nome_completo", result.data.nome_completo);
         setValue("data_nascimento", result.data.data_nascimento);
@@ -655,13 +652,17 @@ function EditarPerfil() {
                   ATUALIZAR
                 </button>
                 <button
+                  type="button"
                   className="btn btn-danger mt-4"
                   style={{
                     fontSize: "25px",
                     cursor: "pointer",
                     marginLeft: "50px"
                   }}
-                  onClick={() => { setShowDeleteModal(true) }}>
+                  onClick={() => {
+                    setShowDeleteModal(true)
+                    setToastShow(false);
+                  }}>
                   DESATIVAR CONTA
                 </button>
               </div>
