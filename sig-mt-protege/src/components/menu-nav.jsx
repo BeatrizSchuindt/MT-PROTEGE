@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Toast } from "react-bootstrap";
 
 import Logo from "../images/logo-definitiva-mt-protege.png"; // Substitua pelo caminho real da sua logo
 import IconePainelPrincipal from "../images/icone-painel-principal.png"; // Substitua pelo caminho real do seu ícone
@@ -14,6 +15,7 @@ import "../pages/styles/styles.css"; // Substitua pelo nome real do seu arquivo 
 const Menu = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
+  const [toastSaindoShow, setToastSaindoShow] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,48 +65,75 @@ const Menu = () => {
   };
 
   return (
-    <nav
-      className="custom-bg-color"
-      style={{ width: "18%", height: "100vh", position: "relative" }}
-    >
-      <div className="logo-container">
-        <img src={Logo} alt="Minha Logo" className="logo" />
-      </div>
-      <ul className="nav flex-column" style={{ width: "100%" }}>
-        {getMenuItems()}
-      </ul>
+    <>
+      <nav
+        className="custom-bg-color"
+        style={{ width: "18%", height: "100vh", position: "relative" }}
+      >
+        <div className="logo-container">
+          <img src={Logo} alt="Minha Logo" className="logo" />
+        </div>
+        <ul className="nav flex-column" style={{ width: "100%" }}>
+          {getMenuItems()}
+        </ul>
 
-      {/* SAIR DO SISTEMA com ícone */}
-      <div style={{ position: "absolute", bottom: "0", width: "100%" }}>
-        <ul className="nav flex-column">
-          <li className="nav-item">
-            <a
-              className={`nav-link text-light`}
-              onClick={() => {
-                sessionStorage.removeItem("token");
-                navigate("/");
-              }}
-            >
-              {isMobile ? (
-                <img
-                  src={IconeLogout}
-                  alt="Ícone Logout"
-                  className={`icon-menu icon-mobile`} // Adicione a classe 'icon-mobile' para ajustar o tamanho do ícone em telas menores
-                />
-              ) : (
-                <>
+        {/* SAIR DO SISTEMA com ícone */}
+        <div style={{ position: "absolute", bottom: "0", width: "100%" }}>
+          <ul className="nav flex-column">
+            <li className="nav-item">
+              <a
+                className={`nav-link text-light`}
+                onClick={() => {
+                  sessionStorage.removeItem("token");
+                  setToastSaindoShow(true);
+                  setTimeout(() => {
+                    navigate("/");
+                  }, 2000);
+                }}
+              >
+                {isMobile ? (
                   <img
                     src={IconeLogout}
-                    alt="Ícone Logout"// Não adicione a classe 'icon-mobile' para ajustar o tamanho do ícone em telas maiores
+                    alt="Ícone Logout"
+                    className={`icon-menu icon-mobile`} // Adicione a classe 'icon-mobile' para ajustar o tamanho do ícone em telas menores
                   />
-                  SAIR DO SISTEMA
-                </>
-              )}
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+                ) : (
+                  <>
+                    <img
+                      src={IconeLogout}
+                      alt="Ícone Logout"// Não adicione a classe 'icon-mobile' para ajustar o tamanho do ícone em telas maiores
+                    />
+                    SAIR DO SISTEMA
+                  </>
+                )}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <Toast
+            onClose={() => setToastSaindoShow(false)}
+            show={toastSaindoShow}
+            delay={3000}
+            autohide
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "60%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 9999,
+              width: "500px",
+              height: "250px",
+              fontSize: "1.25rem",
+              padding: "20px",
+            }}
+          >
+            <Toast.Header style={{ backgroundColor: "red" }}>
+              <strong className="mr-auto" style={{color: 'white', fontSize:'1.5rem'}}>SAINDO DO SISTEMA...</strong>
+            </Toast.Header>
+            <Toast.Body style={{textAlign: 'center', fontSize:'1.5rem', justifyContent: 'center'}}>Um até logo!</Toast.Body>
+          </Toast>
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Row, Col, Modal, Button, Form } from "react-bootstrap";
+import { Row, Col, Modal, Toast, Button, Form } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/styles.css";
@@ -26,6 +26,8 @@ function Ocorrencias() {
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
 
+  const [toastUpdateShow, setToastUpdateShow] = useState(false);
+  const [toastDeleteShow, setToastDeleteShow] = useState(false);
   const navigate = useNavigate();
 
   //declarando estados dos componentes
@@ -66,6 +68,7 @@ function Ocorrencias() {
         setOcorrencias(ocorrencias.filter((ocorrencia) => ocorrencia.id !== deletingOcorrencia.id));
         setShowDeleteModal(false);
         setDeletingOcorrencia(null);
+        setToastDeleteShow(true);
       } catch (error) {
         console.error("Erro ao deletar a ocorrência:", error);
       }
@@ -81,7 +84,10 @@ function Ocorrencias() {
     try {
       await updateOcorrencia(data);
       setIsUpdating(null);
-      window.location.reload(true);
+      setToastUpdateShow(true);
+      setTimeout(() => {
+        window.location.reload(true);
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
@@ -336,7 +342,7 @@ function Ocorrencias() {
               </Row>
             </div>
 
-            {error && <p className="text-danger" style={{textAlign:'center', marginTop:'10px', fontSize:'25px'}}>ERRO INTERNO: {error}</p>}
+            {error && <p className="text-danger" style={{ textAlign: 'center', marginTop: '10px', fontSize: '25px' }}>ERRO INTERNO: {error}</p>}
 
             <div
               style={{ width: "90%", marginLeft: "40px", paddingTop: "15px" }}
@@ -844,7 +850,7 @@ function Ocorrencias() {
                   </tbody>
                 </table>
               ) : (
-                <p className="text-center">NENHUMA OCORRÊNCIA ENCONTRADA</p>
+                <p className="text-center" style={{fontSize:'1.5rem'}}>NENHUMA OCORRÊNCIA ENCONTRADA</p>
               )}
             </div>
           </div>
@@ -864,6 +870,50 @@ function Ocorrencias() {
               </Button>
             </Modal.Footer>
           </Modal>
+
+          <Toast
+            onClose={() => setToastUpdateShow(false)}
+            show={toastUpdateShow}
+            delay={3000}
+            autohide
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "60%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 9999,
+              width: "350px",
+              fontSize: "1.25rem",
+              padding: "20px",
+            }}
+          >
+            <Toast.Header style={{ backgroundColor: "blue" }}>
+              <strong className="mr-auto" style={{color: 'white'}}>OCORRÊNCIA ATUALIZADA</strong>
+            </Toast.Header>
+            <Toast.Body>Sua ocorrência foi atualizada com sucesso!</Toast.Body>
+          </Toast>
+
+          <Toast
+            onClose={() => setToastDeleteShow(false)}
+            show={toastDeleteShow}
+            delay={3000}
+            autohide
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "60%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 9999,
+              width: "350px",
+              fontSize: "1.25rem",
+              padding: "20px",
+            }}
+          >
+            <Toast.Header style={{ backgroundColor: "red" }}>
+              <strong className="mr-auto" style={{color: 'white'}}>OCORRÊNCIA DELETADA</strong>
+            </Toast.Header>
+            <Toast.Body>Sua ocorrência foi DELETADA com sucesso!</Toast.Body>
+          </Toast>
         </main>
       </div>
     </div>

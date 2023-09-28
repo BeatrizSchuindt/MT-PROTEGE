@@ -251,7 +251,7 @@ function Policiais() {
                   </tbody>
                 </table>
               ) : (
-                <p className="text-center">
+                <p className="text-center" style={{fontSize:'1.5rem'}}>
                   NENHUM POLICIAL ENCONTRADO
                 </p>
               )}

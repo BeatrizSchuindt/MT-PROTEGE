@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Toast } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/styles.css";
@@ -17,14 +18,19 @@ function Cadastro() {
     register,
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
+
+  const [toastSucessoShow, setToastSucessoShow] = useState(false);
   const [error, setError] = useState();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
       const policial = await cadastroPolicial(data);
-      navigate("/painel-principal");
-      window.location.reload(true);
+      setToastSucessoShow(true);
+      setTimeout(() => {
+        navigate("/painel-principal");
+        window.location.reload(true);
+      }, 2000);
     } catch (error) {
       setError({ message: error.response.data.error });
     }
@@ -36,7 +42,7 @@ function Cadastro() {
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
-        flexDirection: "column", 
+        flexDirection: "column",
         justifyContent: "center",// Mudança aqui para organizar elementos verticalmente
       }}
     >
@@ -508,9 +514,8 @@ function Cadastro() {
                   JURISDIÇÃO
                 </label>
                 <select
-                  className={`form-select ${
-                    errors.jurisdicao ? "is-invalid" : ""
-                  }`}
+                  className={`form-select ${errors.jurisdicao ? "is-invalid" : ""
+                    }`}
                   name="jurisdicao"
                   id="jurisdicao"
                   placeholder="Selecione a jurisdição"
@@ -629,7 +634,7 @@ function Cadastro() {
               </div>
             </Col>
           </Row>
-          {error && <p className="text-center" style={{color: "red", fontSize: "20px"}}>{error.message}</p>}
+          {error && <p className="text-center" style={{ color: "red", fontSize: "20px" }}>{error.message}</p>}
           <div className="d-flex justify-content-center">
             <button
               type="submit"
@@ -642,6 +647,28 @@ function Cadastro() {
           </div>
         </form>
       </Container>
+      <Toast
+        onClose={() => setToastSucessoShow(false)}
+        show={toastSucessoShow}
+        delay={3000}
+        autohide
+        style={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 9999,
+          width: "500px",
+          height: "250px",
+          fontSize: "1.25rem",
+          padding: "20px",
+        }}
+      >
+        <Toast.Header style={{ backgroundColor: "blue" }}>
+          <strong className="mr-auto" style={{ color: 'white', fontSize: '1.5rem' }}>VOCÊ FOI CADASTRADO NO SISTEMA!</strong>
+        </Toast.Header>
+        <Toast.Body style={{ textAlign: 'center', fontSize: '1.5rem', justifyContent: 'center' }}>Seu cadastro foi efetuado com sucesso!</Toast.Body>
+      </Toast>
     </div>
   );
 }

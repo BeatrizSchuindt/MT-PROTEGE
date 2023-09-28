@@ -27,6 +27,7 @@ function EditarPerfil() {
   const [policial, setPolicial] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showModalSucesso, setShowModalSucesso] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const editProfile = async (data) => {
@@ -44,7 +45,7 @@ function EditarPerfil() {
       const id = getValues("id");
       console.log(id)
       await deletarPolicial(id);
-      navigate('/');
+      setShowModalSucesso(true);
     } catch (error) {
       console.log("Erro ao desativar o perfil:", error);
     }
@@ -642,7 +643,7 @@ function EditarPerfil() {
                 </Col>
               </Row>
 
-              {error && <p className="text-danger" style={{textAlign:'center', marginTop:'10px', fontSize:'25px'}}>ERRO INTERNO: {error}</p>}
+              {error && <p className="text-danger" style={{ textAlign: 'center', marginTop: '10px', fontSize: '25px' }}>ERRO INTERNO: {error}</p>}
 
               <div className="d-flex justify-content-center">
                 <button
@@ -695,6 +696,18 @@ function EditarPerfil() {
             </Toast.Header>
             <Toast.Body>Seu perfil foi atualizado com sucesso!</Toast.Body>
           </Toast>
+
+          <Modal show={showModalSucesso}>
+            <Modal.Header>
+              <Modal.Title>DESATIVADA!</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Sua conta no sistema foi desativada com sucesso!</Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={() => navigate('/')}>
+                SAIR DO SISTEMA
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </main>
       </div>
     </div>
