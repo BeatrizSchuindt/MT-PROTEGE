@@ -181,7 +181,7 @@ function Policiais() {
               </Row>
             </div>
 
-            {error && <p className="text-danger">{error}</p>}
+            {error && <p className="text-danger" style={{textAlign:'center', marginTop:'10px', fontSize:'25px'}}>ERRO INTERNO: {error}</p>}
 
             <div className="d-flex justify-content-center p-3">
               <button

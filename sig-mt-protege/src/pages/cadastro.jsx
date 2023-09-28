@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/styles.css";
 import "./styles/styles-cadastro.css";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import Logo from "../images/logo-definitiva-mt-protege.png";
 import IconeVoltar from "../images/icone-voltar.png";
 
@@ -629,6 +629,7 @@ function Cadastro() {
               </div>
             </Col>
           </Row>
+          {error && <p className="text-center" style={{color: "red", fontSize: "20px"}}>{error.message}</p>}
           <div className="d-flex justify-content-center">
             <button
               type="submit"
@@ -636,7 +637,7 @@ function Cadastro() {
               disabled={!isValid}
               style={{ backgroundColor: "#19A800", fontSize: "25px" }}
             >
-              ENTRAR
+              CADASTRAR
             </button>
           </div>
         </form>

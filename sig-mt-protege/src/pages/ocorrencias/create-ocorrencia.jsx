@@ -35,10 +35,9 @@ function RegistrarOcorrencia() {
         ...data, matricula_policial: matricula
       });
       setShowModalSucesso(true);
-
     } catch (error) {
       console.log(error)
-      setError({ message: error.response.data.error });
+      setError(error.message);
     }
   };
 
@@ -411,7 +410,9 @@ function RegistrarOcorrencia() {
                   </Form.Group>
                 </Col>
               </Row>
-
+              
+              {error && <p className="text-danger" style={{textAlign:'center', marginTop:'10px', fontSize:'25px'}}>ERRO INTERNO: {error}</p>}
+              
               <Row>
                 <Col>
                   <Button

@@ -17,6 +17,7 @@ import { contarOcorrenciasResolvidas } from "../services/ocorrencia-services";
 function PainelPrincipal() {
   const navigate = useNavigate();
 
+  const [error, setError] = useState(null);
   const [countPoliciais, setCountPoliciais] = useState([]);
   const [countOcorrencias, setCountOcorrencias] = useState([]);
   const [countOcorrenciasResolvidas, setCountOcorrenciasResolvidas] = useState([]);
@@ -31,6 +32,7 @@ function PainelPrincipal() {
           "Erro ao buscar contagem de policiais no componente:",
           error
         );
+        setError(error.message);
       }
     };
 
@@ -43,6 +45,7 @@ function PainelPrincipal() {
           "Erro ao buscar contagem de ocorrências no componente:",
           error
         );
+        setError(error.message);
       }
     };
 
@@ -55,6 +58,7 @@ function PainelPrincipal() {
           "Erro ao buscar contagem de ocorrências resolvidas no componente:",
           error
         );
+        setError(error.message);
       }
     };
 
@@ -81,6 +85,8 @@ function PainelPrincipal() {
           >
             PAINEL PRINCIPAL
           </h1>
+
+          {error && <p className="text-danger" style={{textAlign:'center', fontSize:'25px', marginBottom: '25px'}}>ERRO INTERNO: {error}</p>}
 
           <Row className= "mb-5" style={{ marginLeft: "30px" }}>
             <Col>

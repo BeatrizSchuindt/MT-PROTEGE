@@ -34,7 +34,7 @@ const ChartView = () => {
     
 
     const options = {
-        title: "Quantidade de Ocorrências por Tipo",
+        title: "QUANTIDADE DE OCORRÊNCIA POR TIPO",
         legend: { position: "bottom" },
         animation: { duration: 500, easing: "linear", startup: true },
         pieHole: 0.5,

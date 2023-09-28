@@ -336,7 +336,7 @@ function Ocorrencias() {
               </Row>
             </div>
 
-            {error && <p className="text-danger">{error}</p>}
+            {error && <p className="text-danger" style={{textAlign:'center', marginTop:'10px', fontSize:'25px'}}>ERRO INTERNO: {error}</p>}
 
             <div
               style={{ width: "90%", marginLeft: "40px", paddingTop: "15px" }}
@@ -733,7 +733,7 @@ function Ocorrencias() {
                 </Row>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant='primary' type='submit'>Editar</Button>
+                <Button variant='primary' type='submit'>Atualizar</Button>
                 <Button variant="outline" onClick={handleClose}>
                   Fechar
                 </Button>

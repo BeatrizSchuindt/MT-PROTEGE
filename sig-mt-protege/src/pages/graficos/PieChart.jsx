@@ -3,6 +3,7 @@ import { Chart } from "react-google-charts";
 import { contarCivil, contarMilitar } from "../../services/policial-services";
 
 const ChartPieView = () => {
+    const [dado, setDado] = useState(null);
     const [countCivil, setCountCivil] = useState(0); // Inicializado com 0
     const [countMilitar, setCountMilitar] = useState(0); // Inicializado com 0
 
@@ -11,6 +12,7 @@ const ChartPieView = () => {
             try {
                 const responseData = await contarCivil();
                 setCountCivil(responseData.data);
+                setDado(true);
             } catch (error) {
                 console.error(
                     "Erro ao buscar contagem de policiais civis no componente:",
@@ -52,14 +54,18 @@ const ChartPieView = () => {
 
     return (
         <div>
-            <Chart
-                chartType="PieChart"
-                width="100%"
-                height="400px"
-                data={data}
-                options={options}
-                chartLanguage="pt-BR"
-            />
+            {dado ? (
+                <Chart
+                    chartType="PieChart"
+                    width="100%"
+                    height="400px"
+                    data={data}
+                    options={options}
+                    chartLanguage="pt-BR"
+                />
+            ) : (
+                <p>Carregando dados...</p>
+            )}
         </div>
     );
 };

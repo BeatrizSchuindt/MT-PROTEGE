@@ -25,6 +25,7 @@ function EditarPerfil() {
   const navigate = useNavigate();
 
   const [policial, setPolicial] = useState(null);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -34,6 +35,7 @@ function EditarPerfil() {
       setToastShow(true);
     } catch (error) {
       console.log("Erro na atualização:", error);
+      setError(error.message);
     }
   };
 
@@ -119,6 +121,7 @@ function EditarPerfil() {
           >
             EDITAR PERFIL
           </h1>
+
           <div style={{ width: "80%" }}>
             <form
               className="mb-3"
@@ -638,6 +641,9 @@ function EditarPerfil() {
                   </div>
                 </Col>
               </Row>
+
+              {error && <p className="text-danger" style={{textAlign:'center', marginTop:'10px', fontSize:'25px'}}>ERRO INTERNO: {error}</p>}
+
               <div className="d-flex justify-content-center">
                 <button
                   type="submit"
