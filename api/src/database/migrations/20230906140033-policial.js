@@ -31,7 +31,8 @@ module.exports = {
       },
       cpf_policial: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       rg_policial: {
         type: Sequelize.STRING,
