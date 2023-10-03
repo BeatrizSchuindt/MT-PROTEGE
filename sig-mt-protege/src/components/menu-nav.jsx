@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Toast, Modal, Button } from "react-bootstrap";
+import { Toast, Modal, Button, Row, Col } from "react-bootstrap";
 
-import Logo from "../images/logo-definitiva-mt-protege.png"; // Substitua pelo caminho real da sua logo
-import IconePainelPrincipal from "../images/icone-painel-principal.png"; // Substitua pelo caminho real do seu ícone
-import IconePolicia from "../images/icone-policia.png"; // Substitua pelo caminho real do seu ícone
-import IconePerfil from "../images/icone-perfil.png"; // Substitua pelo caminho real do seu ícone
-import IconeOcorrencia from "../images/icone-ocorrencia.png"; // Substitua pelo caminho real do seu ícone
-import IconeAjuda from "../images/icone-ajuda.png"; // Substitua pelo caminho real do seu ícone
-import IconeLogout from "../images/icone-logout.png"; // Substitua pelo caminho real do seu ícone
+import Logo from "../images/logo-definitiva-mt-protege.png"; 
+import IconeAvisoLogout from '../images/icone-aviso.png';
+import IconePainelPrincipal from "../images/icone-painel-principal.png"; 
+import IconePolicia from "../images/icone-policia.png"; 
+import IconePerfil from "../images/icone-perfil.png"; 
+import IconeOcorrencia from "../images/icone-ocorrencia.png"; 
+import IconeAjuda from "../images/icone-ajuda.png"; 
+import IconeLogout from "../images/icone-logout.png"; 
 
-import "../pages/styles/styles.css"; // Substitua pelo nome real do seu arquivo de estilos
+import "../pages/styles/styles.css"; 
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -20,23 +21,19 @@ const Menu = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Define 768 como limite para telas móveis, você pode ajustar conforme necessário
+      setIsMobile(window.innerWidth <= 768); 
     };
 
-    // Registra um listener de redimensionamento para verificar se a tela é móvel ou não
     window.addEventListener("resize", handleResize);
 
-    // Verifica o tamanho da tela quando o componente é montado
     handleResize();
 
-    // Remove o listener de redimensionamento quando o componente é desmontado
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   const getMenuItems = () => {
-    // Define os itens do menu com ícones e textos
     const menuItems = [
       {
         text: "PAINEL PRINCIPAL", icon: IconePainelPrincipal, link: "/painel-principal",
@@ -57,9 +54,9 @@ const Menu = () => {
           <img
             src={item.icon}
             alt={`Ícone ${item.text}`}
-            className={`icones-menu-nav ${isMobile ? "icon-mobile" : ""}`} // Adicione a classe 'icon-mobile' para ajustar o tamanho do ícone em telas menores
+            className={`icones-menu-nav ${isMobile ? "icon-mobile" : ""}`} 
           />
-          {!isMobile && item.text} {/* Exibe o texto apenas em telas maiores */}
+          {!isMobile && item.text} 
         </Link>
       </li>
     ));
@@ -110,15 +107,31 @@ const Menu = () => {
       </nav>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Confirmação</Modal.Title>
+          <Modal.Title>
+            <Row className="align-items-center">
+              <Col xs="auto">
+                    <img
+                      src={IconeAvisoLogout}
+                      alt="Icone Aviso Logout"
+                      style={{ width: '64px' }}
+                    />
+                  </Col>
+                  <Col>
+                    <p className="mb-0">SAIR DO SISTEMA</p>
+              </Col>
+            </Row>
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>Deseja realmente sair do sistema?</Modal.Body>
+        <Modal.Body>
+          <p style={{ fontSize: '1.3rem' }}>Deseja realmente sair do sistema?</p>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>
             Não
           </Button>
-          <Button variant="primary" onClick={() => {
+          <Button variant="danger" onClick={() => {
             sessionStorage.removeItem("token");
+            setShowModal(false)
             setToastSaindoShow(true);
             setTimeout(() => {
               navigate("/");
@@ -136,14 +149,15 @@ const Menu = () => {
         autohide
         style={{
           position: "fixed",
-          top: "50%",
-          left: "60%",
-          transform: "translate(-50%, -50%)",
-          zIndex: 9999,
-          width: "500px",
-          height: "250px",
-          fontSize: "1.25rem",
-          padding: "20px",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 9999,
+              width: "400px",
+              fontSize: "1.5rem",
+              padding: "20px",
+              backgroundColor: "#FFFFFF", 
+              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
         }}
       >
         <Toast.Header style={{ backgroundColor: "red" }}>
