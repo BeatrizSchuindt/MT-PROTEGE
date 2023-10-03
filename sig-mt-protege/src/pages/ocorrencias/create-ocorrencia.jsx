@@ -35,7 +35,7 @@ function RegistrarOcorrencia() {
   const onSubmit = async (data) => {
     try {
       console.log(data)
-      const ocorrencia = await createOcorrencia({
+      await createOcorrencia({
         ...data, matricula_policial: matricula
       });
       setShowModalSucesso(true);

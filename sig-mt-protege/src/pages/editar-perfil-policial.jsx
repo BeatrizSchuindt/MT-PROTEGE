@@ -10,6 +10,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/styles.css";
 
 import IconeSemConexao from '../images/icone-erro-500.png';
+import IconeAvisoSair from '../images/icone-aviso.png';
+import IconeDesativada from '../images/icone-sucesso-desativada.png';
 
 import Menu from "../components/menu-nav";
 
@@ -103,10 +105,23 @@ function EditarPerfil() {
 
         <Modal show={showDeleteModal} onHide={() => { setShowDeleteModal(false) }}>
           <Modal.Header closeButton>
-            <Modal.Title>Confirmação de Exclusão</Modal.Title>
+            <Modal.Title>
+              <Row className="align-items-center">
+                <Col xs="auto">
+                  <img
+                    src={IconeAvisoSair}
+                    alt="Icone Aviso Desativar"
+                    style={{ width: '64px' }}
+                  />
+                </Col>
+                <Col>
+                  <p className="mb-0">DESATIVAR CONTA</p>
+                </Col>
+              </Row>
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Tem certeza de que deseja excluir a sua conta?
+            <p style={{ fontSize: '1.3rem' }}>Tem certeza de que deseja desativar a sua conta?</p>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="danger" onClick={() => removePolicial()}>
@@ -134,20 +149,48 @@ function EditarPerfil() {
             EDITAR PERFIL
           </h1>
 
-          <div style={{ width: "80%" }}>
+          <div style={{ width: "90%" }}>
             <form
               className="mb-3"
               noValidate
               validated={!errors}
               onSubmit={handleSubmit(editProfile)}
             >
+              <h3 className="mb-3">INFORMAÇÕES PESSOAIS</h3>
               <Row>
+                <Col>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="nomecompleto"
+                      className="form-label form-large-font"
+                    >
+                      NOME COMPLETO
+                    </label>
+                    <input
+                      className="form-control"
+                      label="NomeCompleto"
+                      type="text"
+                      name="nome_completo"
+                      placeholder="Insira seu nome completo"
+                      isValid={!errors.nome_completo}
+                      isInvalid={errors.nome_completo}
+                      required
+                      {...register("nome_completo", {
+                        required: { message: "Nome completo é obrigatório" },
+                      })}
+                    />
+                    {errors.nome_completo && (
+                      <p className="hook-form-error">
+                        {errors.nome_completo.message}
+                      </p>
+                    )}
+                  </div>
+                </Col>
                 <Col>
                   <div className="mb-3">
                     <label
                       htmlFor="senha"
                       className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
                     >
                       SENHA
                     </label>
@@ -176,42 +219,11 @@ function EditarPerfil() {
               </Row>
 
               <Row>
-                <div className="mb-3">
-                  <label
-                    htmlFor="nomecompleto"
-                    className="form-label form-large-font"
-                    style={{ fontWeight: "Bold" }}
-                  >
-                    NOME COMPLETO
-                  </label>
-                  <input
-                    className="form-control"
-                    label="NomeCompleto"
-                    type="text"
-                    name="nome_completo"
-                    placeholder="Insira seu nome completo"
-                    isValid={!errors.nome_completo}
-                    isInvalid={errors.nome_completo}
-                    required
-                    {...register("nome_completo", {
-                      required: { message: "Nome completo é obrigatório" },
-                    })}
-                  />
-                  {errors.nome_completo && (
-                    <p className="hook-form-error">
-                      {errors.nome_completo.message}
-                    </p>
-                  )}
-                </div>
-              </Row>
-
-              <Row>
                 <Col>
                   <div className="mb-3">
                     <label
                       htmlFor="data_nascimento"
                       className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
                     >
                       DATA DE NASCIMENTO
                     </label>
@@ -237,12 +249,45 @@ function EditarPerfil() {
                     )}
                   </div>
                 </Col>
+
+                <Col>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="naturalidade"
+                      className="form-label form-large-font"
+                    >
+                      NATURALIDADE
+                    </label>
+                    <input
+                      className="form-control"
+                      label="Naturalidade"
+                      type="text"
+                      name="naturalidade"
+                      placeholder="Insira sua naturalidade"
+                      isValid={!errors.naturalidade}
+                      isInvalid={errors.naturalidade}
+                      required
+                      {...register("naturalidade", {
+                        required: { message: "Naturalidade é obrigatória" },
+                        pattern: {
+                          value: /^[A-Za-zÀ-ÖØ-öø-ÿ\s]*$/,
+                          message: "Use apenas letras e espaços.",
+                        },
+                      })}
+                    />
+                    {errors.naturalidade && (
+                      <p className="hook-form-error">
+                        {errors.naturalidade.message}
+                      </p>
+                    )}
+                  </div>
+                </Col>
+
                 <Col>
                   <div className="mb-3">
                     <label
                       htmlFor="genero"
                       className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
                     >
                       GÊNERO
                     </label>
@@ -277,7 +322,6 @@ function EditarPerfil() {
                     <label
                       htmlFor="cpf_policial"
                       className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
                     >
                       CPF
                     </label>
@@ -310,7 +354,6 @@ function EditarPerfil() {
                     <label
                       htmlFor="rg_policial"
                       className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
                     >
                       RG
                     </label>
@@ -344,43 +387,8 @@ function EditarPerfil() {
                 <Col>
                   <div className="mb-3">
                     <label
-                      htmlFor="naturalidade"
-                      className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
-                    >
-                      NATURALIDADE
-                    </label>
-                    <input
-                      className="form-control"
-                      label="Naturalidade"
-                      type="text"
-                      name="naturalidade"
-                      placeholder="Insira sua naturalidade"
-                      isValid={!errors.naturalidade}
-                      isInvalid={errors.naturalidade}
-                      required
-                      {...register("naturalidade", {
-                        required: { message: "Naturalidade é obrigatória" },
-                        pattern: {
-                          value: /^[A-Za-zÀ-ÖØ-öø-ÿ\s]*$/,
-                          message: "Use apenas letras e espaços.",
-                        },
-                      })}
-                    />
-                    {errors.naturalidade && (
-                      <p className="hook-form-error">
-                        {errors.naturalidade.message}
-                      </p>
-                    )}
-                  </div>
-                </Col>
-
-                <Col>
-                  <div className="mb-3">
-                    <label
                       htmlFor="celular"
                       className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
                     >
                       CELULAR
                     </label>
@@ -409,15 +417,12 @@ function EditarPerfil() {
                     )}
                   </div>
                 </Col>
-              </Row>
 
-              <Row>
                 <Col>
                   <div className="mb-3">
                     <label
                       htmlFor="email"
                       className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
                     >
                       E-MAIL
                     </label>
@@ -447,13 +452,16 @@ function EditarPerfil() {
                 </Col>
               </Row>
 
+              <Row className="mt-4">
+                <h3>INFORMAÇÕES DE ENDEREÇO</h3>
+              </Row>
+
               <Row>
                 <Col>
                   <div className="mb-3">
                     <label
                       htmlFor="cep_policial"
                       className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
                     >
                       CEP
                     </label>
@@ -488,7 +496,6 @@ function EditarPerfil() {
                     <label
                       htmlFor="numero_endereco"
                       className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
                     >
                       NÚMERO DE ENDEREÇO
                     </label>
@@ -520,13 +527,16 @@ function EditarPerfil() {
                 </Col>
               </Row>
 
+              <Row className="mt-4">
+                <h3>INFORMAÇÕES SOBRE O POLICIAL</h3>
+              </Row>
+
               <Row>
                 <Col>
                   <div className="mb-3">
                     <label
                       htmlFor="jurisdicao"
                       className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
                     >
                       JURISDIÇÃO
                     </label>
@@ -558,7 +568,6 @@ function EditarPerfil() {
                     <label
                       htmlFor="data_ingresso_policia"
                       className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
                     >
                       DATA DE INGRESSO NA POLÍCIA
                     </label>
@@ -590,7 +599,6 @@ function EditarPerfil() {
                     <label
                       htmlFor="cargo_graduacao"
                       className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
                     >
                       CARGO/GRADUAÇÃO
                     </label>
@@ -624,7 +632,6 @@ function EditarPerfil() {
                     <label
                       htmlFor="unidade_policia"
                       className="form-label form-large-font"
-                      style={{ fontWeight: "Bold" }}
                     >
                       UNIDADE POLICIAL
                     </label>
@@ -694,25 +701,42 @@ function EditarPerfil() {
             style={{
               position: "fixed",
               top: "50%",
-              left: "60%",
+              left: "50%",
               transform: "translate(-50%, -50%)",
               zIndex: 9999,
-              width: "350px",
-              fontSize: "1.25rem",
+              width: "400px",
+              fontSize: "1.5rem",
               padding: "20px",
+              backgroundColor: "#FFFFFF", // define a cor de fundo do Toast para branco
+              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
             }}
           >
-            <Toast.Header style={{ backgroundColor: "#FFD500" }}>
-              <strong className="mr-auto">Atualização de Perfil</strong>
+            <Toast.Header style={{ backgroundColor: "#1ECB00" }}>
+              <strong style={{color: '#F2F2F2'}}>ATUALIZADO!</strong>
             </Toast.Header>
             <Toast.Body>Seu perfil foi atualizado com sucesso!</Toast.Body>
           </Toast>
 
           <Modal show={showModalSucesso}>
             <Modal.Header>
-              <Modal.Title>DESATIVADA!</Modal.Title>
+              <Modal.Title>
+                <Row className="align-items-center">
+                  <Col xs="auto">
+                    <img
+                      src={IconeDesativada}
+                      alt="Icone desativada sucesso"
+                      style={{ width: '64px' }}
+                    />
+                  </Col>
+                  <Col>
+                    <p className="mb-0">DESATIVADA!</p>
+                  </Col>
+                </Row>
+              </Modal.Title>
             </Modal.Header>
-            <Modal.Body>Sua conta no sistema foi desativada com sucesso!</Modal.Body>
+            <Modal.Body>
+              <p style={{ fontSize: '1.3rem' }}>Sua conta no sistema foi desativada com sucesso!</p>
+            </Modal.Body>
             <Modal.Footer>
               <Button variant="primary" onClick={() => navigate('/')}>
                 SAIR DO SISTEMA
