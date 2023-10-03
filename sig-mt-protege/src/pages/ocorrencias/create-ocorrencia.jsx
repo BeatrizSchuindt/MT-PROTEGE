@@ -10,6 +10,7 @@ import "../styles/styles.css";
 import Menu from "../../components/menu-nav";
 
 import IconeSemConexao from '../../images/icone-erro-500.png';
+import IconeSucesso from '../../images/icone-sucesso-verde.png';
 
 import { createOcorrencia } from "../../services/ocorrencia-services";
 
@@ -437,9 +438,24 @@ function RegistrarOcorrencia() {
           </div>
           <Modal show={showModalSucesso}>
             <Modal.Header>
-              <Modal.Title>REGISTRADA!</Modal.Title>
+              <Modal.Title>
+                <Row className="align-items-center">
+                  <Col xs="auto">
+                    <img
+                      src={IconeSucesso}
+                      alt="Icone sucesso ocorrência"
+                      style={{ width: '64px' }}
+                    />
+                  </Col>
+                  <Col>
+                    <p className="mb-0">REGISTRADA!</p>
+                  </Col>
+                </Row>
+              </Modal.Title>
             </Modal.Header>
-            <Modal.Body>Essa ocorrência foi registrada com sucesso!</Modal.Body>
+            <Modal.Body>
+              <p style={{ fontSize: '1.3rem' }}>Essa ocorrência foi registrada com sucesso!</p>
+            </Modal.Body>
             <Modal.Footer>
               <Button variant="primary" onClick={() => navigate('/ocorrencias')}>
                 Voltar para OCORRÊNCIAS

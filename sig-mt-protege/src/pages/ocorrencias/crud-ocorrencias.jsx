@@ -11,6 +11,7 @@ import Menu from "../../components/menu-nav";
 import IconeSemConexao from '../../images/icone-erro-500.png';
 import IconeEditar from "../../images/icone-editar.png";
 import IconeExcluir from "../../images/icone-excluir.png";
+import IconeAvisoExcluir from '../../images/icone-aviso.png';
 import IconeRegistrar from "../../images/icone-registrar-ocorrencia.png";
 
 import { filtroOcorrencias } from "../../services/ocorrencia-services";
@@ -383,7 +384,7 @@ function Ocorrencias() {
           {/*MODAL DE DETALHES*/}
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Detalhes da Ocorrência</Modal.Title>
+              <Modal.Title>DETALHES DA OCORRÊNCIA</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               {/* Exiba os detalhes da ocorrência selecionada aqui */}
@@ -864,16 +865,29 @@ function Ocorrencias() {
                   </tbody>
                 </table>
               ) : (
-                <p className="text-center" style={{fontSize:'1.5rem'}}>NENHUMA OCORRÊNCIA ENCONTRADA</p>
+                <p className="text-center" style={{ fontSize: '1.5rem' }}>NENHUMA OCORRÊNCIA ENCONTRADA</p>
               )}
             </div>
           </div>
           <Modal show={showDeleteModal} onHide={cancelDelete}>
             <Modal.Header closeButton>
-              <Modal.Title>Confirmação de Exclusão</Modal.Title>
+              <Modal.Title>
+                <Row className="align-items-center">
+                  <Col xs="auto">
+                    <img
+                      src={IconeAvisoExcluir}
+                      alt="Icone Aviso Excluir"
+                      style={{ width: '64px' }}
+                    />
+                  </Col>
+                  <Col>
+                    <p className="mb-0">EXCLUIR OCORRÊNCIA</p>
+                  </Col>
+                </Row>
+              </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              Tem certeza de que deseja excluir a ocorrência selecionada?
+              <p style={{ fontSize: '1.3rem' }}>Tem certeza de que deseja excluir a ocorrência selecionada?</p>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="danger" onClick={confirmDelete}>
@@ -893,16 +907,18 @@ function Ocorrencias() {
             style={{
               position: "fixed",
               top: "50%",
-              left: "60%",
+              left: "50%",
               transform: "translate(-50%, -50%)",
               zIndex: 9999,
-              width: "350px",
-              fontSize: "1.25rem",
+              width: "400px",
+              fontSize: "1.5rem",
               padding: "20px",
+              backgroundColor: "#FFFFFF", 
+              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)"
             }}
           >
             <Toast.Header style={{ backgroundColor: "blue" }}>
-              <strong className="mr-auto" style={{color: 'white'}}>OCORRÊNCIA ATUALIZADA</strong>
+              <strong className="mr-auto" style={{ color: 'white' }}>OCORRÊNCIA ATUALIZADA</strong>
             </Toast.Header>
             <Toast.Body>Sua ocorrência foi atualizada com sucesso!</Toast.Body>
           </Toast>
@@ -915,16 +931,18 @@ function Ocorrencias() {
             style={{
               position: "fixed",
               top: "50%",
-              left: "60%",
+              left: "50%",
               transform: "translate(-50%, -50%)",
               zIndex: 9999,
-              width: "350px",
-              fontSize: "1.25rem",
+              width: "400px",
+              fontSize: "1.5rem",
               padding: "20px",
+              backgroundColor: "#FFFFFF", 
+              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)"
             }}
           >
             <Toast.Header style={{ backgroundColor: "red" }}>
-              <strong className="mr-auto" style={{color: 'white'}}>OCORRÊNCIA DELETADA</strong>
+              <strong className="mr-auto" style={{ color: 'white' }}>OCORRÊNCIA DELETADA</strong>
             </Toast.Header>
             <Toast.Body>Sua ocorrência foi DELETADA com sucesso!</Toast.Body>
           </Toast>
