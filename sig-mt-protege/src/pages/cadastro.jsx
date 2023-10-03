@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Toast } from "react-bootstrap";
+import { Container, Row, Col, Button, Toast, Modal } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/styles.css";
 import "./styles/styles-cadastro.css";
-import { Container, Row, Col, Button } from "react-bootstrap";
+
 import Logo from "../images/logo-definitiva-mt-protege.png";
+import IconeSemConexao from '../images/icone-erro-500.png';
 import IconeVoltar from "../images/icone-voltar.png";
 
 import { cadastroPolicial } from "../services/policial-services";
@@ -21,6 +22,7 @@ function Cadastro() {
 
   const [toastSucessoShow, setToastSucessoShow] = useState(false);
   const [error, setError] = useState();
+  const [showModalCaiu, setShowModalCaiu] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -33,8 +35,14 @@ function Cadastro() {
       }, 2000);
     } catch (error) {
       setError({ message: error.response.data.error });
+      if (error.response.status === 500) {
+        setShowModalCaiu(true);
+      }
     }
   };
+
+  const handleCloseModalCaiu = () => setShowModalCaiu(false);
+
   return (
     <div
       style={{
@@ -669,6 +677,34 @@ function Cadastro() {
         </Toast.Header>
         <Toast.Body style={{ textAlign: 'center', fontSize: '1.5rem', justifyContent: 'center' }}>Seu cadastro foi efetuado com sucesso!</Toast.Body>
       </Toast>
+
+      <Modal show={showModalCaiu} onHide={handleCloseModalCaiu}>
+        <Modal.Header>
+          <Modal.Title>
+            <Row className="align-items-center">
+              <Col xs="auto">
+                <img
+                  src={IconeSemConexao}
+                  alt="Icone error 500"
+                  style={{ width: '64px' }}
+                />
+              </Col>
+              <Col>
+                <p className="mb-0">ERRO INTERNO!</p>
+              </Col>
+            </Row>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p style={{ fontSize: '1.3rem', fontWeight: 'bold' }}> O servidor está indisponível no momento...</p>
+          <p style={{ fontSize: '1.3rem' }}>Estamos trabalhando para solucionar o mais rápido possível!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={handleCloseModalCaiu}>
+            Entendido
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

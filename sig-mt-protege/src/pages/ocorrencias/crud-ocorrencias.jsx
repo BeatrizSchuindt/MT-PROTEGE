@@ -7,6 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/styles.css";
 
 import Menu from "../../components/menu-nav";
+
+import IconeSemConexao from '../../images/icone-erro-500.png';
 import IconeEditar from "../../images/icone-editar.png";
 import IconeExcluir from "../../images/icone-excluir.png";
 import IconeRegistrar from "../../images/icone-registrar-ocorrencia.png";
@@ -28,6 +30,7 @@ function Ocorrencias() {
 
   const [toastUpdateShow, setToastUpdateShow] = useState(false);
   const [toastDeleteShow, setToastDeleteShow] = useState(false);
+  const [showModalCaiu, setShowModalCaiu] = useState(false);
   const navigate = useNavigate();
 
   //declarando estados dos componentes
@@ -47,6 +50,9 @@ function Ocorrencias() {
     } catch (error) {
       console.log(error);
       setError(error.toString());
+      if (error.response.status === 500) {
+        setShowModalCaiu(true);
+      }
     }
   };
 
@@ -71,6 +77,9 @@ function Ocorrencias() {
         setToastDeleteShow(true);
       } catch (error) {
         console.error("Erro ao deletar a ocorrência:", error);
+        if (error.response.status === 500) {
+          setShowModalCaiu(true);
+        }
       }
     }
   };
@@ -90,6 +99,9 @@ function Ocorrencias() {
       }, 2000);
     } catch (error) {
       console.log(error);
+      if (error.response.status === 500) {
+        setShowModalCaiu(true);
+      }
     }
   }
 
@@ -135,6 +147,8 @@ function Ocorrencias() {
     setSelectedOcorrencia(ocorrencia);
     setShow(true);
   };
+
+  const handleCloseModalCaiu = () => setShowModalCaiu(false);
 
   return (
     <div className="container-fluid">
@@ -916,6 +930,33 @@ function Ocorrencias() {
           </Toast>
         </main>
       </div>
+      <Modal show={showModalCaiu} onHide={handleCloseModalCaiu}>
+        <Modal.Header>
+          <Modal.Title>
+            <Row className="align-items-center">
+              <Col xs="auto">
+                <img
+                  src={IconeSemConexao}
+                  alt="Icone error 500"
+                  style={{ width: '64px' }}
+                />
+              </Col>
+              <Col>
+                <p className="mb-0">ERRO INTERNO!</p>
+              </Col>
+            </Row>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p style={{ fontSize: '1.3rem', fontWeight: 'bold' }}> O servidor está indisponível no momento...</p>
+          <p style={{ fontSize: '1.3rem' }}>Estamos trabalhando para solucionar o mais rápido possível!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={handleCloseModalCaiu}>
+            Entendido
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

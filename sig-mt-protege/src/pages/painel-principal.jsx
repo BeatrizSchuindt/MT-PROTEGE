@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Modal } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/styles.css";
+
+import IconeSemConexao from '../images/icone-erro-500.png';
 
 import Menu from "../components/menu-nav";
 
@@ -15,9 +16,9 @@ import { contarOcorrencias } from "../services/ocorrencia-services";
 import { contarOcorrenciasResolvidas } from "../services/ocorrencia-services";
 
 function PainelPrincipal() {
-  const navigate = useNavigate();
 
   const [error, setError] = useState(null);
+  const [showModalCaiu, setShowModalCaiu] = useState(false);
   const [countPoliciais, setCountPoliciais] = useState([]);
   const [countOcorrencias, setCountOcorrencias] = useState([]);
   const [countOcorrenciasResolvidas, setCountOcorrenciasResolvidas] = useState([]);
@@ -28,11 +29,11 @@ function PainelPrincipal() {
         const responseData = await contarPoliciais();
         setCountPoliciais(responseData.data);
       } catch (error) {
-        console.error(
-          "Erro ao buscar contagem de policiais no componente:",
-          error
-        );
+        console.error("Erro ao buscar contagem de policiais no componente:", error);
         setError(error.message);
+        if (error.response.status === 500) {
+          setShowModalCaiu(true);
+        }
       }
     };
 
@@ -67,11 +68,13 @@ function PainelPrincipal() {
     fetchCountOcorrenciasResolvidas();
   }, []);
 
+  const handleCloseModalCaiu = () => setShowModalCaiu(false);
+
   return (
     <div className="container-fluid">
       <div className="row">
         {/*MENU DE NAVEGAÇÃO */}
-        <Menu/>
+        <Menu />
 
         {/* CONTEÚDO DA PÁGINA */}
         <main className="col" style={{ height: "100vh", overflowY: "auto" }}>
@@ -86,9 +89,9 @@ function PainelPrincipal() {
             PAINEL PRINCIPAL
           </h1>
 
-          {error && <p className="text-danger" style={{textAlign:'center', fontSize:'25px', marginBottom: '25px'}}>ERRO INTERNO: {error}</p>}
+          {error && <p className="text-danger" style={{ textAlign: 'center', fontSize: '25px', marginBottom: '25px' }}>ERRO INTERNO: {error}</p>}
 
-          <Row className= "mb-5" style={{ marginLeft: "30px" }}>
+          <Row className="mb-5" style={{ marginLeft: "30px" }}>
             <Col>
               <div
                 style={{
@@ -103,7 +106,7 @@ function PainelPrincipal() {
                   borderRadius: "40px"
                 }}
               >
-                <h4 style={{margin: '0'}}>POLICIAIS CADASTRADOS</h4>
+                <h4 style={{ margin: '0' }}>POLICIAIS CADASTRADOS</h4>
                 <p style={{ fontSize: "5vh", margin: '0' }}>{countPoliciais}</p>
               </div>
             </Col>
@@ -122,7 +125,7 @@ function PainelPrincipal() {
                   borderRadius: "40px"
                 }}
               >
-                <h4 style={{margin: '0'}}>OCORRÊNCIAS CADASTRADAS</h4>
+                <h4 style={{ margin: '0' }}>OCORRÊNCIAS CADASTRADAS</h4>
                 <p style={{ fontSize: "5vh", margin: '0' }}>{countOcorrencias}</p>
               </div>
             </Col>
@@ -147,12 +150,39 @@ function PainelPrincipal() {
             </Col>
           </Row>
 
-          <Row style={{display: "flex", flexDirection: "row", width: "100%", height: "50%"}}>
-            <Col style={{width: "50%"}}><ChartPieView/></Col>
-            <Col style={{width: "50%"}}><ChartView/></Col>
+          <Row style={{ display: "flex", flexDirection: "row", width: "100%", height: "50%" }}>
+            <Col style={{ width: "50%" }}><ChartPieView /></Col>
+            <Col style={{ width: "50%" }}><ChartView /></Col>
           </Row>
         </main>
       </div>
+      <Modal show={showModalCaiu} onHide={handleCloseModalCaiu}>
+        <Modal.Header>
+          <Modal.Title>
+            <Row className="align-items-center">
+              <Col xs="auto">
+                <img
+                  src={IconeSemConexao}
+                  alt="Icone error 500"
+                  style={{ width: '64px' }}
+                />
+              </Col>
+              <Col>
+                <p className="mb-0">ERRO INTERNO!</p>
+              </Col>
+            </Row>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p style={{ fontSize: '1.3rem', fontWeight: 'bold' }}> O servidor está indisponível no momento...</p>
+          <p style={{ fontSize: '1.3rem' }}>Estamos trabalhando para solucionar o mais rápido possível!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={handleCloseModalCaiu}>
+            Entendido
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

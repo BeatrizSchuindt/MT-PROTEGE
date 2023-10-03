@@ -9,6 +9,8 @@ import { updatePolicial, getPolicialID, deletarPolicial } from "../services/poli
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/styles.css";
 
+import IconeSemConexao from '../images/icone-erro-500.png';
+
 import Menu from "../components/menu-nav";
 
 function EditarPerfil() {
@@ -21,6 +23,7 @@ function EditarPerfil() {
   } = useForm({ mode: "onChange" });
 
   const [toastShow, setToastShow] = useState(false);
+  const [showModalCaiu, setShowModalCaiu] = useState(false);
 
   const navigate = useNavigate();
 
@@ -37,6 +40,9 @@ function EditarPerfil() {
     } catch (error) {
       console.log("Erro na atualização:", error);
       setError(error.message);
+      if (error.response.status === 500) {
+        setShowModalCaiu(true);
+      }
     }
   };
 
@@ -48,6 +54,9 @@ function EditarPerfil() {
       setShowModalSucesso(true);
     } catch (error) {
       console.log("Erro ao desativar o perfil:", error);
+      if (error.response.status === 500) {
+        setShowModalCaiu(true);
+      }
     }
   }
 
@@ -83,6 +92,8 @@ function EditarPerfil() {
 
     getPolicial();
   }, []);
+
+  const handleCloseModalCaiu = () => setShowModalCaiu(false);
 
   return (
     <div className="container-fluid">
@@ -710,6 +721,33 @@ function EditarPerfil() {
           </Modal>
         </main>
       </div>
+      <Modal show={showModalCaiu} onHide={handleCloseModalCaiu}>
+        <Modal.Header>
+          <Modal.Title>
+            <Row className="align-items-center">
+              <Col xs="auto">
+                <img
+                  src={IconeSemConexao}
+                  alt="Icone error 500"
+                  style={{ width: '64px' }}
+                />
+              </Col>
+              <Col>
+                <p className="mb-0">ERRO INTERNO!</p>
+              </Col>
+            </Row>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p style={{ fontSize: '1.3rem', fontWeight: 'bold' }}> O servidor está indisponível no momento...</p>
+          <p style={{ fontSize: '1.3rem' }}>Estamos trabalhando para solucionar o mais rápido possível!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={handleCloseModalCaiu}>
+            Entendido
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

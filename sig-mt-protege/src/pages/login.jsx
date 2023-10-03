@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { Row, Col, Modal } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import './styles/styles.css';
 
+import IconeSemConexao from '../images/icone-erro-500.png';
 import Logo from "../images/logo-definitiva-mt-protege.png";
 import ImgPoliciaEsquerda from "../images/policia-esquerda.jpg";
 import ImgPoliciaDireita from "../images/policia-direita.jpg";
@@ -17,7 +19,9 @@ function Login() {
     register,
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
+
   const [error, setError] = useState();
+  const [showModalCaiu, setShowModalCaiu] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -27,8 +31,13 @@ function Login() {
       window.location.reload(true);
     } catch (error) {
       setError({ message: error.response.data.error });
+      if (error.response.status === 500) {
+        setShowModalCaiu(true);
+      }
     }
   };
+
+  const handleCloseModalCaiu = () => setShowModalCaiu(false);
 
   return (
     <div
@@ -176,6 +185,33 @@ function Login() {
           </div>
         </div>
       </div>
+      <Modal show={showModalCaiu} onHide={handleCloseModalCaiu}>
+        <Modal.Header>
+          <Modal.Title>
+            <Row className="align-items-center">
+              <Col xs="auto">
+                <img
+                  src={IconeSemConexao}
+                  alt="Icone error 500"
+                  style={{ width: '64px' }}
+                />
+              </Col>
+              <Col>
+                <p className="mb-0">ERRO INTERNO!</p>
+              </Col>
+            </Row>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p style={{ fontSize: '1.3rem', fontWeight: 'bold' }}> O servidor está indisponível no momento...</p>
+          <p style={{ fontSize: '1.3rem' }}>Estamos trabalhando para solucionar o mais rápido possível!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={handleCloseModalCaiu}>
+            Entendido
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
