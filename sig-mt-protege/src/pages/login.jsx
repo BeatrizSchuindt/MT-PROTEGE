@@ -22,7 +22,7 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const policial = await loginPolicial(data);
+      await loginPolicial(data);
       navigate("/painel-principal");
       window.location.reload(true);
     } catch (error) {
@@ -53,12 +53,13 @@ function Login() {
             <img
               src={Logo}
               alt="Logo"
-              className="w-50 mt-4" // Largura de 50% e espaço superior de 1rem (4 unidades padrão)
+              style={{width:"45%"}}
+              className="mt-2" // Largura de 50% e espaço superior de 1rem (4 unidades padrão)
             />
 
             {/* Frase de boas-vindas responsiva */}
             <p
-              className="text-white text-center mt-3"
+              className="text-white text-center mt-2"
               style={{ fontSize: "20px", width: "80%" }}
             >
               Seja bem-vindo ao sistema de gestão de ocorrências criminais do
@@ -67,8 +68,8 @@ function Login() {
 
             {/* Quadrado branco para o menu de login abaixo da logo e da frase */}
             <div
-              className="login-box p-4 mt-3 bg-white d-flex flex-column"
-              style={{ width: "60%", height: "53%" }}
+              className="login-box p-4 mt-2 bg-white d-flex flex-column"
+              style={{ width: "60%", minHeight: "40%" }}
             >
               {" "}
               {/* Adicionamos a classe bg-white para o fundo branco */}
@@ -144,7 +145,7 @@ function Login() {
                     <p className="hook-form-error">{errors.senha.message}</p>
                   )}
                 </div>
-                <div className="d-flex justify-content-center p-3">
+                <div className="d-flex justify-content-center p-2">
                   <button
                     type="submit"
                     className="btn btn-primary"

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Toast } from "react-bootstrap";
+import { Toast, Modal, Button } from "react-bootstrap";
 
 import Logo from "../images/logo-definitiva-mt-protege.png"; // Substitua pelo caminho real da sua logo
 import IconePainelPrincipal from "../images/icone-painel-principal.png"; // Substitua pelo caminho real do seu ícone
@@ -15,6 +15,7 @@ import "../pages/styles/styles.css"; // Substitua pelo nome real do seu arquivo 
 const Menu = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [toastSaindoShow, setToastSaindoShow] = useState(false);
 
   useEffect(() => {
@@ -68,7 +69,7 @@ const Menu = () => {
     <>
       <nav
         className="custom-bg-color"
-        style={{ width: "18%", height: "100vh", position: "relative" }}
+        style={{ width: "16%", height: "100vh", position: "relative" }}
       >
         <div className="logo-container">
           <img src={Logo} alt="Minha Logo" className="logo" />
@@ -84,11 +85,7 @@ const Menu = () => {
               <a
                 className={`nav-link text-light`}
                 onClick={() => {
-                  sessionStorage.removeItem("token");
-                  setToastSaindoShow(true);
-                  setTimeout(() => {
-                    navigate("/");
-                  }, 2000);
+                  setShowModal(true);
                 }}
               >
                 {isMobile ? (
@@ -111,28 +108,49 @@ const Menu = () => {
           </ul>
         </div>
       </nav>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmação</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Deseja realmente sair do sistema?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Não
+          </Button>
+          <Button variant="primary" onClick={() => {
+            sessionStorage.removeItem("token");
+            setToastSaindoShow(true);
+            setTimeout(() => {
+              navigate("/");
+            }, 2000);
+          }}>
+            Sim
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <Toast
-            onClose={() => setToastSaindoShow(false)}
-            show={toastSaindoShow}
-            delay={3000}
-            autohide
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "60%",
-              transform: "translate(-50%, -50%)",
-              zIndex: 9999,
-              width: "500px",
-              height: "250px",
-              fontSize: "1.25rem",
-              padding: "20px",
-            }}
-          >
-            <Toast.Header style={{ backgroundColor: "red" }}>
-              <strong className="mr-auto" style={{color: 'white', fontSize:'1.5rem'}}>SAINDO DO SISTEMA...</strong>
-            </Toast.Header>
-            <Toast.Body style={{textAlign: 'center', fontSize:'1.5rem', justifyContent: 'center'}}>Um até logo!</Toast.Body>
-          </Toast>
+        onClose={() => setToastSaindoShow(false)}
+        show={toastSaindoShow}
+        delay={3000}
+        autohide
+        style={{
+          position: "fixed",
+          top: "50%",
+          left: "60%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 9999,
+          width: "500px",
+          height: "250px",
+          fontSize: "1.25rem",
+          padding: "20px",
+        }}
+      >
+        <Toast.Header style={{ backgroundColor: "red" }}>
+          <strong className="mr-auto" style={{ color: 'white', fontSize: '1.5rem' }}>SAINDO DO SISTEMA...</strong>
+        </Toast.Header>
+        <Toast.Body style={{ textAlign: 'center', fontSize: '1.5rem', justifyContent: 'center' }}>Um até logo!</Toast.Body>
+      </Toast>
     </>
   );
 };
