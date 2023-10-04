@@ -25,6 +25,10 @@ class OcorrenciaModel extends Model {
             sequelize: database
         });
     }
+
+    static associate(models) {
+        this.belongsTo(models.PolicialModel, { foreignKey: 'matricula_policial', as: 'policial' });
+    }
 }
 
 module.exports = { OcorrenciaModel };

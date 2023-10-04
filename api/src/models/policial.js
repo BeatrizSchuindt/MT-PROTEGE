@@ -28,6 +28,10 @@ class PolicialModel extends Model {
             sequelize: database
         });
     }
+
+    static associate(models) {
+        this.hasMany(models.OcorrenciaModel, { foreignKey: "matricula_policial", as: "ocorrencias" });
+    }
 }
 
 module.exports = { PolicialModel };
