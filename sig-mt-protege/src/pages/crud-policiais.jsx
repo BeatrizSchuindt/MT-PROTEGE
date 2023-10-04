@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Modal } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/styles.css";
 
-import Logo from "../images/logo-definitiva-mt-protege.png";
-import IconeLogout from "../images/icone-logout.png";
-import IconePainelPrincipal from "../images/icone-painel-principal.png";
-import IconePolicia from "../images/icone-policia.png";
-import IconePerfil from "../images/icone-perfil.png";
-import IconeOcorrencia from "../images/icone-ocorrencia.png";
-import IconeAjuda from "../images/icone-ajuda.png";
+import IconeSemConexao from '../images/icone-erro-500.png';
+
+import Menu from "../components/menu-nav";
 
 import { filtroPoliciais as fetchPoliciais } from "../services/policial-services";
 
@@ -20,12 +16,14 @@ function Policiais() {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
 
   const [policiais, setPoliciais] = useState([]);
   const [error, setError] = useState(null);
+  const [showModalCaiu, setShowModalCaiu] = useState(false);
 
   const onSubmit = async (data) => {
     try {
@@ -34,98 +32,21 @@ function Policiais() {
     } catch (error) {
       console.log(error);
       setError(error.toString());
+      if (error.response.status === 500) {
+        setShowModalCaiu(true);
+      }
     }
   };
+
+  const handleCloseModalCaiu = () => setShowModalCaiu(false);
 
   return (
     <div className="container-fluid">
       <div className="row">
-        {/*MENU DE NAVEGAÇÃO */}
-        <nav
-          className="custom-bg-color"
-          style={{ width: "18%", height: "100vh", position: "relative" }}
-        >
-          <div className="logo-container">
-            <img src={Logo} alt="Minha Logo" className="logo" />
-          </div>
-          <ul className="nav flex-column">
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/painel-principal">
-                <img
-                  src={IconePainelPrincipal}
-                  alt="Icone Painel Principal"
-                  className="icones-menu-nav"
-                />
-                PAINEL PRINCIPAL
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/policiais">
-                <img
-                  src={IconePolicia}
-                  alt="Icone Policial"
-                  className="icones-menu-nav"
-                />
-                POLICIAIS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/editar-perfilpolicial">
-                <img
-                  src={IconePerfil}
-                  alt="Icone Perfil"
-                  className="icones-menu-nav"
-                />
-                EDITAR PERFIL
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/ocorrencias">
-                <img
-                  src={IconeOcorrencia}
-                  alt="Icone Ocorrencia"
-                  className="icones-menu-nav"
-                />
-                OCORRÊNCIAS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/ajuda">
-                <img
-                  src={IconeAjuda}
-                  alt="Icone Ajuda"
-                  className="icones-menu-nav"
-                />
-                AJUDA / SUPORTE
-              </a>
-            </li>
-          </ul>
-
-          {/* SAIR DO SISTEMA com ícone */}
-          <div style={{ position: "absolute", bottom: "0", width: "90%" }}>
-            <ul className="nav flex-column">
-              <li className="nav-item">
-                <a
-                  className="nav-link text-light"
-                  onClick={() => {
-                    sessionStorage.removeItem("token");
-                    navigate("/");
-                  }}
-                >
-                  <img
-                    src={IconeLogout}
-                    alt="Icone Logout"
-                    className="icone-logout"
-                  />
-                  SAIR DO SISTEMA
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+       <Menu/>
 
         {/* CONTEÚDO DA PÁGINA */}
-        <main className="col">
+        <main className="col" style={{ height: "100vh", overflowY: "auto" }}>
           <h1
             style={{
               marginTop: "30px",
@@ -268,7 +189,7 @@ function Policiais() {
               </Row>
             </div>
 
-            {error && <p className="text-danger">{error}</p>}
+            {error && <p className="text-danger" style={{textAlign:'center', marginTop:'10px', fontSize:'25px'}}>ERRO INTERNO: {error}</p>}
 
             <div className="d-flex justify-content-center p-3">
               <button
@@ -279,11 +200,19 @@ function Policiais() {
               >
                 BUSCAR
               </button>
+
+              <button
+                className="btn btn-primary"
+                onClick={() => reset()}
+                style={{ backgroundColor: "transparent", color: "black", marginLeft: "20px" }}
+              >
+                LIMPAR FILTRO
+              </button>
             </div>
           </form>
 
-          <div className="policiais-page-area">
-            <div className="policial-area">
+          <div className="policiais-page-area" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <div className="policial-area" style={{height: "100vh", overflowY: "auto", overflowX: "auto"}}>
               {policiais && policiais.length > 0 ? (
                 <table className="table table-striped">
                   <thead className="thead-light">
@@ -330,7 +259,7 @@ function Policiais() {
                   </tbody>
                 </table>
               ) : (
-                <p className="text-center">
+                <p className="text-center" style={{fontSize:'1.5rem'}}>
                   NENHUM POLICIAL ENCONTRADO
                 </p>
               )}
@@ -338,6 +267,33 @@ function Policiais() {
           </div>
         </main>
       </div>
+      <Modal show={showModalCaiu} onHide={handleCloseModalCaiu}>
+        <Modal.Header>
+          <Modal.Title>
+            <Row className="align-items-center">
+              <Col xs="auto">
+                <img
+                  src={IconeSemConexao}
+                  alt="Icone error 500"
+                  style={{ width: '64px' }}
+                />
+              </Col>
+              <Col>
+                <p className="mb-0">ERRO INTERNO!</p>
+              </Col>
+            </Row>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p style={{ fontSize: '1.3rem', fontWeight: 'bold' }}> O servidor está indisponível no momento...</p>
+          <p style={{ fontSize: '1.3rem' }}>Estamos trabalhando para solucionar o mais rápido possível!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={handleCloseModalCaiu}>
+            Entendido
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

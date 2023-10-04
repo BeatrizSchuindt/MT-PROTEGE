@@ -59,3 +59,10 @@ export async function contarCivil() {
 
     return result;
 }
+
+export async function deletarPolicial(id) {
+    const result = await api.delete(`/deletar-policial/${id}`);
+    sessionStorage.removeItem('token');
+
+    return result;
+}

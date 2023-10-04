@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { Row, Col, Modal } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import './styles/styles.css';
 
+import IconeSemConexao from '../images/icone-erro-500.png';
 import Logo from "../images/logo-definitiva-mt-protege.png";
 import ImgPoliciaEsquerda from "../images/policia-esquerda.jpg";
 import ImgPoliciaDireita from "../images/policia-direita.jpg";
@@ -17,17 +19,25 @@ function Login() {
     register,
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
+
   const [error, setError] = useState();
+  const [showModalCaiu, setShowModalCaiu] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
-      const policial = await loginPolicial(data);
+      await loginPolicial(data);
       navigate("/painel-principal");
+      window.location.reload(true);
     } catch (error) {
       setError({ message: error.response.data.error });
+      if (error.response.status === 500) {
+        setShowModalCaiu(true);
+      }
     }
   };
+
+  const handleCloseModalCaiu = () => setShowModalCaiu(false);
 
   return (
     <div
@@ -52,12 +62,13 @@ function Login() {
             <img
               src={Logo}
               alt="Logo"
-              className="w-50 mt-4" // Largura de 50% e espaço superior de 1rem (4 unidades padrão)
+              style={{width:"45%"}}
+              className="mt-2" // Largura de 50% e espaço superior de 1rem (4 unidades padrão)
             />
 
             {/* Frase de boas-vindas responsiva */}
             <p
-              className="text-white text-center mt-3"
+              className="text-white text-center mt-2"
               style={{ fontSize: "20px", width: "80%" }}
             >
               Seja bem-vindo ao sistema de gestão de ocorrências criminais do
@@ -66,8 +77,8 @@ function Login() {
 
             {/* Quadrado branco para o menu de login abaixo da logo e da frase */}
             <div
-              className="login-box p-4 mt-3 bg-white d-flex flex-column"
-              style={{ width: "60%", height: "53%" }}
+              className="login-box p-4 mt-2 bg-white d-flex flex-column"
+              style={{ width: "60%", minHeight: "40%" }}
             >
               {" "}
               {/* Adicionamos a classe bg-white para o fundo branco */}
@@ -143,7 +154,7 @@ function Login() {
                     <p className="hook-form-error">{errors.senha.message}</p>
                   )}
                 </div>
-                <div className="d-flex justify-content-center p-3">
+                <div className="d-flex justify-content-center p-2">
                   <button
                     type="submit"
                     className="btn btn-primary"
@@ -174,6 +185,33 @@ function Login() {
           </div>
         </div>
       </div>
+      <Modal show={showModalCaiu} onHide={handleCloseModalCaiu}>
+        <Modal.Header>
+          <Modal.Title>
+            <Row className="align-items-center">
+              <Col xs="auto">
+                <img
+                  src={IconeSemConexao}
+                  alt="Icone error 500"
+                  style={{ width: '64px' }}
+                />
+              </Col>
+              <Col>
+                <p className="mb-0">ERRO INTERNO!</p>
+              </Col>
+            </Row>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p style={{ fontSize: '1.3rem', fontWeight: 'bold' }}> O servidor está indisponível no momento...</p>
+          <p style={{ fontSize: '1.3rem' }}>Estamos trabalhando para solucionar o mais rápido possível!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={handleCloseModalCaiu}>
+            Entendido
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

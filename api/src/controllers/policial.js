@@ -47,17 +47,59 @@ class PolicialController {
                 return httpHelper.badRequest(
                     "Todos os itens são obrigatórios!"
                 );
+
             const policialAlreadyExists = await PolicialModel.findOne({
                 where: { matricula_policial },
             });
-            if (policialAlreadyExists)
-                return httpHelper.badRequest(
-                    "Matrícula de policial já cadastrado!"
-                );
+            if (policialAlreadyExists) {
+                if (policialAlreadyExists.situacao === "Inativo") {
+
+                    const senhaHashed = await bcrypt.hash(
+                        senha,
+                        Number(process.env.SALT)
+                    );
+
+                    const policial = await PolicialModel.update({
+                        id: matricula_policial,
+                        matricula_policial,
+                        senha: senhaHashed,
+                        nome_completo,
+                        data_nascimento: new Date(data_nascimento),
+                        genero,
+                        cpf_policial,
+                        rg_policial,
+                        naturalidade,
+                        email,
+                        celular,
+                        cep_policial,
+                        numero_endereco,
+                        cargo_graduacao,
+                        data_ingresso_policia,
+                        unidade_policia,
+                        jurisdicao,
+                        situacao: "Ativo"
+                    }, { where: { id: policialAlreadyExists.id } });
+
+                    const accessToken = jwt.sign(
+                        { id: matricula_policial },
+                        process.env.TOKEN_SECRET,
+                        { expiresIn: process.env.TOKEN_EXPIRES_IN }
+                    );
+
+                    return httpHelper.created({ accessToken });
+                }
+                else if (policialAlreadyExists.situacao !== "Inativo") {
+                    return httpHelper.badRequest(
+                        "Matrícula de policial já cadastrado!"
+                    );
+                }
+            }
+
             const senhaHashed = await bcrypt.hash(
                 senha,
                 Number(process.env.SALT)
             );
+
             const policial = await PolicialModel.create({
                 id: matricula_policial,
                 matricula_policial,
@@ -77,16 +119,20 @@ class PolicialController {
                 unidade_policia,
                 jurisdicao,
             });
+
             if (!policial)
                 return httpHelper.internalError(
                     "Houve um erro ao criar usuário de policial"
                 );
+
             const accessToken = jwt.sign(
                 { id: matricula_policial },
                 process.env.TOKEN_SECRET,
                 { expiresIn: process.env.TOKEN_EXPIRES_IN }
             );
+
             return httpHelper.created({ accessToken });
+
         } catch (error) {
             return httpHelper.internalError(error);
         }
@@ -103,8 +149,12 @@ class PolicialController {
             const policial = await PolicialModel.findOne({
                 where: { matricula_policial },
             });
-            if (!policial)
+            if (!policial) {
                 return httpHelper.notFound("Usuário policial não encontrado!");
+            }
+            if (policial.situacao === "Inativo") {
+                return httpHelper.notFound("Conta desativada! Cadastre novamente.");
+            }
             const isSenhaValida = await bcrypt.compare(senha, policial.senha);
             if (!isSenhaValida)
                 return httpHelper.badRequest("Senha incorreta!");
@@ -123,7 +173,9 @@ class PolicialController {
         const httpHelper = new HttpHelper(response);
         try {
             const policiais = await PolicialModel.findAll({
-                order: [["matricula_policial", "ASC"]], attributes: { exclude: ["id", "senha"] }
+                where: { situacao: "Ativo" },
+                order: [["matricula_policial", "ASC"]],
+                attributes: { exclude: ["id", "senha"] }
             });
 
             return httpHelper.ok(policiais);
@@ -151,7 +203,8 @@ class PolicialController {
                     },
                     unidade_policia: {
                         [Op.like]: `%${request.body.unidade_policia}%`
-                    }
+                    },
+                    situacao: { [Op.ne]: "Inativo" }
                 }, attributes: { exclude: ["id", "senha"] }
             });
 
@@ -165,7 +218,7 @@ class PolicialController {
         const httpHelper = new HttpHelper(response);
         try {
             const { id } = request.params;
-            const policial = await PolicialModel.findByPk(id, {attributes: {exclude: ['senha']}});
+            const policial = await PolicialModel.findByPk(id, { attributes: { exclude: ['senha'] } });
             if (!policial) return httpHelper.notFound("Não foi encontrado nenhum policial.");
             return httpHelper.ok(policial);
         } catch (error) {
@@ -201,11 +254,11 @@ class PolicialController {
                 return httpHelper.badRequest("Parâmetros inválidos!");
             }
             let newPassword = {}
-            if(senha) {
+            if (senha) {
                 newPassword.senha = await bcrypt.hash(
                     senha,
                     Number(process.env.SALT))
-                
+
             }
             // Atualizar o policial no banco de dados
             const [updatedRowCount] = await PolicialModel.update(
@@ -249,7 +302,7 @@ class PolicialController {
     async countPoliciais(request, response) {
         const httpHelper = new HttpHelper(response);
         try {
-            const countpoliciais = await PolicialModel.count();
+            const countpoliciais = await PolicialModel.count({ where: { situacao: "Ativo" } });
             return httpHelper.ok(countpoliciais);
         } catch (error) {
             return httpHelper.internalError(error);
@@ -263,7 +316,8 @@ class PolicialController {
                 where: {
                     jurisdicao: {
                         [Op.like]: 'Militar'
-                    }
+                    },
+                    situacao: "Ativo"
                 }
             });
             return httpHelper.ok(militar);
@@ -279,10 +333,26 @@ class PolicialController {
                 where: {
                     jurisdicao: {
                         [Op.like]: 'Civil'
-                    }
+                    },
+                    situacao: "Ativo"
                 }
             });
             return httpHelper.ok(civil);
+        } catch (error) {
+            return httpHelper.internalError(error);
+        }
+    }
+
+    async deletePolicial(request, response) {
+        const httpHelper = new HttpHelper(response);
+        try {
+            const { id } = request.params;
+            const policial = await PolicialModel.update({
+                situacao: "Inativo",
+            }, {
+                where: { id: id }
+            })
+            return httpHelper.ok("Policial desativado com sucesso!");
         } catch (error) {
             return httpHelper.internalError(error);
         }

@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Modal } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/styles.css";
 
-import Logo from "../images/logo-definitiva-mt-protege.png";
-import IconeLogout from "../images/icone-logout.png";
-import IconePainelPrincipal from "../images/icone-painel-principal.png";
-import IconePolicia from "../images/icone-policia.png";
-import IconePerfil from "../images/icone-perfil.png";
-import IconeOcorrencia from "../images/icone-ocorrencia.png";
-import IconeAjuda from "../images/icone-ajuda.png";
+import IconeSemConexao from '../images/icone-erro-500.png';
+
+import Menu from "../components/menu-nav";
 
 import ChartView from "./graficos/ColumnChart";
 import ChartPieView from "./graficos/PieChart";
@@ -21,8 +16,9 @@ import { contarOcorrencias } from "../services/ocorrencia-services";
 import { contarOcorrenciasResolvidas } from "../services/ocorrencia-services";
 
 function PainelPrincipal() {
-  const navigate = useNavigate();
 
+  const [error, setError] = useState(null);
+  const [showModalCaiu, setShowModalCaiu] = useState(false);
   const [countPoliciais, setCountPoliciais] = useState([]);
   const [countOcorrencias, setCountOcorrencias] = useState([]);
   const [countOcorrenciasResolvidas, setCountOcorrenciasResolvidas] = useState([]);
@@ -33,10 +29,11 @@ function PainelPrincipal() {
         const responseData = await contarPoliciais();
         setCountPoliciais(responseData.data);
       } catch (error) {
-        console.error(
-          "Erro ao buscar contagem de policiais no componente:",
-          error
-        );
+        console.error("Erro ao buscar contagem de policiais no componente:", error);
+        setError(error.message);
+        if (error.response.status === 500) {
+          setShowModalCaiu(true);
+        }
       }
     };
 
@@ -49,6 +46,7 @@ function PainelPrincipal() {
           "Erro ao buscar contagem de ocorrências no componente:",
           error
         );
+        setError(error.message);
       }
     };
 
@@ -61,6 +59,7 @@ function PainelPrincipal() {
           "Erro ao buscar contagem de ocorrências resolvidas no componente:",
           error
         );
+        setError(error.message);
       }
     };
 
@@ -69,95 +68,16 @@ function PainelPrincipal() {
     fetchCountOcorrenciasResolvidas();
   }, []);
 
+  const handleCloseModalCaiu = () => setShowModalCaiu(false);
+
   return (
     <div className="container-fluid">
       <div className="row">
         {/*MENU DE NAVEGAÇÃO */}
-        <nav
-          className="custom-bg-color"
-          style={{ width: "18%", height: "100vh", position: "relative" }}
-        >
-          <div className="logo-container">
-            <img src={Logo} alt="Minha Logo" className="logo" />
-          </div>
-          <ul className="nav flex-column">
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/painel-principal">
-                <img
-                  src={IconePainelPrincipal}
-                  alt="Icone Painel Principal"
-                  className="icones-menu-nav"
-                />
-                PAINEL PRINCIPAL
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/policiais">
-                <img
-                  src={IconePolicia}
-                  alt="Icone Policial"
-                  className="icones-menu-nav"
-                />
-                POLICIAIS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/editar-perfilpolicial">
-                <img
-                  src={IconePerfil}
-                  alt="Icone Perfil"
-                  className="icones-menu-nav"
-                />
-                EDITAR PERFIL
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/ocorrencias">
-                <img
-                  src={IconeOcorrencia}
-                  alt="Icone Ocorrencia"
-                  className="icones-menu-nav"
-                />
-                OCORRÊNCIAS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/ajuda">
-                <img
-                  src={IconeAjuda}
-                  alt="Icone Ajuda"
-                  className="icones-menu-nav"
-                />
-                AJUDA / SUPORTE
-              </a>
-            </li>
-          </ul>
-
-          {/* SAIR DO SISTEMA com ícone */}
-          <div style={{ position: "absolute", bottom: "0", width: "90%" }}>
-            <ul className="nav flex-column">
-              <li className="nav-item">
-                <a
-                  className="nav-link text-light"
-                  onClick={() => {
-                    sessionStorage.removeItem("token");
-                    navigate("/");
-                  }}
-                >
-                  <img
-                    src={IconeLogout}
-                    alt="Icone Logout"
-                    className="icone-logout"
-                  />
-                  SAIR DO SISTEMA
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <Menu />
 
         {/* CONTEÚDO DA PÁGINA */}
-        <main className="col">
+        <main className="col" style={{ height: "100vh", overflowY: "auto" }}>
           <h1
             style={{
               marginTop: "50px",
@@ -169,7 +89,9 @@ function PainelPrincipal() {
             PAINEL PRINCIPAL
           </h1>
 
-          <Row style={{ marginLeft: "30px" }}>
+          {error && <p className="text-danger" style={{ textAlign: 'center', fontSize: '25px', marginBottom: '25px' }}>ERRO INTERNO: {error}</p>}
+
+          <Row className="mb-5" style={{ marginLeft: "30px" }}>
             <Col>
               <div
                 style={{
@@ -181,10 +103,11 @@ function PainelPrincipal() {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
+                  borderRadius: "40px"
                 }}
               >
-                <h4>POLICIAIS CADASTRADOS</h4>
-                <p style={{ fontSize: "5vh" }}>{countPoliciais}</p>
+                <h4 style={{ margin: '0' }}>POLICIAIS CADASTRADOS</h4>
+                <p style={{ fontSize: "5vh", margin: '0' }}>{countPoliciais}</p>
               </div>
             </Col>
 
@@ -199,10 +122,11 @@ function PainelPrincipal() {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
+                  borderRadius: "40px"
                 }}
               >
-                <h4>OCORRÊNCIAS CADASTRADAS</h4>
-                <p style={{ fontSize: "5vh" }}>{countOcorrencias}</p>
+                <h4 style={{ margin: '0' }}>OCORRÊNCIAS CADASTRADAS</h4>
+                <p style={{ fontSize: "5vh", margin: '0' }}>{countOcorrencias}</p>
               </div>
             </Col>
 
@@ -217,20 +141,48 @@ function PainelPrincipal() {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
+                  borderRadius: "40px"
                 }}
               >
-                <h4 style={{ marginLeft: "10px" }}>OCORRÊNCIAS RESOLVIDAS</h4>
-                <p style={{ fontSize: "5vh" }}>{countOcorrenciasResolvidas}</p>
+                <h4 style={{ marginLeft: "10px", margin: '0' }}>OCORRÊNCIAS RESOLVIDAS</h4>
+                <p style={{ fontSize: "5vh", margin: '0' }}>{countOcorrenciasResolvidas}</p>
               </div>
             </Col>
           </Row>
 
-          <Row style={{display: "flex", flexDirection: "row", width: "100%", height: "50%"}}>
-            <Col style={{width: "50%"}}><ChartPieView/></Col>
-            <Col style={{width: "50%"}}><ChartView/></Col>
+          <Row style={{ display: "flex", flexDirection: "row", width: "100%", height: "50%" }}>
+            <Col style={{ width: "50%" }}><ChartPieView /></Col>
+            <Col style={{ width: "50%" }}><ChartView /></Col>
           </Row>
         </main>
       </div>
+      <Modal show={showModalCaiu} onHide={handleCloseModalCaiu}>
+        <Modal.Header>
+          <Modal.Title>
+            <Row className="align-items-center">
+              <Col xs="auto">
+                <img
+                  src={IconeSemConexao}
+                  alt="Icone error 500"
+                  style={{ width: '64px' }}
+                />
+              </Col>
+              <Col>
+                <p className="mb-0">ERRO INTERNO!</p>
+              </Col>
+            </Row>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p style={{ fontSize: '1.3rem', fontWeight: 'bold' }}> O servidor está indisponível no momento...</p>
+          <p style={{ fontSize: '1.3rem' }}>Estamos trabalhando para solucionar o mais rápido possível!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={handleCloseModalCaiu}>
+            Entendido
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

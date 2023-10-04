@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Row, Col, Modal, Button, Form } from "react-bootstrap";
+import { Row, Col, Modal, Toast, Button, Form } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/styles.css";
 
-import Logo from "../../images/logo-definitiva-mt-protege.png";
-import IconeLogout from "../../images/icone-logout.png";
-import IconePainelPrincipal from "../../images/icone-painel-principal.png";
-import IconePolicia from "../../images/icone-policia.png";
-import IconePerfil from "../../images/icone-perfil.png";
-import IconeOcorrencia from "../../images/icone-ocorrencia.png";
-import IconeAjuda from "../../images/icone-ajuda.png";
+import Menu from "../../components/menu-nav";
+
+import IconeSemConexao from '../../images/icone-erro-500.png';
 import IconeEditar from "../../images/icone-editar.png";
 import IconeExcluir from "../../images/icone-excluir.png";
+import IconeAvisoExcluir from '../../images/icone-aviso.png';
 import IconeRegistrar from "../../images/icone-registrar-ocorrencia.png";
 
 import { filtroOcorrencias } from "../../services/ocorrencia-services";
@@ -32,6 +29,9 @@ function Ocorrencias() {
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
 
+  const [toastUpdateShow, setToastUpdateShow] = useState(false);
+  const [toastDeleteShow, setToastDeleteShow] = useState(false);
+  const [showModalCaiu, setShowModalCaiu] = useState(false);
   const navigate = useNavigate();
 
   //declarando estados dos componentes
@@ -40,6 +40,8 @@ function Ocorrencias() {
   const [selectedOcorrencia, setSelectedOcorrencia] = useState(null);
   const [error, setError] = useState(null);
   const [isUpdating, setIsUpdating] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletingOcorrencia, setDeletingOcorrencia] = useState(null);
 
   //submit de read de ocorrências - COM OU SEM FILTRO
   const onSubmit = async (data) => {
@@ -49,16 +51,37 @@ function Ocorrencias() {
     } catch (error) {
       console.log(error);
       setError(error.toString());
+      if (error.response.status === 500) {
+        setShowModalCaiu(true);
+      }
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await deleteOcorrencia(id);
-      // Remova a ocorrência excluída do estado
-      setOcorrencias(ocorrencias.filter((ocorrencia) => ocorrencia.id !== id));
-    } catch (error) {
-      console.error("Erro ao deletar a ocorrência:", error);
+  const showDeleteConfirmation = (ocorrencia) => {
+    setDeletingOcorrencia(ocorrencia);
+    setShowDeleteModal(true);
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
+    setDeletingOcorrencia(null);
+  };
+
+  const confirmDelete = async () => {
+    if (deletingOcorrencia) {
+      try {
+        await deleteOcorrencia(deletingOcorrencia.id);
+        // Remova a ocorrência excluída do estado
+        setOcorrencias(ocorrencias.filter((ocorrencia) => ocorrencia.id !== deletingOcorrencia.id));
+        setShowDeleteModal(false);
+        setDeletingOcorrencia(null);
+        setToastDeleteShow(true);
+      } catch (error) {
+        console.error("Erro ao deletar a ocorrência:", error);
+        if (error.response.status === 500) {
+          setShowModalCaiu(true);
+        }
+      }
     }
   };
 
@@ -71,8 +94,15 @@ function Ocorrencias() {
     try {
       await updateOcorrencia(data);
       setIsUpdating(null);
+      setToastUpdateShow(true);
+      setTimeout(() => {
+        window.location.reload(true);
+      }, 2000);
     } catch (error) {
       console.log(error);
+      if (error.response.status === 500) {
+        setShowModalCaiu(true);
+      }
     }
   }
 
@@ -119,95 +149,16 @@ function Ocorrencias() {
     setShow(true);
   };
 
+  const handleCloseModalCaiu = () => setShowModalCaiu(false);
+
   return (
     <div className="container-fluid">
       <div className="row">
         {/*MENU DE NAVEGAÇÃO */}
-        <nav
-          className="custom-bg-color"
-          style={{ width: "18%", height: "100vh", position: "relative" }}
-        >
-          <div className="logo-container">
-            <img src={Logo} alt="Minha Logo" className="logo" />
-          </div>
-          <ul className="nav flex-column">
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/painel-principal">
-                <img
-                  src={IconePainelPrincipal}
-                  alt="Icone Painel Principal"
-                  className="icones-menu-nav"
-                />
-                PAINEL PRINCIPAL
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/policiais">
-                <img
-                  src={IconePolicia}
-                  alt="Icone Policial"
-                  className="icones-menu-nav"
-                />
-                POLICIAIS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/editar-perfilpolicial">
-                <img
-                  src={IconePerfil}
-                  alt="Icone Perfil"
-                  className="icones-menu-nav"
-                />
-                EDITAR PERFIL
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/ocorrencias">
-                <img
-                  src={IconeOcorrencia}
-                  alt="Icone Ocorrencia"
-                  className="icones-menu-nav"
-                />
-                OCORRÊNCIAS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/ajuda">
-                <img
-                  src={IconeAjuda}
-                  alt="Icone Ajuda"
-                  className="icones-menu-nav"
-                />
-                AJUDA / SUPORTE
-              </a>
-            </li>
-          </ul>
-
-          {/* SAIR DO SISTEMA com ícone */}
-          <div style={{ position: "absolute", bottom: "0", width: "90%" }}>
-            <ul className="nav flex-column">
-              <li className="nav-item">
-                <a
-                  className="nav-link text-light"
-                  onClick={() => {
-                    sessionStorage.removeItem("token");
-                    navigate("/");
-                  }}
-                >
-                  <img
-                    src={IconeLogout}
-                    alt="Icone Logout"
-                    className="icone-logout"
-                  />
-                  SAIR DO SISTEMA
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <Menu />
 
         {/* CONTEÚDO DA PÁGINA */}
-        <main className="col">
+        <main className="col" style={{ height: "100vh", overflowY: "auto" }}>
           <div>
             <Row>
               <Col>
@@ -406,7 +357,7 @@ function Ocorrencias() {
               </Row>
             </div>
 
-            {error && <p className="text-danger">{error}</p>}
+            {error && <p className="text-danger" style={{ textAlign: 'center', marginTop: '10px', fontSize: '25px' }}>ERRO INTERNO: {error}</p>}
 
             <div
               style={{ width: "90%", marginLeft: "40px", paddingTop: "15px" }}
@@ -433,7 +384,7 @@ function Ocorrencias() {
           {/*MODAL DE DETALHES*/}
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Detalhes da Ocorrência</Modal.Title>
+              <Modal.Title>DETALHES DA OCORRÊNCIA</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               {/* Exiba os detalhes da ocorrência selecionada aqui */}
@@ -803,7 +754,7 @@ function Ocorrencias() {
                 </Row>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant='primary' type='submit'>Editar</Button>
+                <Button variant='primary' type='submit'>Atualizar</Button>
                 <Button variant="outline" onClick={handleClose}>
                   Fechar
                 </Button>
@@ -812,8 +763,8 @@ function Ocorrencias() {
           </Modal>
 
           {/*TABELA DE OCORRÊNCIAS*/}
-          <div className="ocorrencias-page-area">
-            <div className="ocorrencia-area">
+          <div className="ocorrencias-page-area" style={{ marginLeft: "40px" }}>
+            <div className="ocorrencia-area" style={{ height: "100vh", overflowY: "auto", overflowX: "auto" }}>
               {ocorrencias && ocorrencias.length > 0 ? (
                 <table className="table table-striped">
                   <thead className="thead-light">
@@ -895,17 +846,17 @@ function Ocorrencias() {
                         </td>
                         <td className="text-center">
                           <button
+                            onClick={() => showDeleteConfirmation(ocorrencia)}
                             style={{
                               backgroundColor: "red",
                               border: "none",
                               borderRadius: "100px",
                             }}
-                            onClick={() => handleDelete(ocorrencia.id)}
                           >
                             <img
                               className="ocorrencia-row-icon"
                               src={IconeExcluir}
-                              alt="Ícone Deletar ocorrencia"
+                              alt="Ícone Deletar ocorrência"
                             />
                           </button>
                         </td>
@@ -914,12 +865,116 @@ function Ocorrencias() {
                   </tbody>
                 </table>
               ) : (
-                <p className="text-center">NENHUMA OCORRÊNCIA ENCONTRADA</p>
+                <p className="text-center" style={{ fontSize: '1.5rem' }}>NENHUMA OCORRÊNCIA ENCONTRADA</p>
               )}
             </div>
           </div>
+          <Modal show={showDeleteModal} onHide={cancelDelete}>
+            <Modal.Header closeButton>
+              <Modal.Title>
+                <Row className="align-items-center">
+                  <Col xs="auto">
+                    <img
+                      src={IconeAvisoExcluir}
+                      alt="Icone Aviso Excluir"
+                      style={{ width: '64px' }}
+                    />
+                  </Col>
+                  <Col>
+                    <p className="mb-0">EXCLUIR OCORRÊNCIA</p>
+                  </Col>
+                </Row>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p style={{ fontSize: '1.3rem' }}>Tem certeza de que deseja excluir a ocorrência selecionada?</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="danger" onClick={confirmDelete}>
+                Excluir
+              </Button>
+              <Button variant="secondary" onClick={cancelDelete}>
+                Cancelar
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Toast
+            onClose={() => setToastUpdateShow(false)}
+            show={toastUpdateShow}
+            delay={3000}
+            autohide
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 9999,
+              width: "400px",
+              fontSize: "1.5rem",
+              padding: "20px",
+              backgroundColor: "#FFFFFF", 
+              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)"
+            }}
+          >
+            <Toast.Header style={{ backgroundColor: "blue" }}>
+              <strong className="mr-auto" style={{ color: 'white' }}>OCORRÊNCIA ATUALIZADA</strong>
+            </Toast.Header>
+            <Toast.Body>Sua ocorrência foi atualizada com sucesso!</Toast.Body>
+          </Toast>
+
+          <Toast
+            onClose={() => setToastDeleteShow(false)}
+            show={toastDeleteShow}
+            delay={3000}
+            autohide
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 9999,
+              width: "400px",
+              fontSize: "1.5rem",
+              padding: "20px",
+              backgroundColor: "#FFFFFF", 
+              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)"
+            }}
+          >
+            <Toast.Header style={{ backgroundColor: "red" }}>
+              <strong className="mr-auto" style={{ color: 'white' }}>OCORRÊNCIA DELETADA</strong>
+            </Toast.Header>
+            <Toast.Body>Sua ocorrência foi DELETADA com sucesso!</Toast.Body>
+          </Toast>
         </main>
       </div>
+      <Modal show={showModalCaiu} onHide={handleCloseModalCaiu}>
+        <Modal.Header>
+          <Modal.Title>
+            <Row className="align-items-center">
+              <Col xs="auto">
+                <img
+                  src={IconeSemConexao}
+                  alt="Icone error 500"
+                  style={{ width: '64px' }}
+                />
+              </Col>
+              <Col>
+                <p className="mb-0">ERRO INTERNO!</p>
+              </Col>
+            </Row>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p style={{ fontSize: '1.3rem', fontWeight: 'bold' }}> O servidor está indisponível no momento...</p>
+          <p style={{ fontSize: '1.3rem' }}>Estamos trabalhando para solucionar o mais rápido possível!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={handleCloseModalCaiu}>
+            Entendido
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

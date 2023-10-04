@@ -1,20 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Modal, Button, Row, Col } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import Logo from "../images/logo-definitiva-mt-protege.png";
-import IconeLogout from "../images/icone-logout.png";
-import IconePainelPrincipal from "../images/icone-painel-principal.png";
-import IconePolicia from "../images/icone-policia.png";
-import IconePerfil from "../images/icone-perfil.png";
-import IconeOcorrencia from "../images/icone-ocorrencia.png";
-import IconeAjuda from "../images/icone-ajuda.png";
 import "./styles/styles.css";
+import Menu from "../components/menu-nav";
 
 function Ajuda() {
-  const navigate = useNavigate();
-
   const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [showModal3, setShowModal3] = useState(false);
@@ -74,103 +65,38 @@ function Ajuda() {
     <div className="container-fluid">
       <div className="row">
         {/*MENU DE NAVEGAÇÃO */}
-        <nav
-          className="custom-bg-color"
-          style={{ width: "18%", height: "100vh", position: "relative" }}
-        >
-          <div className="logo-container">
-            <img src={Logo} alt="Minha Logo" className="logo" />
-          </div>
-          <ul className="nav flex-column" style={{ width: "0%" }}>
-            <li className="nav-item" style={{}}>
-              <a className="nav-link text-light" href="/painel-principal">
-                <img
-                  src={IconePainelPrincipal}
-                  alt="Icone Painel Principal"
-                  className="icones-menu-nav"
-                />
-                PAINEL PRINCIPAL
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/policiais">
-                <img
-                  src={IconePolicia}
-                  alt="Icone Policial"
-                  className="icones-menu-nav"
-                />
-                POLICIAIS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/editar-perfilpolicial">
-                <img
-                  src={IconePerfil}
-                  alt="Icone Perfil"
-                  className="icones-menu-nav"
-                />
-                EDITAR PERFIL
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/ocorrencias">
-                <img
-                  src={IconeOcorrencia}
-                  alt="Icone Ocorrencia"
-                  className="icones-menu-nav"
-                />
-                OCORRÊNCIAS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/ajuda">
-                <img
-                  src={IconeAjuda}
-                  alt="Icone Ajuda"
-                  className="icones-menu-nav"
-                />
-                AJUDA / SUPORTE
-              </a>
-            </li>
-          </ul>
-
-          {/* SAIR DO SISTEMA com ícone */}
-          <div style={{ position: "absolute", bottom: "0", width: "90%" }}>
-            <ul className="nav flex-column">
-              <li className="nav-item">
-                <a
-                  className="nav-link text-light"
-                  onClick={() => {
-                    sessionStorage.removeItem("token");
-                    navigate("/");
-                  }}
-                >
-                  <img
-                    src={IconeLogout}
-                    alt="Icone Logout"
-                    className="icone-logout"
-                  />
-                  SAIR DO SISTEMA
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <Menu/>
 
         {/* CONTEÚDO DA PÁGINA */}
         <main className="col" style={{ height: "100vh", overflowY: "auto" }}>
-          <h1 style={{
-            marginTop: "30px", // Espaço a partir do topo
-            marginLeft: "30px", // Espaço a partir da esquerda
-            marginBottom: "50px",
-            fontSize: "320%",
-          }}>AJUDA / SUPORTE DO SISTEMA</h1>
-          <div style={{height: '100%'}}>
+          <h1
+            style={{
+              marginTop: "30px", // Espaço a partir do topo
+              marginLeft: "30px", // Espaço a partir da esquerda
+              marginBottom: "50px",
+              fontSize: "320%",
+            }}
+          >
+            AJUDA / SUPORTE DO SISTEMA
+          </h1>
+          <div style={{ height: "100%" }}>
             <Row className="align-items-center mb-5">
               <Col className="d-flex align-items-center justify-content-center">
-                <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>LOGIN</h3>
-                  <p>Caso queira acessar o sistema, é necessário possuir credenciais cadastradas</p>
+                <div
+                  className="question-box"
+                  style={{
+                    backgroundColor: "#FFEA7F",
+                    width: "80%",
+                    borderRadius: "15px", padding: '15px' 
+                  }}
+                >
+                  <h3>
+                    LOGIN
+                  </h3>
+                  <p>
+                    Caso queira acessar o sistema, é necessário possuir
+                    credenciais cadastradas
+                  </p>
                   <Button variant="primary" onClick={openModal1}>
                     Abrir Detalhes
                   </Button>
@@ -178,21 +104,41 @@ function Ajuda() {
               </Col>
 
               <Col className="d-flex align-items-center justify-content-center">
-                <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>MENU DE NAVEGAÇÃO RÁPIDA</h3>
-                  <p>O menu que está no lado esquerdo da tela, orienta de forma simples a navegação</p>
+                <div
+                  className="question-box"
+                  style={{
+                    backgroundColor: "#FFEA7F",
+                    width: "80%",
+                    borderRadius: "15px", padding: '15px' 
+                  }}
+                >
+                  <h3>
+                    MENU DE NAVEGAÇÃO RÁPIDA
+                  </h3>
+                  <p>
+                    O menu que está no lado esquerdo da tela, orienta de forma
+                    simples a navegação
+                  </p>
                   <Button variant="primary" onClick={openModal2}>
                     Abrir Detalhes
                   </Button>
                 </div>
               </Col>
-
             </Row>
 
             <Row className="align-items-center mb-5">
               <Col className="d-flex align-items-center justify-content-center">
-                <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>CADASTRO</h3>
+                <div
+                  className="question-box"
+                  style={{
+                    backgroundColor: "#FFEA7F",
+                    width: "80%",
+                    borderRadius: "15px", padding: '15px' 
+                  }}
+                >
+                  <h3>
+                    CADASTRO
+                  </h3>
                   <p>Para criar uma conta no sistema, forneça seus dados</p>
                   <Button variant="primary" onClick={openModal3}>
                     Abrir Detalhes
@@ -201,9 +147,20 @@ function Ajuda() {
               </Col>
 
               <Col className="d-flex align-items-center justify-content-center">
-                <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>TELA DE POLICIAIS CADASTRADOS</h3>
-                  <p>Analise, com filtros, os policiais cadastrados no sistema</p>
+                <div
+                  className="question-box"
+                  style={{
+                    backgroundColor: "#FFEA7F",
+                    width: "80%",
+                    borderRadius: "15px", padding: '15px' 
+                  }}
+                >
+                  <h3>
+                    TELA DE POLICIAIS CADASTRADOS
+                  </h3>
+                  <p>
+                    Analise, com filtros, os policiais cadastrados no sistema
+                  </p>
                   <Button variant="primary" onClick={openModal4}>
                     Abrir Detalhes
                   </Button>
@@ -213,9 +170,21 @@ function Ajuda() {
 
             <Row className="align-items-center mb-5">
               <Col className="d-flex align-items-center justify-content-center">
-                <div className="question-box" style={{ backgroundColor: "beige", width: "80%", borderRadius: "15px" }}>
-                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>PAINEL PRINCIPAL</h3>
-                  <p>Para analisar os dados do sistema de uma forma mais intuitiva</p>
+                <div
+                  className="question-box"
+                  style={{
+                    backgroundColor: "#FFEA7F",
+                    width: "80%",
+                    borderRadius: "15px", padding: '15px' 
+                  }}
+                >
+                  <h3>
+                    PAINEL PRINCIPAL
+                  </h3>
+                  <p>
+                    Para analisar os dados do sistema de uma forma mais
+                    intuitiva
+                  </p>
                   <Button variant="primary" onClick={openModal5}>
                     Abrir Detalhes
                   </Button>
@@ -223,9 +192,21 @@ function Ajuda() {
               </Col>
 
               <Col className="d-flex align-items-center justify-content-center">
-                <div className="question-box" style={{ border: "groove", borderColor: 'black', width: "80%", borderRadius: "15px" }}>
-                  <h3 style={{ marginTop: "10px", marginLeft: "15px"}}>TELA DE OCORRÊNCIAS</h3>
-                  <p>Saiba agora como registrar, analisar, atualizar e excluir ocorrências</p>
+                <div
+                  className="question-box"
+                  style={{
+                    backgroundColor: '#FFEA7F',
+                    width: "80%",
+                    borderRadius: "15px", padding: '15px' 
+                  }}
+                >
+                  <h3>
+                    TELA DE OCORRÊNCIAS
+                  </h3>
+                  <p>
+                    Saiba agora como registrar, analisar, atualizar e excluir
+                    ocorrências
+                  </p>
                   <Button variant="primary" onClick={openModal6}>
                     Abrir Detalhes
                   </Button>
@@ -233,15 +214,19 @@ function Ajuda() {
               </Col>
             </Row>
           </div>
-
         </main>
         <Row>
           <Col>
             <Modal show={showModal1} onHide={closeModal1}>
               <Modal.Header closeButton>
-                <Modal.Title>Detalhes da Dúvida 1</Modal.Title>
+                <Modal.Title>COMO LOGAR NO SISTEMA?</Modal.Title>
               </Modal.Header>
-              <Modal.Body>Detalhes da dúvida 1 vão aqui.</Modal.Body>
+              <Modal.Body>
+                <p>Na tela de login, os usuários podem acessar o sistema fornecendo suas credenciais de matrícula e senha. </p>
+                <p>Para fazer login, basta inserir a matrícula e senha nos campos correspondentes e clicar no botão "Entrar".</p>
+                <p>Caso você ainda não tenha um login no sistema, basta clicar na opção "Clique aqui", localizada ao lado de "Caso você não tenha login", para iniciar o processo de registro e criar uma conta.</p> 
+                <p>É uma maneira simples e conveniente de acessar ou se cadastrar no sistema.</p>
+              </Modal.Body>
               <Modal.Footer>
                 <Button variant="primary" onClick={closeModal1}>
                   Fechar
@@ -252,9 +237,22 @@ function Ajuda() {
           <Col>
             <Modal show={showModal2} onHide={closeModal2}>
               <Modal.Header closeButton>
-                <Modal.Title>Detalhes da Dúvida 2</Modal.Title>
+                <Modal.Title>FUNCIONALIDADES DO MENU DE NAVEGAÇÃO</Modal.Title>
               </Modal.Header>
-              <Modal.Body>Detalhes da dúvida 2 vão aqui.</Modal.Body>
+              <Modal.Body>
+                  <p style={{fontWeight: 'bold', marginBottom: '0'}}>PAINEL PRINCIPAL:</p>
+                  <p>Clique no primeiro item do menu de navegação, que geralmente é representado por um ícone ou texto como "Dashboard" ou "Painel". Esta seção é o coração do sistema, exibindo dados analíticos importantes, gráficos e informações essenciais para a tomada de decisões</p>
+                  <p style={{fontWeight: 'bold', marginBottom: '0'}}>POLICIAL:</p>
+                  <p>Para consultar informações sobre policiais cadastrados na plataforma, clique no segundo item do menu, que pode ser rotulado como "Policial" ou "Cadastro de Policiais". Aqui, você encontrará detalhes sobre os policiais e suas atribuições.</p>
+                  <p style={{fontWeight: 'bold', marginBottom: '0'}}>EDITAR PERFIL:</p>
+                  <p>Caso você seja um policial e deseje editar seu perfil ou desativar sua conta, basta clicar no terceiro item do menu, provavelmente indicado como "Editar Perfil" ou algo similar. Nesta seção, você poderá fazer ajustes em suas informações pessoais e de conta.</p>
+                  <p style={{fontWeight: 'bold', marginBottom: '0'}}>OCORRÊNCIAS:</p>
+                  <p>Para registrar, atualizar, consultar ou deletar ocorrências, navegue até o quarto item do menu, muitas vezes denominado "Ocorrências" ou "Registros de Ocorrências". Aqui, você terá acesso a todas as funcionalidades relacionadas a incidentes e eventos registrados no sistema.</p>
+                  <p style={{fontWeight: 'bold', marginBottom: '0'}}>AJUDA:</p>
+                  <p>Se precisar de orientações sobre as principais funcionalidades do sistema, vá até o quinto item do menu, que costuma ser identificado como "Ajuda" ou "Suporte". Aqui, você encontrará informações detalhadas e guias que explicam como usar o sistema de forma eficaz.</p>
+                  <p style={{fontWeight: 'bold', marginBottom: '0'}}>LOGOUT:</p>
+                  <p>Por fim, para sair do sistema de forma segura, localize o botão de logout. Isso normalmente está localizado na parte superior direita ou no final do menu. Clique nele para encerrar sua sessão e garantir a privacidade de sua conta.</p>
+              </Modal.Body>
               <Modal.Footer>
                 <Button variant="primary" onClick={closeModal2}>
                   Fechar
@@ -265,9 +263,21 @@ function Ajuda() {
           <Col>
             <Modal show={showModal3} onHide={closeModal3}>
               <Modal.Header closeButton>
-                <Modal.Title>Detalhes da Dúvida 3</Modal.Title>
+                <Modal.Title>COMO FUNCIONA O CADASTRO?</Modal.Title>
               </Modal.Header>
-              <Modal.Body>Detalhes da dúvida 3 vão aqui.</Modal.Body>
+              <Modal.Body>
+                <p>Para realizar o cadastro no sistema, siga estas etapas e preencha os campos obrigatórios:</p>
+                <ol>
+                  <li style={{fontWeight:'bold'}}>Matrícula policial:</li><p>Insira sua matrícula policial, que é um identificador único no sistema.</p>
+                  <li style={{fontWeight:'bold'}}>Senha:</li>
+                  <li style={{fontWeight:'bold'}}>Nome completo:</li>
+                  <li style={{fontWeight:'bold'}}>Data de nascimento:</li>
+                  <li style={{fontWeight:'bold'}}>Gênero:</li>
+                  <li style={{fontWeight:'bold'}}>CPF:</li>
+                  <li style={{fontWeight:'bold'}}>RG:</li>
+                  <li style={{fontWeight:'bold'}}>Naturalidade:</li>
+                </ol>
+              </Modal.Body>
               <Modal.Footer>
                 <Button variant="primary" onClick={closeModal3}>
                   Fechar

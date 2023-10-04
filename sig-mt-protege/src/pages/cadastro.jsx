@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Container, Row, Col, Button, Toast, Modal } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/styles.css";
 import "./styles/styles-cadastro.css";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+
 import Logo from "../images/logo-definitiva-mt-protege.png";
+import IconeSemConexao from '../images/icone-erro-500.png';
 import IconeVoltar from "../images/icone-voltar.png";
 
 import { cadastroPolicial } from "../services/policial-services";
@@ -17,17 +19,30 @@ function Cadastro() {
     register,
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
+
+  const [toastSucessoShow, setToastSucessoShow] = useState(false);
   const [error, setError] = useState();
+  const [showModalCaiu, setShowModalCaiu] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
       const policial = await cadastroPolicial(data);
-      navigate("/painel-principal");
+      setToastSucessoShow(true);
+      setTimeout(() => {
+        navigate("/painel-principal");
+        window.location.reload(true);
+      }, 2000);
     } catch (error) {
       setError({ message: error.response.data.error });
+      if (error.response.status === 500) {
+        setShowModalCaiu(true);
+      }
     }
   };
+
+  const handleCloseModalCaiu = () => setShowModalCaiu(false);
+
   return (
     <div
       style={{
@@ -35,7 +50,7 @@ function Cadastro() {
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
-        flexDirection: "column", 
+        flexDirection: "column",
         justifyContent: "center",// Mudança aqui para organizar elementos verticalmente
       }}
     >
@@ -507,9 +522,8 @@ function Cadastro() {
                   JURISDIÇÃO
                 </label>
                 <select
-                  className={`form-select ${
-                    errors.jurisdicao ? "is-invalid" : ""
-                  }`}
+                  className={`form-select ${errors.jurisdicao ? "is-invalid" : ""
+                    }`}
                   name="jurisdicao"
                   id="jurisdicao"
                   placeholder="Selecione a jurisdição"
@@ -628,6 +642,7 @@ function Cadastro() {
               </div>
             </Col>
           </Row>
+          {error && <p className="text-center" style={{ color: "red", fontSize: "20px" }}>{error.message}</p>}
           <div className="d-flex justify-content-center">
             <button
               type="submit"
@@ -635,11 +650,61 @@ function Cadastro() {
               disabled={!isValid}
               style={{ backgroundColor: "#19A800", fontSize: "25px" }}
             >
-              ENTRAR
+              CADASTRAR
             </button>
           </div>
         </form>
       </Container>
+      <Toast
+        onClose={() => setToastSucessoShow(false)}
+        show={toastSucessoShow}
+        delay={3000}
+        autohide
+        style={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 9999,
+          width: "500px",
+          height: "250px",
+          fontSize: "1.25rem",
+          padding: "20px",
+        }}
+      >
+        <Toast.Header style={{ backgroundColor: "blue" }}>
+          <strong className="mr-auto" style={{ color: 'white', fontSize: '1.5rem' }}>VOCÊ FOI CADASTRADO NO SISTEMA!</strong>
+        </Toast.Header>
+        <Toast.Body style={{ textAlign: 'center', fontSize: '1.5rem', justifyContent: 'center' }}>Seu cadastro foi efetuado com sucesso!</Toast.Body>
+      </Toast>
+
+      <Modal show={showModalCaiu} onHide={handleCloseModalCaiu}>
+        <Modal.Header>
+          <Modal.Title>
+            <Row className="align-items-center">
+              <Col xs="auto">
+                <img
+                  src={IconeSemConexao}
+                  alt="Icone error 500"
+                  style={{ width: '64px' }}
+                />
+              </Col>
+              <Col>
+                <p className="mb-0">ERRO INTERNO!</p>
+              </Col>
+            </Row>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p style={{ fontSize: '1.3rem', fontWeight: 'bold' }}> O servidor está indisponível no momento...</p>
+          <p style={{ fontSize: '1.3rem' }}>Estamos trabalhando para solucionar o mais rápido possível!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={handleCloseModalCaiu}>
+            Entendido
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

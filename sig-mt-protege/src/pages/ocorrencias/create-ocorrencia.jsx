@@ -1,126 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Row, Col, Modal, Button, Form } from "react-bootstrap";
+import jwt_decode from 'jwt-decode';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/styles.css";
 
-import Logo from "../../images/logo-definitiva-mt-protege.png";
-import IconeLogout from "../../images/icone-logout.png";
-import IconePainelPrincipal from "../../images/icone-painel-principal.png";
-import IconePolicia from "../../images/icone-policia.png";
-import IconePerfil from "../../images/icone-perfil.png";
-import IconeOcorrencia from "../../images/icone-ocorrencia.png";
-import IconeAjuda from "../../images/icone-ajuda.png";
+import Menu from "../../components/menu-nav";
+
+import IconeSemConexao from '../../images/icone-erro-500.png';
+import IconeSucesso from '../../images/icone-sucesso-verde.png';
 
 import { createOcorrencia } from "../../services/ocorrencia-services";
 
 function RegistrarOcorrencia() {
+  const [matricula, setMatricula] = useState("")
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const jwt_token = jwt_decode(token);
+    setMatricula(jwt_token.id)
+  }, [])
+
   const {
     handleSubmit,
     register,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({ mode: "onChange" });
 
   const [error, setError] = useState();
+  const [showModalCaiu, setShowModalCaiu] = useState(false);
+  const [showModalSucesso, setShowModalSucesso] = useState(false)
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
-      const ocorrencia = await createOcorrencia(data);
-      navigate("/ocorrencias");
+      console.log(data)
+      await createOcorrencia({
+        ...data, matricula_policial: matricula
+      });
+      setShowModalSucesso(true);
     } catch (error) {
-      setError({ message: error.response.data.error });
+      console.log(error)
+      setError(error.message);
+      if (error.response.status === 500) {
+        setShowModalCaiu(true);
+      }
     }
   };
+
+  const handleCloseModalCaiu = () => setShowModalCaiu(false);
 
   return (
     <div className="container-fluid">
       <div className="row">
         {/*MENU DE NAVEGAÇÃO */}
-        <nav
-          className="custom-bg-color"
-          style={{ width: "18%", height: "100vh", position: "relative" }}
-        >
-          <div className="logo-container">
-            <img src={Logo} alt="Minha Logo" className="logo" />
-          </div>
-          <ul className="nav flex-column">
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/painel-principal">
-                <img
-                  src={IconePainelPrincipal}
-                  alt="Icone Painel Principal"
-                  className="icones-menu-nav"
-                />
-                PAINEL PRINCIPAL
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/policiais">
-                <img
-                  src={IconePolicia}
-                  alt="Icone Policial"
-                  className="icones-menu-nav"
-                />
-                POLICIAIS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/editar-perfilpolicial">
-                <img
-                  src={IconePerfil}
-                  alt="Icone Perfil"
-                  className="icones-menu-nav"
-                />
-                EDITAR PERFIL
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/ocorrencias">
-                <img
-                  src={IconeOcorrencia}
-                  alt="Icone Ocorrencia"
-                  className="icones-menu-nav"
-                />
-                OCORRÊNCIAS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/ajuda">
-                <img
-                  src={IconeAjuda}
-                  alt="Icone Ajuda"
-                  className="icones-menu-nav"
-                />
-                AJUDA / SUPORTE
-              </a>
-            </li>
-          </ul>
-
-          {/* SAIR DO SISTEMA com ícone */}
-          <div style={{ position: "absolute", bottom: "0", width: "90%" }}>
-            <ul className="nav flex-column">
-              <li className="nav-item">
-                <a
-                  className="nav-link text-light"
-                  onClick={() => {
-                    sessionStorage.removeItem("token");
-                    navigate("/");
-                  }}
-                >
-                  <img
-                    src={IconeLogout}
-                    alt="Icone Logout"
-                    className="icone-logout"
-                  />
-                  SAIR DO SISTEMA
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <Menu />
 
         {/* CONTEÚDO DA PÁGINA */}
         <main className="col">
@@ -149,9 +84,10 @@ function RegistrarOcorrencia() {
                     <Form.Control
                       type="text"
                       placeholder="Insira a matrícula do policial"
+                      defaultValue={matricula}
                       isInvalid={!!errors.matricula_policial}
+                      disabled
                       {...register("matricula_policial", {
-                        required: "Matrícula é obrigatória",
                         pattern: {
                           value: /^[0-9]{8}$/,
                           message: "Matrícula inválida!",
@@ -484,7 +420,9 @@ function RegistrarOcorrencia() {
                   </Form.Group>
                 </Col>
               </Row>
-
+              
+              {error && <p className="text-danger" style={{textAlign:'center', marginTop:'10px', fontSize:'25px'}}>ERRO INTERNO: {error}</p>}
+              
               <Row>
                 <Col>
                   <Button
@@ -498,8 +436,61 @@ function RegistrarOcorrencia() {
               </Row>
             </Form>
           </div>
+          <Modal show={showModalSucesso}>
+            <Modal.Header>
+              <Modal.Title>
+                <Row className="align-items-center">
+                  <Col xs="auto">
+                    <img
+                      src={IconeSucesso}
+                      alt="Icone sucesso ocorrência"
+                      style={{ width: '64px' }}
+                    />
+                  </Col>
+                  <Col>
+                    <p className="mb-0">REGISTRADA!</p>
+                  </Col>
+                </Row>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p style={{ fontSize: '1.3rem' }}>Essa ocorrência foi registrada com sucesso!</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={() => navigate('/ocorrencias')}>
+                Voltar para OCORRÊNCIAS
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </main>
       </div>
+      <Modal show={showModalCaiu} onHide={handleCloseModalCaiu}>
+        <Modal.Header>
+          <Modal.Title>
+            <Row className="align-items-center">
+              <Col xs="auto">
+                <img
+                  src={IconeSemConexao}
+                  alt="Icone error 500"
+                  style={{ width: '64px' }}
+                />
+              </Col>
+              <Col>
+                <p className="mb-0">ERRO INTERNO!</p>
+              </Col>
+            </Row>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p style={{ fontSize: '1.3rem', fontWeight: 'bold' }}> O servidor está indisponível no momento...</p>
+          <p style={{ fontSize: '1.3rem' }}>Estamos trabalhando para solucionar o mais rápido possível!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={handleCloseModalCaiu}>
+            Entendido
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

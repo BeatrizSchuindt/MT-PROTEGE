@@ -127,3 +127,18 @@ table th{
   width: 1.6rem;
   height: 1.6rem;
 }
+
+/* Adicione estas classes no seu arquivo CSS ou no arquivo de estilo do React */
+.icon-menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .text-menu {
+    display: none;
+  }
+  .icon-menu {
+    display: inline;
+  }
+}
+
