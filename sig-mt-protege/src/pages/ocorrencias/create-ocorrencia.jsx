@@ -307,9 +307,7 @@ function RegistrarOcorrencia() {
                       type="text"
                       placeholder="Insira o nome completo da vítima"
                       isInvalid={!!errors.nome_completo_vitima}
-                      {...register("nome_completo_vitima", {
-                        required: "O nome completo da vítima é obrigatório",
-                      })}
+                      {...register("nome_completo_vitima")}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.nome_completo_vitima?.message}
@@ -324,9 +322,7 @@ function RegistrarOcorrencia() {
                       type="text"
                       placeholder="Insira o nome completo do suspeito"
                       isInvalid={!!errors.nome_completo_suspeito}
-                      {...register("nome_completo_suspeito", {
-                        required: "O nome completo do suspeito é obrigatório",
-                      })}
+                      {...register("nome_completo_suspeito")}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.nome_completo_suspeito?.message}
@@ -344,7 +340,6 @@ function RegistrarOcorrencia() {
                       placeholder="Insira o CPF da vítima"
                       isInvalid={!!errors.cpf_vitima}
                       {...register("cpf_vitima", {
-                        required: "CPF da vítima é obrigatório",
                         pattern: {
                           value: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
                           message: "CPF inválido",
@@ -365,7 +360,6 @@ function RegistrarOcorrencia() {
                       placeholder="Insira o CPF do suspeito"
                       isInvalid={!!errors.cpf_suspeito}
                       {...register("cpf_suspeito", {
-                        required: "CPF do suspeito é obrigatório",
                         pattern: {
                           value: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
                           message: "CPF inválido",
@@ -388,7 +382,6 @@ function RegistrarOcorrencia() {
                       placeholder="Insira o contato da vítima"
                       isInvalid={!!errors.contato_vitima}
                       {...register("contato_vitima", {
-                        required: "O contato da vítima é obrigatório",
                         pattern: {
                           value: /^\(\d{2}\) 9\d{4}-\d{4}$/,
                           message:
@@ -409,10 +402,7 @@ function RegistrarOcorrencia() {
                       type="text"
                       placeholder="Descreva as características do suspeito"
                       isInvalid={!!errors.caracteristicas_suspeito}
-                      {...register("caracteristicas_suspeito", {
-                        required:
-                          "A descrição das características do suspeito é obrigatória",
-                      })}
+                      {...register("caracteristicas_suspeito")}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.caracteristicas_suspeito?.message}
