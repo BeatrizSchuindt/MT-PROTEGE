@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import jwt_decode from "jwt-decode";
 import { Row, Col, Modal } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,6 +12,7 @@ import Menu from "../components/menu-nav";
 import ChartView from "./graficos/ColumnChart";
 import ChartPieView from "./graficos/PieChart";
 
+import { getPolicialID } from "../services/policial-services";
 import { contarPoliciais } from "../services/policial-services";
 import { contarOcorrencias } from "../services/ocorrencia-services";
 import { contarOcorrenciasResolvidas } from "../services/ocorrencia-services";
@@ -19,6 +21,7 @@ function PainelPrincipal() {
 
   const [error, setError] = useState(null);
   const [showModalCaiu, setShowModalCaiu] = useState(false);
+  const [policial, setPolicial] = useState({});
   const [countPoliciais, setCountPoliciais] = useState([]);
   const [countOcorrencias, setCountOcorrencias] = useState([]);
   const [countOcorrenciasResolvidas, setCountOcorrenciasResolvidas] = useState([]);
@@ -63,9 +66,21 @@ function PainelPrincipal() {
       }
     };
 
+    const getPolicial = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+        const policial = jwt_decode(token);
+        const result = await getPolicialID(policial.id);
+        setPolicial(result.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchCountPoliciais();
     fetchCountOcorrencias();
     fetchCountOcorrenciasResolvidas();
+    getPolicial();
   }, []);
 
   const handleCloseModalCaiu = () => setShowModalCaiu(false);
@@ -88,6 +103,12 @@ function PainelPrincipal() {
           >
             PAINEL PRINCIPAL
           </h1>
+
+          <h3 style={{marginLeft: '40px', marginBottom: '20px'}}>
+                {`Olá, ${policial.nome_completo
+                  ?.split(" ")
+                  .shift()}. Aqui estão as principais informações do sistema:`}
+          </h3>
 
           {error && <p className="text-danger" style={{ textAlign: 'center', fontSize: '25px', marginBottom: '25px' }}>ERRO INTERNO: {error}</p>}
 
